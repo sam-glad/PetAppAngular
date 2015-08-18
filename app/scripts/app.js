@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc overview
- * @name petAppAngularApp
+ * @name AngularApp
  * @description
- * # petAppAngularApp
+ * # AngularApp
  *
  * Main module of the application.
  */
 angular
-  .module('petAppAngularApp', [
+  .module('AngularApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',

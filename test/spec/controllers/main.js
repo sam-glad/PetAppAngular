@@ -3,7 +3,7 @@
 describe('Controller: MainCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('petAppAngularApp'));
+  beforeEach(module('AngularApp'));
 
   var MainCtrl,
     scope;

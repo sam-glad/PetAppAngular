@@ -15,5 +15,5 @@
     "angular-mocks": "^1.3.0"
   },
   "appPath": "app",
-  "moduleName": "petAppAngularApp"
+  "moduleName": "AngularApp"
 }
