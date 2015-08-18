@@ -1,15 +1,7 @@
 'use strict';
 
-/**
- * @ngdoc overview
- * @name AngularApp
- * @description
- * # AngularApp
- *
- * Main module of the application.
- */
 angular
-  .module('AngularApp', [
+  .module('petApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -26,6 +18,10 @@ angular
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
+      })
+      .when('/organizations', {
+        templateUrl: 'views/organizations.html',
+        controller: 'OrganizationsCtrl'
       })
       .otherwise({
         redirectTo: '/'

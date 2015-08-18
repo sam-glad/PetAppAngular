@@ -1,0 +1,14 @@
+<table>
+  <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Members</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="organization in organizations">
+      <td>{{organization.name}}</td>
+      <td>{{organization.users.length}}</td>
+    </tr>
+  </tbody>
+</table>
