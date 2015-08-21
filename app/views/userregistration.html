@@ -1,0 +1,26 @@
+<h2>Register</h2>
+<form name="userRegistrationForm" ng-submit="register()" role="form">
+  <div>
+      <label for="username">Name</label>
+      <input type="text" name="name" id="name" ng-model="user.name" required />
+  </div>
+  <div>
+      <label for="nickname">Nickname</label>
+      <input type="text" name="nickname" id="nickname" ng-model="user.nickname" required />
+  </div>
+  <div>
+      <label for="email">Email</label>
+      <input type="text" name="username" id="username" ng-model="user.email" required />
+  </div>
+  <div>
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" ng-model="user.password" required />
+  </div>
+  <div>
+      <label for="passwordConfirmation">Password</label>
+      <input type="password" name="passwordConfirmation" id="passwordConfirmation" ng-model="user.passwordConfirmation" required />
+  </div>
+  <div>
+      <button type="submit" id="submit">Register</button>
+  </div>
+</form>
