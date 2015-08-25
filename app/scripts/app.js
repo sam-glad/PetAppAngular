@@ -7,7 +7,9 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui.validate',
+    'ngMessages'
   ])
   .config(function ($routeProvider) {
     $routeProvider

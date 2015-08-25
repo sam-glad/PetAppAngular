@@ -1,24 +1,57 @@
-<h2>Register</h2>
-<form name="userRegistrationForm" ng-submit="register()" role="form">
+<h2>Register a new account</h2>
+<form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" role="form" novalidate>
   <div>
-      <label for="username">Name</label>
-      <input type="text" name="name" id="name" ng-model="user.name" required />
-  </div>
-  <div>
-      <label for="nickname">Nickname</label>
-      <input type="text" name="nickname" id="nickname" ng-model="user.nickname" required />
+      <label for="username">Username</label>
+      <input type="text"
+             name="username"
+             id="username"
+             ng-model="user.name"
+             ng-minlength="3"
+             ng-maxlength="20"
+             required />
+      <div ng-messages="submitted && userRegistrationForm.username.$error">
+        <p ng-message="required">Please enter a username.</p>
+        <p ng-message="minlength">Your username is too short.</p>
+        <p ng-message="maxlength">Your username is too long.</p>
+      </div>
   </div>
   <div>
       <label for="email">Email</label>
-      <input type="text" name="username" id="username" ng-model="user.email" required />
+      <input type="email"
+             name="email"
+             id="email"
+             ng-model="user.email"
+             required />
+      <div ng-messages="submitted && userRegistrationForm.email.$error">
+        <p ng-message="required">Please enter a valid email address.</p>
+        <p ng-message="email">Please enter a valid email address.</p>
+      </div>
   </div>
   <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" ng-model="user.password" required />
+    <label for="password">Password</label>
+    <input type="password"
+           id="password"
+           name="password"
+           ng-model="user.password"
+           ng-minlength="8"
+           required>
+     <div ng-messages="submitted && userRegistrationForm.password.$error">
+       <p ng-message="required">Please enter a password.</p>
+       <p ng-message="minlength">Your password must be at least 8 characters.</p>
+     </div>
   </div>
   <div>
-      <label for="passwordConfirmation">Password</label>
-      <input type="password" name="passwordConfirmation" id="passwordConfirmation" ng-model="user.passwordConfirmation" required />
+    <label for="password_confirmation">Password</label>
+    <input type="password"
+           id="password_confirmation"
+           name="password_confirmation"
+           ng-model="user.password_confirmation"
+           ui-validate=" '$value==user.password' "
+           ui-validate-watch=" 'user.password' ">
+     <div ng-messages="submitted && userRegistrationForm.password_confirmation.$error">
+       <p ng-message="validator">Passwords do not match.</p>
+     </div>
+  </div>
   </div>
   <div>
       <button type="submit" id="submit">Register</button>
