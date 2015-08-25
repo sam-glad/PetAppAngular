@@ -1,31 +1,31 @@
 <h2>Register a new account</h2>
-<form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" role="form" novalidate>
+<form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" novalidate>
   <div>
-      <label for="username">Username</label>
-      <input type="text"
-             name="username"
-             id="username"
-             ng-model="user.name"
-             ng-minlength="3"
-             ng-maxlength="20"
-             required />
-      <div ng-messages="submitted && userRegistrationForm.username.$error">
-        <p ng-message="required">Please enter a username.</p>
-        <p ng-message="minlength">Your username is too short.</p>
-        <p ng-message="maxlength">Your username is too long.</p>
-      </div>
+    <label for="username">Username</label>
+    <input type="text"
+           name="username"
+           id="username"
+           ng-model="user.name"
+           ng-minlength="3"
+           ng-maxlength="20"
+           required />
+    <div ng-messages="submitted && userRegistrationForm.username.$error">
+      <p ng-message="required">Please enter a username.</p>
+      <p ng-message="minlength">Your username is too short.</p>
+      <p ng-message="maxlength">Your username is too long.</p>
+    </div>
   </div>
   <div>
-      <label for="email">Email</label>
-      <input type="email"
-             name="email"
-             id="email"
-             ng-model="user.email"
-             required />
-      <div ng-messages="submitted && userRegistrationForm.email.$error">
-        <p ng-message="required">Please enter a valid email address.</p>
-        <p ng-message="email">Please enter a valid email address.</p>
-      </div>
+    <label for="email">Email</label>
+    <input type="email"
+           name="email"
+           id="email"
+           ng-model="user.email"
+           required />
+    <div ng-messages="submitted && userRegistrationForm.email.$error">
+      <p ng-message="required">Please enter a valid email address.</p>
+      <p ng-message="email">Please enter a valid email address.</p>
+    </div>
   </div>
   <div>
     <label for="password">Password</label>
@@ -54,6 +54,6 @@
   </div>
   </div>
   <div>
-      <button type="submit" id="submit">Register</button>
+    <button type="submit" id="submit">Register</button>
   </div>
 </form>
