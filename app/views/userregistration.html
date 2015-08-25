@@ -1,8 +1,11 @@
 <h2>Register a new account</h2>
+<div class="row">
+<div class="col-sm-5 center-block">
 <form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" novalidate>
-  <div>
-    <label for="username">Username</label>
-    <input type="text"
+  <div class="form-group">
+    <label>Username</label>
+    <input class="form-control"
+           type="text"
            name="username"
            id="username"
            ng-model="user.name"
@@ -15,9 +18,10 @@
       <p ng-message="maxlength">Your username is too long.</p>
     </div>
   </div>
-  <div>
-    <label for="email">Email</label>
-    <input type="email"
+  <div class="form-group">
+    <label>Email</label>
+    <input class="form-control"
+           type="email"
            name="email"
            id="email"
            ng-model="user.email"
@@ -27,9 +31,10 @@
       <p ng-message="email">Please enter a valid email address.</p>
     </div>
   </div>
-  <div>
-    <label for="password">Password</label>
-    <input type="password"
+  <div class="form-group">
+    <label>Password</label>
+    <input class="form-control"
+           type="password"
            id="password"
            name="password"
            ng-model="user.password"
@@ -40,9 +45,10 @@
        <p ng-message="minlength">Your password must be at least 8 characters.</p>
      </div>
   </div>
-  <div>
-    <label for="password_confirmation">Password</label>
-    <input type="password"
+  <div class="form-group">
+    <label>Confirm password</label>
+    <input class="form-control"
+           type="password"
            id="password_confirmation"
            name="password_confirmation"
            ng-model="user.password_confirmation"
@@ -52,8 +58,9 @@
        <p ng-message="validator">Passwords do not match.</p>
      </div>
   </div>
-  </div>
   <div>
-    <button type="submit" id="submit">Register</button>
+    <button type="submit" class="btn btn-primary" id="submit">Register</button>
   </div>
 </form>
+</div>
+</div>
