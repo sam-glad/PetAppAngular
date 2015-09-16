@@ -5,7 +5,7 @@ angular.module('petApp')
     $scope.register = function(isValid) {
       $scope.submitted = true;
       if (isValid) {
-        authService.register($scope.user);
+        authService.userRegistration.register($scope.user);
       }
     };
   });

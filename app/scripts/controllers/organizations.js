@@ -2,13 +2,11 @@
 
 angular.module('petApp')
   .controller('OrganizationsCtrl', function ($scope, organizationsService) {
-      $scope.organizations = organizationsService.getAllOrganizations();
+      $scope.organizations = organizationsService.organizations.query();
 
       $scope.getContactInfo = function(organization) {
-        if (organization.phone_preferred) {
-          return organization.phone_number.toString() + organization.phone_extension;
-        }
-
-        return organization.email_address;
+        return organization.phone_preferred ?
+          organization.phone_number.toString() + organization.phone_extension :
+          organization.email_address
       };
   });
