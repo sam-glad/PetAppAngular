@@ -9,9 +9,10 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.validate',
-    'ngMessages'
+    'ngMessages',
+    'ng-token-auth'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html'
@@ -33,5 +34,9 @@ angular
       })
       .otherwise({
         redirectTo: '/'
+      });
+      
+      $authProvider.configure({
+          apiUrl: 'http://localhost:9393/'
       });
   });

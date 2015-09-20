@@ -1,66 +1,51 @@
-<h2>Register a new account</h2>
 <div class="row">
-<div class="col-sm-5 center-block">
-<form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" novalidate>
-  <div class="form-group">
-    <label>Username</label>
-    <input class="form-control"
-           type="text"
-           name="username"
-           id="username"
-           ng-model="user.name"
-           ng-minlength="3"
-           ng-maxlength="20"
-           required />
-    <div ng-messages="submitted && userRegistrationForm.username.$error">
-      <p ng-message="required">Please enter a username.</p>
-      <p ng-message="minlength">Your username is too short.</p>
-      <p ng-message="maxlength">Your username is too long.</p>
-    </div>
-  </div>
-  <div class="form-group">
+<div class="col-md-6 col-md-offset-3">
+<h2>Register a new account</h2>
+<br />
+<form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" role="form" novalidate ng-init="registrationForm = {}">
+  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.email.$invalid && !userRegistrationForm.email.$pristine }">
     <label>Email</label>
-    <input class="form-control"
-           type="email"
+    <input type="email"
            name="email"
-           id="email"
-           ng-model="user.email"
-           required />
-    <div ng-messages="submitted && userRegistrationForm.email.$error">
-      <p ng-message="required">Please enter a valid email address.</p>
-      <p ng-message="email">Please enter a valid email address.</p>
-    </div>
+           ng-model="registrationForm.email"
+           required="required"
+           class="form-control"/>
+   <div ng-messages="submitted && userRegistrationForm.email.$error">
+     <p class="help-block" ng-message="required">Please enter a valid email address.</p>
+     <p class="help-block" ng-message="email">Please enter a valid email address.</p>
+   </div>
   </div>
-  <div class="form-group">
+
+  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.password.$invalid && !userRegistrationForm.password.$pristine }">
     <label>Password</label>
-    <input class="form-control"
-           type="password"
-           id="password"
+    <input type="password"
            name="password"
-           ng-model="user.password"
+           ng-model="registrationForm.password"
+           required="required"
            ng-minlength="8"
-           required>
-     <div ng-messages="submitted && userRegistrationForm.password.$error">
-       <p ng-message="required">Please enter a password.</p>
-       <p ng-message="minlength">Your password must be at least 8 characters.</p>
-     </div>
+           class="form-control"/>
+   <div ng-messages="submitted && userRegistrationForm.password.$error">
+     <p class="help-block" ng-message="required">Please enter a password.</p>
+     <p class="help-block" ng-message="minlength">Your password must be at least 8 characters.</p>
+   </div>
   </div>
-  <div class="form-group">
-    <label>Confirm password</label>
-    <input class="form-control"
-           type="password"
-           id="password_confirmation"
+
+  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.password_confirmation.$invalid && !userRegistrationForm.password_confirmation.$pristine }">
+    <label>Password confirmation</label>
+    <input type="password"
            name="password_confirmation"
-           ng-model="user.password_confirmation"
-           ui-validate=" '$value==user.password' "
-           ui-validate-watch=" 'user.password' ">
+           ng-model="registrationForm.password_confirmation"
+           required="required"
+           class="form-control"
+           ng-model="registrationForm.password_confirmation"
+           ui-validate=" '$value==registrationForm.password' "
+           ui-validate-watch=" 'registrationForm.password' "/>
      <div ng-messages="submitted && userRegistrationForm.password_confirmation.$error">
-       <p ng-message="validator">Passwords do not match.</p>
+       <p class="help-block" ng-message="validator">Passwords do not match.</p>
      </div>
   </div>
-  <div>
-    <button type="submit" class="btn btn-primary" id="submit">Register</button>
-  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg">Register</button>
 </form>
 </div>
 </div>
