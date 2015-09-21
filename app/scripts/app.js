@@ -35,8 +35,8 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-      
+
       $authProvider.configure({
-          apiUrl: 'http://localhost:9393/'
+          apiUrl: 'http://localhost:9393'
       });
   });

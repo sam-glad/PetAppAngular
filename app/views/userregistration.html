@@ -3,7 +3,7 @@
 <h2>Register a new account</h2>
 <br />
 <form name="userRegistrationForm" ng-submit="register(userRegistrationForm.$valid)" role="form" novalidate ng-init="registrationForm = {}">
-  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.email.$invalid && !userRegistrationForm.email.$pristine }">
+  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.email.$invalid }">
     <label>Email</label>
     <input type="email"
            name="email"
@@ -16,7 +16,7 @@
    </div>
   </div>
 
-  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.password.$invalid && !userRegistrationForm.password.$pristine }">
+  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.password.$invalid }">
     <label>Password</label>
     <input type="password"
            name="password"
@@ -30,7 +30,7 @@
    </div>
   </div>
 
-  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.password_confirmation.$invalid && !userRegistrationForm.password_confirmation.$pristine }">
+  <div class="form-group" ng-class="{ 'has-error' : submitted && userRegistrationForm.password_confirmation.$invalid }">
     <label>Password confirmation</label>
     <input type="password"
            name="password_confirmation"
