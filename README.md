@@ -1,12 +1,1 @@
-# pet-app-angular
-
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.11.1.
-
-## Build & development
-
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
+See the Rails API back end (https://github.com/sam-glad/PetApp) with which this project communicates for more info.
