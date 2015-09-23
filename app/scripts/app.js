@@ -33,6 +33,10 @@ angular
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
       })
+      .when('/applicationforms/new', {
+        templateUrl: 'views/applicationforms/new.html',
+        controller: 'ApplicationFormsNewCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
