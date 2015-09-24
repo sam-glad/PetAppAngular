@@ -2,42 +2,42 @@
 
 angular.module('petApp')
   .controller('ApplicationFormsNewCtrl', function ($scope) {
+    function Answer() {
+      this.body = '';
+      this.type = 'Text Input'
+    }
+
+    function Question() {
+      this.body = '';
+      this.answers = [new Answer()]
+    }
+
+    // Initialize form
     $scope.applicationForm = {};
+    $scope.applicationForm.questions = [new Question()];
 
-    // Initialize question with an empty answer
-    // so as to be able to push more answers later
-    $scope.applicationForm.questions = [
-      {
-        body: '',
-        placeholder: 'Type a question here',
-        answers: [
-          {
-            body: ''
-          }
-        ]
-      }
-    ];
-
+    // Methods called from form
     $scope.addQuestion = function () {
-      $scope.applicationForm.questions.push({
-        body: '',
-        placeholder: 'Type a question here',
-        answers: [
-          {
-            body: ''
-          }
-        ]
-      });
+      $scope.applicationForm.questions.push(new Question());
     };
-
     $scope.addAnswer = function (index) {
-      $scope.applicationForm.questions[index].answers.push({
-        body: ''
-      });
+      $scope.applicationForm.questions[index].answers.push(new Answer());
     };
 
     $scope.createApplicationForm = function() {
+      $scope.clearBlankAnswers($scope.applicationForm.questions);
       debugger;
       // TODO: Create service, call create method from here with VM as param
+    };
+
+    // Helpers
+    $scope.clearBlankAnswers = function(questions) {
+      $scope.applicationForm.questions.forEach(function (question) {
+        for (var i = 0; i < question.answers.length; i++) {
+          if (question.type != 'Text Input' && !question.answers[i]) {
+            question.answers.splice(i, 1);
+          }
+        }
+      });
     };
   });
