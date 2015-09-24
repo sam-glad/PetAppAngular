@@ -23,6 +23,16 @@ angular.module('petApp')
     $scope.addAnswer = function (index) {
       $scope.applicationForm.questions[index].answers.push(new Answer());
     };
+    $scope.deleteQuestion = function(questionIndex) {
+      if ($scope.applicationForm.questions.length > 1) {
+        $scope.applicationForm.questions.splice(questionIndex, 1);
+      }
+    };
+    $scope.deleteAnswer = function(question, answerIndex) {
+      if (question.answers.length > 1) {
+        question.answers.splice(answerIndex, 1);
+      }
+    };
 
     $scope.createApplicationForm = function() {
       $scope.clearBlankAnswers($scope.applicationForm.questions);
