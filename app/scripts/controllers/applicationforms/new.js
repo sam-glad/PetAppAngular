@@ -1,53 +1,70 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('ApplicationFormsNewCtrl', function ($scope) {
+  .controller('ApplicationFormsNewCtrl', function ($scope, applicationFormsService) {
     function Answer() {
       this.body = '';
-      this.type = 'Text Input'
     }
 
     function Question() {
       this.body = '';
-      this.answers = [new Answer()]
+      this.answers_attributes = [new Answer()];
+      this.type = 'Small Text Box';
     }
 
     // Initialize form
-    $scope.applicationForm = {};
-    $scope.applicationForm.questions = [new Question()];
+    $scope.application_form = {};
+    $scope.application_form.questions_attributes = [new Question()];
+    $scope.questionTypes = ['Small Text Box', 'Large Text Box', 'Radio',
+      'Dropdown', 'Checkbox'];
 
     // Methods called from form
     $scope.addQuestion = function () {
-      $scope.applicationForm.questions.push(new Question());
+      $scope.application_form.questions_attributes.push(new Question());
     };
+
     $scope.addAnswer = function (index) {
-      $scope.applicationForm.questions[index].answers.push(new Answer());
+      $scope.application_form.questions_attributes[index].answers_attributes.push(new Answer());
     };
+
     $scope.deleteQuestion = function(questionIndex) {
-      if ($scope.applicationForm.questions.length > 1) {
-        $scope.applicationForm.questions.splice(questionIndex, 1);
-      }
-    };
-    $scope.deleteAnswer = function(question, answerIndex) {
-      if (question.answers.length > 1) {
-        question.answers.splice(answerIndex, 1);
+      if ($scope.application_form.questions_attributes.length > 1) {
+        $scope.application_form.questions_attributes.splice(questionIndex, 1);
       }
     };
 
+    $scope.deleteAnswer = function(question, answerIndex) {
+      if (question.answers_attributes.length > 1) {
+        question.answers_attributes.splice(answerIndex, 1);
+      }
+    };
+
+    $scope.answerRequired = function(question) {
+      return ['Small Text Box', 'Large Text Box'].indexOf(question.type) === -1;
+    };
+
     $scope.createApplicationForm = function() {
-      $scope.clearBlankAnswers($scope.applicationForm.questions);
-      debugger;
-      // TODO: Create service, call create method from here with VM as param
+      // $scope.clearBlankAnswers($scope.application_form.questions_attributes);
+      $scope.application_form.name = 'My first application form';
+      $scope.transformBeforeSave();
+      applicationFormsService.applicationForms.new( { application_form: $scope.application_form });
     };
 
     // Helpers
     $scope.clearBlankAnswers = function(questions) {
-      $scope.applicationForm.questions.forEach(function (question) {
-        for (var i = 0; i < question.answers.length; i++) {
-          if (question.type != 'Text Input' && !question.answers[i]) {
-            question.answers.splice(i, 1);
+      $scope.application_form.questions_attributes.forEach(function (question) {
+        for (var i = 0; i < question.answers_attributes.length; i++) {
+          if (question.type != 'Text Input' && !question.answers_attributes[i]) {
+            question.answers_attributes.splice(i, 1);
           }
         }
+      });
+    };
+
+    $scope.transformBeforeSave = function() {
+      // $scope.application_form.questions_attributes_attributes = $scope.application_form.questions_attributes;
+      $scope.application_form.questions_attributes.forEach(function (question) {
+        question.answers_attributes = question.answers;
       });
     };
   });

@@ -1,28 +1,29 @@
 <h2>Create a new application form</h2>
 <br />
 
-<form name="applicationFormForm" novalidate ng-submit="createApplicationForm()" role="form">
+<form name="newApplicationForm" novalidate ng-submit="createApplicationForm()" role="form">
   <!-- Questions -->
-  <div class="well" ng-repeat="question in applicationForm.questions">
+  <div class="well" ng-repeat="question in application_form.questions_attributes">
     <div class="form-group">
       <br />
       <label ng-bind="'Question ' + ($index + 1)" />
+      <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="application_form.questions_attributes.length > 1">X</button>
       <input class="form-control" type="text" placeholder="Type a question here..." ng-model="question.body">
-      <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="applicationForm.questions.length > 1">Remove</button>
+      <select class="col-md-offset-5" ng-model="question.type" ng-options="type as type for type in questionTypes"></select>
     </div>
 
     <!-- Answers -->
-    <div class="col-md-10.5 col-md-offset-1">
-      <ng-form name="questionForm" ng-repeat="answer in question.answers">
+    <div ng-show="answerRequired(question)" class="col-md-10.5 col-md-offset-1">
+      <ng-form name="questionForm" ng-repeat="answer in question.answers_attributes">
           <label ng-bind="'Answer ' + ($index + 1)" />
+          <button class="btn btn-danger btn-xs" type="button" ng-click="deleteAnswer($parent.question, $index)" ng-show="question.answers.length > 1">X</button>
           <input class="form-control" type="text" placeholder="Type an answer here..." ng-model="question.answers[$index].body">
-            <button class="btn btn-danger btn-xs" type="button" ng-click="deleteAnswer($parent.question, $index)" ng-show="question.answers.length > 1">Remove</button>
           <br />
       </ng-form>
+      <button class="btn btn-primary" type="button" ng-click="addAnswer($index)">Add answer</button>
     </div>
-
-    <button class="btn btn-primary col-md-offset-1" type="button" ng-click="addAnswer($index)">Add answer</button>
   </div>
+
   <button class="btn btn-primary" type="button" ng-click="addQuestion()">Add question</button>
 
   <div class="row">
