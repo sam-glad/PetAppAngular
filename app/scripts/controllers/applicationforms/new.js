@@ -1,22 +1,26 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('ApplicationFormsNewCtrl', function ($scope, applicationFormsService) {
+  .controller('ApplicationFormsNewCtrl', function ($scope,
+    applicationFormsService, FORM_QUESTION_TYPES) {
     function Answer() {
       this.body = '';
     }
 
     function Question() {
       this.body = '';
+      this.type = FORM_QUESTION_TYPES[0].id;
       this.answers_attributes = [new Answer()];
-      this.type = 'Small Text Box';
+      this.isAnswerRequired = function () {
+        return !(this.type === FORM_QUESTION_TYPES[0].id ||
+                 this.type === FORM_QUESTION_TYPES[1].id);
+      };
     }
 
     // Initialize form
     $scope.application_form = {};
     $scope.application_form.questions_attributes = [new Question()];
-    $scope.questionTypes = ['Small Text Box', 'Large Text Box', 'Radio',
-      'Dropdown', 'Checkbox'];
+    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
 
     // Methods called from form
     $scope.addQuestion = function () {
@@ -24,7 +28,8 @@ angular.module('petApp')
     };
 
     $scope.addAnswer = function (index) {
-      $scope.application_form.questions_attributes[index].answers_attributes.push(new Answer());
+      $scope.application_form.questions_attributes[index].answers_attributes.
+        push(new Answer());
     };
 
     $scope.deleteQuestion = function(questionIndex) {
@@ -39,32 +44,17 @@ angular.module('petApp')
       }
     };
 
-    $scope.answerRequired = function(question) {
-      return ['Small Text Box', 'Large Text Box'].indexOf(question.type) === -1;
-    };
-
     $scope.createApplicationForm = function() {
-      // $scope.clearBlankAnswers($scope.application_form.questions_attributes);
-      $scope.application_form.name = 'My first application form';
-      $scope.transformBeforeSave();
+      $scope.clearBlanks();
       applicationFormsService.applicationForms.new( { application_form: $scope.application_form });
     };
 
     // Helpers
-    $scope.clearBlankAnswers = function(questions) {
+    $scope.clearBlanks = function() {
       $scope.application_form.questions_attributes.forEach(function (question) {
-        for (var i = 0; i < question.answers_attributes.length; i++) {
-          if (question.type != 'Text Input' && !question.answers_attributes[i]) {
-            question.answers_attributes.splice(i, 1);
-          }
+        if (!question.isAnswerRequired()) {
+          question.answers_attributes = [];
         }
-      });
-    };
-
-    $scope.transformBeforeSave = function() {
-      // $scope.application_form.questions_attributes_attributes = $scope.application_form.questions_attributes;
-      $scope.application_form.questions_attributes.forEach(function (question) {
-        question.answers_attributes = question.answers;
       });
     };
   });

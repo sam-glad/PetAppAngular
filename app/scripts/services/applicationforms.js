@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('petApp')
-  .service('applicationFormsService', function ($resource, $window) {
+  .service('applicationFormsService', function ($resource, $window, RESOURCES) {
     return {
-      applicationForms: $resource('http://localhost:9393/application_forms', {}, {
+      applicationForms: $resource(RESOURCES.APPLICATION_FORMS_API, {}, {
         new: { method: 'POST',
         interceptor: {
             response: function (data) {
