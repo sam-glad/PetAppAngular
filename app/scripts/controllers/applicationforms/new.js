@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('ApplicationFormsNewCtrl', function ($scope,
-    applicationFormsService, FORM_QUESTION_TYPES) {
+    ApplicationForm, FORM_QUESTION_TYPES) {
     function Answer() {
       this.body = '';
     }
@@ -46,7 +46,17 @@ angular.module('petApp')
 
     $scope.createApplicationForm = function() {
       $scope.clearBlanks();
-      applicationFormsService.applicationForms.new( { application_form: $scope.application_form });
+
+      var applicationForm = new ApplicationForm({
+        application_form: $scope.application_form
+      });
+
+      applicationForm.$save().then(function(data) {
+        console.log('Success!') // TODO: redirect to /applicationforms/:id
+      },
+      function(error) {
+        console.log(error) // TODO: Proper error handling
+      });
     };
 
     // Helpers
