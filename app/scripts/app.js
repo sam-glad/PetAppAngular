@@ -37,6 +37,10 @@ angular
         templateUrl: 'views/applicationforms/new.html',
         controller: 'ApplicationFormsNewCtrl'
       })
+      .when('/applicationforms/:id', {
+        templateUrl: 'views/applicationforms/show.html',
+        controller: 'ApplicationFormsShowCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

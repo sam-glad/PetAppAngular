@@ -16,7 +16,7 @@
       <label ng-bind="'Question ' + ($index + 1)" />
       <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="application_form.questions_attributes.length > 1">X</button>
       <input class="form-control" type="text" placeholder="Type a question here..." ng-model="question.body">
-      <select class="col-md-offset-5" ng-model="question.type" ng-options="type.id as type.name for type in formQuestionTypes"></select>
+      <select class="col-md-offset-5" ng-model="question.input_type" ng-options="type.id as type.name for type in formQuestionTypes"></select>
     </div>
 
     <!-- Answers -->
