@@ -14,7 +14,7 @@ angular.module('petApp')
         smallTextbox: { name:'Small Textbox', id: 0 },
         largeTextbox: { name:'Large Textbox', id: 1 },
         dropdown: { name:'Dropdown', id: 2 },
-        radio: { name:'Radio', id: 3 },
+        radio: { name:'Radio button', id: 3 },
         checkbox: { name:'Checkbox', id: 4 }
       }
   );

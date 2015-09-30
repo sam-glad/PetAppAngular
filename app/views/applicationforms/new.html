@@ -5,7 +5,10 @@
   <div class="well">
     <div class="form-group">
       <label>Form name</label>
-      <input class="form-control" type="text" placeholder="Adoption form №1" ng-model="application_form.name">
+      <input class="form-control"
+             type="text"
+             placeholder="Internal name (e.g., Adoption form №1, Foster application form №2, etc.)"
+             ng-model="application_form.name">
     </div>
   </div>
 
@@ -16,11 +19,14 @@
       <label ng-bind="'Question ' + ($index + 1)" />
       <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="application_form.questions_attributes.length > 1">X</button>
       <input class="form-control" type="text" placeholder="Type a question here..." ng-model="question.body">
-      <select class="col-md-offset-5" ng-model="question.input_type" ng-options="type.id as type.name for type in formQuestionTypes"></select>
+      <select class="form-control" ng-model="question.input_type" ng-options="type.id as type.name for type in formQuestionTypes"></select>
+      <div ng-hide="question.input_type === formQuestionTypes.checkbox.id">
+        <input type="checkbox" ng-model="question.is_required">Answer required</input>
+      </div>
     </div>
 
     <!-- Answers -->
-    <div ng-show="question.isAnswerRequired()" class="col-md-10.5 col-md-offset-1">
+    <div ng-show="question.typeRequiresAnswer()" class="col-md-10.5 col-md-offset-1">
       <ng-form name="questionForm" ng-repeat="answer in question.answers_attributes">
           <label ng-bind="'Answer ' + ($index + 1)" />
           <button class="btn btn-danger btn-xs" type="button" ng-click="deleteAnswer($parent.question, $index)" ng-show="question.answers_attributes.length > 1">X</button>
