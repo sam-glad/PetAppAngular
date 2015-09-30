@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('ApplicationFormsNewCtrl', function ($scope,
+  .controller('ApplicationFormsNewCtrl', function ($scope, $window,
     ApplicationForm, FORM_QUESTION_TYPES) {
     function Answer() {
       this.body = '';
@@ -52,7 +52,7 @@ angular.module('petApp')
       });
 
       applicationForm.$save().then(function(data) {
-        console.log('Success!') // TODO: redirect to /applicationforms/:id
+        $window.location.href = '#/applicationforms/' + data.id;
       },
       function(error) {
         console.log(error) // TODO: Proper error handling
