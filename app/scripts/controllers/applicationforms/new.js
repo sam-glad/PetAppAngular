@@ -9,7 +9,7 @@ angular.module('petApp')
 
     function Question() {
       this.body = '';
-      this.input_type = FORM_QUESTION_TYPES.smallTextbox.id;
+      this.input_type = '';
       this.is_required = false;
       this.answers_attributes = [new Answer()];
       this.typeRequiresAnswer = function () {
@@ -47,19 +47,21 @@ angular.module('petApp')
       }
     };
 
-    $scope.createApplicationForm = function() {
-      $scope.transformBeforeSave();
+    $scope.createApplicationForm = function(isValid) {
+      if (isValid) {
+        $scope.transformBeforeSave();
 
-      var applicationForm = new ApplicationForm({
-        application_form: $scope.application_form
-      });
+        var applicationForm = new ApplicationForm({
+          application_form: $scope.application_form
+        });
 
-      applicationForm.$save().then(function(data) {
-        $window.location.href = '#/applicationforms/' + data.id;
-      },
-      function(error) {
-        console.log(error) // TODO: Proper error handling
-      });
+        applicationForm.$save().then(function(data) {
+          $window.location.href = '#/applicationforms/' + data.id;
+        },
+        function(error) {
+          console.log(error) // TODO: Proper error handling
+        });
+      }
     };
 
     // Helpers

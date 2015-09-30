@@ -1,42 +1,88 @@
 <h2>Create a new application form</h2>
 <br />
 
-<form name="newApplicationForm" novalidate ng-submit="createApplicationForm()" role="form">
+<form name="newApplicationForm" novalidate ng-submit="createApplicationForm(newApplicationForm.$valid)" role="form">
+
+  <!-- Internal form name -->
   <div class="well">
-    <div class="form-group">
-      <label>Form name</label>
-      <input class="form-control"
-             type="text"
-             placeholder="Internal name (e.g., Adoption form №1, Foster application form №2, etc.)"
-             ng-model="application_form.name">
-    </div>
+    <ng-form name="innerForm">
+      <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.formName.$invalid }">
+        <label>Form name</label>
+        <input class="form-control"
+               type="text"
+               name="formName"
+               placeholder="Internal name (e.g., Adoption form №1, Foster application form №2, etc.)"
+               ng-model="application_form.name"
+               required>
+      </div>
+      <div ng-messages="newApplicationForm.$submitted && innerForm.formName.$error">
+        <p class="help-block" ng-message="required">Please provide a name for this form.</p>
+      </div>
+    </ng-form>
   </div>
 
   <!-- Questions -->
   <div class="well" ng-repeat="question in application_form.questions_attributes">
-    <div class="form-group">
-      <br />
-      <label ng-bind="'Question ' + ($index + 1)" />
-      <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="application_form.questions_attributes.length > 1">X</button>
-      <input class="form-control" type="text" placeholder="Type a question here..." ng-model="question.body">
-      <select class="form-control" ng-model="question.input_type" ng-options="type.id as type.name for type in formQuestionTypes"></select>
-      <div ng-hide="question.input_type === formQuestionTypes.checkbox.id">
-        <input type="checkbox" ng-model="question.is_required">Answer required</input>
-      </div>
-    </div>
+    <ng-form name="innerForm">
+        <br />
+        <label ng-bind="'Question ' + ($index + 1)" />
+        <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="application_form.questions_attributes.length > 1">X</button>
+        <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionBody.$invalid }">
+          <input class="form-control"
+                 type="text"
+                 name="questionBody"
+                 placeholder="Type a question here..."
+                 ng-model="question.body"
+                 required>
+           <div ng-messages="newApplicationForm.$submitted && innerForm.questionBody.$error">
+             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+           </div>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionInputType.$invalid }">
+          <select class="form-control"
+                  name="questionInputType"
+                  ng-model="question.input_type"
+                  ng-options="type.id as type.name for type in formQuestionTypes"
+                  required>
+            <option value="" disabled>Select a type of question...</option>
+          </select>
+          <div ng-messages="newApplicationForm.$submitted && innerForm.questionInputType.$error">
+            <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+          </div>
+          <div class="checkbox" ng-hide="question.input_type === formQuestionTypes.checkbox.id">
+            <label>
+              <input type="checkbox" ng-model="question.is_required"> Answer required
+            </label>
+          </div>
+        </div>
+    </ng-form>
 
     <!-- Answers -->
     <div ng-show="question.typeRequiresAnswer()" class="col-md-10.5 col-md-offset-1">
       <ng-form name="questionForm" ng-repeat="answer in question.answers_attributes">
-          <label ng-bind="'Answer ' + ($index + 1)" />
-          <button class="btn btn-danger btn-xs" type="button" ng-click="deleteAnswer($parent.question, $index)" ng-show="question.answers_attributes.length > 1">X</button>
-          <input class="form-control" type="text" placeholder="Type an answer here..." ng-model="question.answers_attributes[$index].body">
-          <br />
+        <ng-form name="innerForm">
+          <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.answerBody.$invalid }">
+            <label for="answerBody" ng-bind="'Answer ' + ($index + 1)" />
+            <button class="btn btn-danger btn-xs"
+                    type="button"
+                    ng-click="deleteAnswer($parent.question, $index)"
+                    ng-show="question.answers_attributes.length > 1">x</button>
+            <input class="form-control"
+                   type="text"
+                   name="answerBody"
+                   placeholder="Type an answer here..."
+                   ng-model="question.answers_attributes[$index].body"
+                   required>
+            <div ng-messages="newApplicationForm.$submitted && innerForm.answerBody.$error">
+              <p class="help-block" ng-message="required">Please provide an answer (or remove this blank one) for this question.</p>
+            </div>
+          </div>
+        </ng-form>
       </ng-form>
       <button class="btn btn-primary" type="button" ng-click="addAnswer($index)">Add answer</button>
     </div>
   </div>
-
   <button class="btn btn-primary" type="button" ng-click="addQuestion()">Add question</button>
 
   <div class="row">
