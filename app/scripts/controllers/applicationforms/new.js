@@ -9,11 +9,11 @@ angular.module('petApp')
 
     function Question() {
       this.body = '';
-      this.input_type = FORM_QUESTION_TYPES[2].id;
+      this.input_type = FORM_QUESTION_TYPES.smallTextbox.id;
       this.answers_attributes = [new Answer()];
       this.isAnswerRequired = function () {
-        return !(this.input_type === FORM_QUESTION_TYPES[0].id ||
-                 this.input_type === FORM_QUESTION_TYPES[1].id);
+        return !(this.input_type === FORM_QUESTION_TYPES.smallTextbox.id ||
+                 this.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
       };
     }
 

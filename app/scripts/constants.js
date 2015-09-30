@@ -6,15 +6,15 @@ angular.module('petApp')
       return {
         ROOT_URL: resource,
         ORGANIZATIONS_API: resource + '/organizations',
-        APPLICATION_FORMS_API: resource + '/application_forms/:id'
+        APPLICATION_FORMS_API: resource + '/application_forms'
       }
     })())
-  .constant('FORM_QUESTION_TYPES',
-    [
-      { id: 0, name: 'Small Textbox' },
-      { id: 1, name: 'Large Textbox' },
-      { id: 2, name: 'Dropdown' },
-      { id: 3, name: 'Radio' },
-      { id: 4, name: 'Checkbox' }
-    ]
+    .constant('FORM_QUESTION_TYPES',
+      {
+        smallTextbox: { name:'Small Textbox', id: 0 },
+        largeTextbox: { name:'Large Textbox', id: 1 },
+        dropdown: { name:'Dropdown', id: 2 },
+        radio: { name:'Radio', id: 3 },
+        checkbox: { name:'Checkbox', id: 4 }
+      }
   );

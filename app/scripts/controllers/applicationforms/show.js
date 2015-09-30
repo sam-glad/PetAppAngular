@@ -11,7 +11,7 @@ angular.module('petApp')
         };
 
         $scope.testFormData.questions.forEach(function (question) {
-          if (question.input_type !== 4) {
+          if (question.input_type !== FORM_QUESTION_TYPES.checkbox.id) {
             question.answersGiven = [{}]; // Only one answer which needs a body attribute
           }
           else {
@@ -20,7 +20,7 @@ angular.module('petApp')
         });
       });
 
-      $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
 
     $scope.toggleCheckBoxAnswer = function toggleCheckBoxAnswer(questionIndex, answer) {
       var answersSelected = $scope.testFormData.questions[questionIndex].answersGiven;
