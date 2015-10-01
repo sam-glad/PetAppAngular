@@ -1,0 +1,130 @@
+<form class="well" name="testForm" ng-submit="submitTestForm()" ng-show="!showAnswers" novalidate>
+  <h2 ng-bind="applicationForm.name"></h2>
+  <div ng-repeat="question in testFormData.questions">
+
+    <!-- Note the use of ng-if rather than ng-switch due to use of expression -->
+
+    <div ng-if="question.input_type === formQuestionTypes.smallTextbox.id">
+      <ng-form name="innerForm">
+        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.textboxSmall.$invalid }">
+          <label for="textboxSmall" ng-bind="question.body" />
+          <input type="text"
+                 name="textboxSmall"
+                 ng-model="question.answersGiven[0].body"
+                 ng-required="question.is_required"
+                 class="form-control"/>
+          <div ng-messages="testForm.$submitted && innerForm.textboxSmall.$error">
+            <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+          </div>
+       </div>
+      </ng-form>
+    </div>
+
+    <div ng-if="question.input_type === formQuestionTypes.largeTextbox.id">
+      <ng-form name="innerForm">
+        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.textboxLarge.$invalid }">
+          <label for="textboxLarge" ng-bind="question.body" />
+          <textarea class="form-control"
+                    name="textboxLarge"
+                    ng-model="question.answersGiven[0].body"
+                    ng-required="question.is_required"
+                    cols="40"
+                    rows="5" />
+          <div ng-messages="testForm.$submitted && innerForm.textboxLarge.$error">
+            <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+          </div>
+       </div>
+      </ng-form>
+    </div>
+
+    <div ng-if="question.input_type === formQuestionTypes.dropdown.id">
+      <ng-form name="innerForm">
+        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.dropdown.$invalid }">
+          <label for="dropdown">{{question.body}}</label>
+          <select class="form-control"
+                  name="dropdown"
+                  ng-options="answer.body as answer.body for answer in question.answers"
+                  ng-model="question.answersGiven[0].body"
+                  ng-required="question.is_required">
+            <option value="">Select an answer</option>
+          </select>
+          <div ng-messages="testForm.$submitted && innerForm.dropdown.$error">
+            <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+          </div>
+        </div>
+      </ng-form>
+    </div>
+
+    <div ng-if="question.input_type === formQuestionTypes.radio.id">
+      <ng-form name="innerForm">
+        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.radio.$invalid }">
+          <label for="radio" ng-bind="question.body" />
+          <div class="radio-inline" ng-repeat="answer in question.answers">
+            <input type="radio"
+                   name="radio"
+                   value="{{answer.body}}"
+                   ng-model="question.answersGiven[0].body"
+                   ng-required="question.is_required">
+                   {{answer.body}}
+            </input>
+          </div>
+          <div ng-messages="testForm.$submitted && innerForm.radio.$error">
+            <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+          </div>
+        </div>
+      </ng-form>
+    </div>
+
+    <!-- Note 1: For an understanding of the approach I have taken for validating
+                 the ng-form below, see Angular contributor Georgios Kalpakas's
+                 November 29, 2014 post in the GitHub issue here:
+                 https://github.com/angular/angular.js/issues/10165
+    -->
+
+    <!-- Note 2: ng-messages currently has a known bug with expressions:
+                 https://github.com/angular/angular.js/issues/11616
+                 hence my use of ng-show here for the error message.
+    -->
+
+    <div ng-if="question.input_type === formQuestionTypes.checkbox.id">
+      <div ng-init="subForm = 'checkboxForm' + $parent.$index"> <!-- Name subform via question -->
+        <ng-form name="{{subForm}}">
+          <div class="form-group" ng-init="checkboxFormValidityInit(this[subForm], question)" ng-class="{ 'has-error' :  testForm.$submitted && this[subForm].$invalid }">
+            <label for="checkbox" ng-bind="question.body" />
+            <div class="checkbox-inline form-group" ng-repeat="answer in question.answers">
+                <input type="checkbox"
+                       name="checkbox"
+                       value="{{answer.body}}"
+                       ng-checked="question.answersGiven.indexOf(answer) > -1"
+                       ng-click="toggleCheckBoxAnswer($parent.$index, answer, checkboxForm{{$parent.$index}})">{{answer.body}}
+                </input>
+            </div>
+              <p class="help-block" ng-show="testForm.$submitted && {{subForm}}.$error.required">Please provide an answer for this question.</p>
+          </div> <!-- form-group -->
+        </ng-form>
+      </div> <!-- ng-init -->
+    </div> <!-- ng-if -->
+
+  </div> <!-- ng-repeat="question in testFormData.questions -->
+
+  <div class="row">
+    <button class="btn btn-success col-md-offset-5" type="submit">Test submit</button>
+  </div>
+</form>
+
+
+<!-- Form results -->
+<div class="well" ng-show="showAnswers" id="test-form-answers">
+  <ol class="dl-horizontal">
+    <div ng-repeat="question in testFormData.questions">
+      <li ng-bind="question.body"></li>
+      <ul>
+        <div ng-repeat="answer in question.answersGiven">
+          <li ng-bind="answer.body"></li>
+        </div>
+      </ul>
+    </div>
+  </ol>
+
+  <button class="btn btn-success col-md-offset-5" ng-show="showAnswers" ng-click="showAnswers = false">Show form</button>
+</div>

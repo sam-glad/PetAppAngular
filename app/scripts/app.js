@@ -15,7 +15,7 @@ angular
   .config(function ($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/about.html',
         controller: 'IndexCtrl'
       })
       .when('/about', {
@@ -32,6 +32,14 @@ angular
       .when('/login', {
         templateUrl: 'views/login.html',
         controller: 'LoginCtrl'
+      })
+      .when('/applicationforms/new', {
+        templateUrl: 'views/applicationforms/new.html',
+        controller: 'ApplicationFormsNewCtrl'
+      })
+      .when('/applicationforms/:id', {
+        templateUrl: 'views/applicationforms/show.html',
+        controller: 'ApplicationFormsShowCtrl'
       })
       .otherwise({
         redirectTo: '/'
