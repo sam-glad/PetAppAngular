@@ -75,19 +75,35 @@
       </ng-form>
     </div>
 
+    <!-- Note 1: For an understanding of the approach I have taken for validating
+                 the ng-form below, see Angular contributor Georgios Kalpakas's
+                 November 29, 2014 post in the GitHub issue here:
+                 https://github.com/angular/angular.js/issues/10165
+    -->
+
+    <!-- Note 2: ng-messages currently has a known bug with expressions:
+                 https://github.com/angular/angular.js/issues/11616
+                 hence my use of ng-show here for the error message.
+    -->
+
     <div ng-if="question.input_type === formQuestionTypes.checkbox.id">
-      <ng-form name="innerForm">
-        <label for="checkbox" ng-bind="question.body" />
-        <div class="checkbox-inline" ng-repeat="answer in question.answers">
-          <input type="checkbox"
-                 name="checkbox"
-                 value="{{answer.body}}"
-                 ng-checked="question.answersGiven.indexOf(answer) > -1"
-                 ng-click="toggleCheckBoxAnswer($parent.$index, answer)">{{answer.body}}
-          </input>
-        </div>
-      </ng-form>
-    </div>
+      <div ng-init="subForm = 'checkboxForm' + $parent.$index"> <!-- Name subform via question -->
+        <ng-form name="{{subForm}}">
+          <div class="form-group" ng-init="checkboxFormValidityInit(this[subForm], question)" ng-class="{ 'has-error' :  testForm.$submitted && this[subForm].$invalid }">
+            <label for="checkbox" ng-bind="question.body" />
+            <div class="checkbox-inline form-group" ng-repeat="answer in question.answers">
+                <input type="checkbox"
+                       name="checkbox"
+                       value="{{answer.body}}"
+                       ng-checked="question.answersGiven.indexOf(answer) > -1"
+                       ng-click="toggleCheckBoxAnswer($parent.$index, answer, checkboxForm{{$parent.$index}})">{{answer.body}}
+                </input>
+            </div>
+              <p class="help-block" ng-show="testForm.$submitted && {{subForm}}.$error.required">Please provide an answer for this question.</p>
+          </div> <!-- form-group -->
+        </ng-form>
+      </div> <!-- ng-init -->
+    </div> <!-- ng-if -->
 
   </div> <!-- ng-repeat="question in testFormData.questions -->
 
@@ -99,14 +115,16 @@
 
 <!-- Form results -->
 <div class="well" ng-show="showAnswers" id="test-form-answers">
-  <dl class="dl-horizontal">
+  <ol class="dl-horizontal">
     <div ng-repeat="question in testFormData.questions">
-      <dt ng-bind="question.body"></dt>
-      <div ng-repeat="answer in question.answersGiven">
-        <dd ng-bind="answer.body"></dd>
-      </div>
+      <li ng-bind="question.body"></li>
+      <ul>
+        <div ng-repeat="answer in question.answersGiven">
+          <li ng-bind="answer.body"></li>
+        </div>
+      </ul>
     </div>
-  </dl>
+  </ol>
 
   <button class="btn btn-success col-md-offset-5" ng-show="showAnswers" ng-click="showAnswers = false">Show form</button>
 </div>

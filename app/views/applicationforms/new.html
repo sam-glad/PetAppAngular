@@ -50,7 +50,7 @@
           <div ng-messages="newApplicationForm.$submitted && innerForm.questionInputType.$error">
             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
           </div>
-          <div class="checkbox" ng-hide="question.input_type === formQuestionTypes.checkbox.id">
+          <div class="checkbox">
             <label>
               <input type="checkbox" ng-model="question.is_required"> Answer required
             </label>
@@ -73,7 +73,7 @@
                    name="answerBody"
                    placeholder="Type an answer here..."
                    ng-model="question.answers_attributes[$index].body"
-                   required>
+                   ng-required="question.typeRequiresAnswer()">
             <div ng-messages="newApplicationForm.$submitted && innerForm.answerBody.$error">
               <p class="help-block" ng-message="required">Please provide an answer (or remove this blank one) for this question.</p>
             </div>

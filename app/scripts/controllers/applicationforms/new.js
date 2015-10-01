@@ -24,7 +24,7 @@ angular.module('petApp')
     $scope.application_form.questions_attributes = [new Question()];
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
 
-    // Methods called from form
+    // Called from form
 
     $scope.addQuestion = function () {
       $scope.application_form.questions_attributes.push(new Question());
@@ -74,22 +74,7 @@ angular.module('petApp')
       });
     };
 
-    // Should not be necessary, but better safe than sorry - clears up bad data
-    // TODO: Determine whether this is less expensive than setting up a watch on
-    //       each question and updating is_required when input_type becomes
-    //       checkbox
-    $scope.clearIsRequiredForCheckboxes = function() {
-      var checkboxQuestions = $scope.application_form.questions_attributes.filter(function(question) {
-        return question.input_type === FORM_QUESTION_TYPES.checkbox.id;
-      });
-
-      checkboxQuestions.forEach(function(question) {
-        question.is_required = false;
-      });
-    };
-
     $scope.transformBeforeSave = function() {
       $scope.clearBlanks();
-      $scope.clearIsRequiredForCheckboxes();
     };
   });
