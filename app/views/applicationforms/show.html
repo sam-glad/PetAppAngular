@@ -7,7 +7,7 @@
     <div ng-if="question.input_type === formQuestionTypes.smallTextbox.id">
       <ng-form name="innerForm">
         <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.textboxSmall.$invalid }">
-          <label for="textboxSmall" ng-bind="question.body" />
+          <label for="textboxSmall" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
           <input type="text"
                  name="textboxSmall"
                  ng-model="question.answersGiven[0].body"
@@ -23,7 +23,7 @@
     <div ng-if="question.input_type === formQuestionTypes.largeTextbox.id">
       <ng-form name="innerForm">
         <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.textboxLarge.$invalid }">
-          <label for="textboxLarge" ng-bind="question.body" />
+          <label for="textboxLarge" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
           <textarea class="form-control"
                     name="textboxLarge"
                     ng-model="question.answersGiven[0].body"
@@ -40,7 +40,7 @@
     <div ng-if="question.input_type === formQuestionTypes.dropdown.id">
       <ng-form name="innerForm">
         <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.dropdown.$invalid }">
-          <label for="dropdown">{{question.body}}</label>
+          <label for="dropdown" ng-class="{ 'required' : question.is_required }">{{question.body}}</label>
           <select class="form-control"
                   name="dropdown"
                   ng-options="answer.body as answer.body for answer in question.answers"
@@ -58,7 +58,7 @@
     <div ng-if="question.input_type === formQuestionTypes.radio.id">
       <ng-form name="innerForm">
         <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.radio.$invalid }">
-          <label for="radio" ng-bind="question.body" />
+          <label for="radio" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
           <div class="radio-inline" ng-repeat="answer in question.answers">
             <input type="radio"
                    name="radio"
@@ -90,7 +90,7 @@
       <div ng-init="subForm = 'checkboxForm' + $parent.$index"> <!-- Name subform via question -->
         <ng-form name="{{subForm}}">
           <div class="form-group" ng-init="checkboxFormValidityInit(this[subForm], question)" ng-class="{ 'has-error' :  testForm.$submitted && this[subForm].$invalid }">
-            <label for="checkbox" ng-bind="question.body" />
+            <label for="checkbox" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
             <div class="checkbox-inline form-group" ng-repeat="answer in question.answers">
                 <input type="checkbox"
                        name="checkbox"
