@@ -12,7 +12,7 @@ angular
     'ngMessages',
     'ng-token-auth'
   ])
-  .config(function ($routeProvider, $authProvider) {
+  .config(function ($routeProvider, $authProvider, $anchorScrollProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/about.html',
@@ -48,4 +48,6 @@ angular
       $authProvider.configure({
           apiUrl: 'http://localhost:9393'
       });
+
+      $anchorScrollProvider.disableAutoScrolling();
   });

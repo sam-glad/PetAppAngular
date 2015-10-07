@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('ApplicationFormsNewCtrl', function ($scope, $window,
-    ApplicationForm, FORM_QUESTION_TYPES) {
+  .controller('ApplicationFormsNewCtrl', function ($scope, $window, $location,
+    $timeout, $anchorScroll, ApplicationForm, FORM_QUESTION_TYPES) {
     function Answer() {
       this.body = '';
     }
@@ -26,13 +26,23 @@ angular.module('petApp')
 
     // Called from form
 
+    $scope.scrollTo = function(id) {
+      $timeout(function() {
+        $location.hash(id);
+        $anchorScroll();
+        $location.hash('');
+      });
+    }
+
     $scope.addQuestion = function () {
       $scope.application_form.questions_attributes.push(new Question());
+      $scope.scrollTo('bottom');
     };
 
-    $scope.addAnswer = function (index) {
-      $scope.application_form.questions_attributes[index].answers_attributes.
-        push(new Answer());
+    $scope.addAnswer = function (questionIndex) {
+      var answers = $scope.application_form.questions_attributes[questionIndex].answers_attributes;
+      answers.push(new Answer());
+      $scope.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
 
     $scope.deleteQuestion = function(questionIndex) {
