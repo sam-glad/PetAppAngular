@@ -6,7 +6,8 @@ angular.module('petApp')
       return {
         ROOT_URL: resource,
         ORGANIZATIONS_API: resource + '/organizations',
-        APPLICATION_FORMS_API: resource + '/application_forms'
+        APPLICATION_FORMS_API: resource + '/application_forms',
+        PETS_API: resource + '/pets'
       }
     })())
     .constant('FORM_QUESTION_TYPES',

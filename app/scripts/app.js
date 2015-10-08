@@ -41,6 +41,10 @@ angular
         templateUrl: 'views/applicationforms/show.html',
         controller: 'ApplicationFormsShowCtrl'
       })
+      .when('/pets', {
+        templateUrl: 'views/pets/index.html',
+        controller: 'PetsIndexCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
