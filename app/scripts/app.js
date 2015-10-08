@@ -10,7 +10,8 @@ angular
     'ngTouch',
     'ui.validate',
     'ngMessages',
-    'ng-token-auth'
+    'ng-token-auth',
+    'angular.filter'
   ])
   .config(function ($routeProvider, $authProvider, $anchorScrollProvider) {
     $routeProvider
