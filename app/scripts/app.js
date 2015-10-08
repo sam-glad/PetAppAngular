@@ -23,7 +23,7 @@ angular
         templateUrl: 'views/about.html'
       })
       .when('/organizations', {
-        templateUrl: 'views/organizations.html',
+        templateUrl: 'views/organizations/index.html',
         controller: 'OrganizationsCtrl'
       })
       .when('/userregistration', {
