@@ -46,6 +46,10 @@ angular
         templateUrl: 'views/pets/index.html',
         controller: 'PetsIndexCtrl'
       })
+      .when('/pets/:id', {
+        templateUrl: 'views/pets/show.html',
+        controller: 'PetsShowCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });

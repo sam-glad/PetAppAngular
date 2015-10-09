@@ -4,7 +4,7 @@
   <div class="col-md-3 well" ng-repeat="pet in petgroup" >
     <strong ng-bind="pet.name"></strong>
     <ul>
-      <li ng-bind="displayBreeds(pet)"></li>
+      <li ng-bind="Utils.displayBreeds(pet)"></li>
       <li ng-bind="pet.sex"></li>
       <li ng-bind="pet.size"></li>
       <li ng-bind="pet.age"></li>

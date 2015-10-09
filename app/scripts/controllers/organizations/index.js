@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('OrganizationsCtrl', function ($scope, Organization) {
+  .controller('OrganizationsCtrl', function ($scope, Organization, UtilsService) {
       Organization.query().$promise.then(function(data) {
         $scope.organizations = data
       },
       function(error) {
         console.log(error) // TODO: Proper error handling
       });
+
+      $scope.Utils = UtilsService;
 
       // Helpers
       $scope.getContactInfo = function(organization) {

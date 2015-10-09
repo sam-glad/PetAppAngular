@@ -2,5 +2,5 @@
 
 angular.module('petApp')
   .factory('Pet', function($resource, RESOURCES) {
-    return $resource(RESOURCES.PETS_API);
+    return $resource(RESOURCES.PETS_API + '/:id');
   });

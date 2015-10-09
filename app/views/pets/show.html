@@ -1,0 +1,16 @@
+<h2 ng-bind="pet.name"></h2>
+
+<div class="well">
+  <div class="row">
+    <span ng-bind="pet.animal + ' •'"></span>
+    <span ng-bind="Utils.displayBreeds(pet) + ' •'"></span>
+    <span ng-bind="pet.age + ' •'"></span>
+    <span ng-bind="pet.sex + ' •'"></span>
+    <span ng-bind="pet.size"></span>
+    <p ng-bind="pet.organization.name"></p>
+    <p ng-bind="Utils.displayLocation(pet.organization)"></p>
+  </div>
+  <div class="row">
+    <p ng-bind="pet.description"></p>
+  </div>
+</div>
