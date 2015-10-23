@@ -1,19 +1,19 @@
-<form class="well" name="testForm" ng-submit="submit(testForm)" ng-show="submittable || !showAnswers" novalidate>
+<form class="well" name="mainForm" ng-submit="submit(mainForm)" ng-show="submittable || !showAnswers" novalidate>
   <h2 ng-bind="applicationForm.name"></h2>
-  <div ng-repeat="question in testFormData.questions">
+  <div ng-repeat="question in formData.questions">
 
     <!-- Note the use of ng-if rather than ng-switch due to use of expression -->
 
     <div ng-if="question.input_type === formQuestionTypes.smallTextbox.id">
       <ng-form name="innerForm">
-        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.textboxSmall.$invalid }">
+        <div class="form-group" ng-class="{ 'has-error' : mainForm.$submitted && innerForm.textboxSmall.$invalid }">
           <label for="textboxSmall" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
           <input type="text"
                  name="textboxSmall"
                  ng-model="question.answersGiven[0].body"
                  ng-required="question.is_required"
                  class="form-control"/>
-          <div ng-messages="testForm.$submitted && innerForm.textboxSmall.$error">
+          <div ng-messages="mainForm.$submitted && innerForm.textboxSmall.$error">
             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
           </div>
        </div>
@@ -22,7 +22,7 @@
 
     <div ng-if="question.input_type === formQuestionTypes.largeTextbox.id">
       <ng-form name="innerForm">
-        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.textboxLarge.$invalid }">
+        <div class="form-group" ng-class="{ 'has-error' : mainForm.$submitted && innerForm.textboxLarge.$invalid }">
           <label for="textboxLarge" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
           <textarea class="form-control"
                     name="textboxLarge"
@@ -30,7 +30,7 @@
                     ng-required="question.is_required"
                     cols="40"
                     rows="5" />
-          <div ng-messages="testForm.$submitted && innerForm.textboxLarge.$error">
+          <div ng-messages="mainForm.$submitted && innerForm.textboxLarge.$error">
             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
           </div>
        </div>
@@ -39,7 +39,7 @@
 
     <div ng-if="question.input_type === formQuestionTypes.dropdown.id">
       <ng-form name="innerForm">
-        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.dropdown.$invalid }">
+        <div class="form-group" ng-class="{ 'has-error' : mainForm.$submitted && innerForm.dropdown.$invalid }">
           <label for="dropdown" ng-class="{ 'required' : question.is_required }">{{question.body}}</label>
           <select class="form-control"
                   name="dropdown"
@@ -48,7 +48,7 @@
                   ng-required="question.is_required">
             <option value="">Select an answer</option>
           </select>
-          <div ng-messages="testForm.$submitted && innerForm.dropdown.$error">
+          <div ng-messages="mainForm.$submitted && innerForm.dropdown.$error">
             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
           </div>
         </div>
@@ -57,7 +57,7 @@
 
     <div ng-if="question.input_type === formQuestionTypes.radio.id">
       <ng-form name="innerForm">
-        <div class="form-group" ng-class="{ 'has-error' : testForm.$submitted && innerForm.radio.$invalid }">
+        <div class="form-group" ng-class="{ 'has-error' : mainForm.$submitted && innerForm.radio.$invalid }">
           <label for="radio" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
           <div class="radio-inline" ng-repeat="answer in question.answers">
             <input type="radio"
@@ -68,7 +68,7 @@
                    {{answer.body}}
             </input>
           </div>
-          <div ng-messages="testForm.$submitted && innerForm.radio.$error">
+          <div ng-messages="mainForm.$submitted && innerForm.radio.$error">
             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
           </div>
         </div>
@@ -89,23 +89,23 @@
     <div ng-if="question.input_type === formQuestionTypes.checkbox.id">
       <div ng-init="subForm = 'checkboxForm' + $parent.$index"> <!-- Name subform via question -->
         <ng-form name="{{subForm}}">
-          <div class="form-group" ng-init="checkboxFormValidityInit(this[subForm], question)" ng-class="{ 'has-error' :  testForm.$submitted && this[subForm].$invalid }">
+          <div class="form-group" ng-init="checkboxFormValidityInit(this[subForm], question)" ng-class="{ 'has-error' :  mainForm.$submitted && this[subForm].$invalid }">
             <label for="checkbox" ng-class="{ 'required' : question.is_required }" ng-bind="question.body" />
             <div class="checkbox-inline form-group" ng-repeat="answer in question.answers">
                 <input type="checkbox"
                        name="checkbox"
                        value="{{answer.body}}"
                        ng-checked="question.answersGiven.indexOf(answer) > -1"
-                       ng-click="toggleCheckBoxAnswer(testFormData, $parent.$index, answer, checkboxForm{{$parent.$index}})">{{answer.body}}
+                       ng-click="toggleCheckBoxAnswer(formData, $parent.$index, answer, checkboxForm{{$parent.$index}})">{{answer.body}}
                 </input>
             </div>
-              <p class="help-block" ng-show="testForm.$submitted && {{subForm}}.$error.required">Please provide an answer for this question.</p>
+              <p class="help-block" ng-show="mainForm.$submitted && {{subForm}}.$error.required">Please provide an answer for this question.</p>
           </div> <!-- form-group -->
         </ng-form>
       </div> <!-- ng-init -->
     </div> <!-- ng-if -->
 
-  </div> <!-- ng-repeat="question in testFormData.questions -->
+  </div> <!-- ng-repeat="question in formData.questions -->
 
   <div class="row">
     <button class="btn btn-success col-md-offset-5" type="submit">Test submit</button>
@@ -114,9 +114,9 @@
 
 
 <!-- Form results -->
-<div class="well" ng-show="!submittable && showAnswers" id="test-form-answers">
+<div class="well" ng-show="!submittable && showAnswers">
   <ol class="dl-horizontal">
-    <div ng-repeat="question in testFormData.questions">
+    <div ng-repeat="question in formData.questions">
       <li ng-bind="question.body"></li>
       <ul>
         <div ng-repeat="answer in question.answersGiven">

@@ -12,11 +12,11 @@ angular.module('petApp')
                                 : applicationId;
 
     $scope.applicationForm = ApplicationForm.get({ id: $scope.applicationFormId }, function(formData) {
-      $scope.testFormData = {
+      $scope.formData = {
         questions: formData.questions
       };
 
-      $scope.testFormData.questions.forEach(function (question) {
+      $scope.formData.questions.forEach(function (question) {
         if (question.input_type !== FORM_QUESTION_TYPES.checkbox.id) {
           question.answersGiven = [{}]; // Only one answer which needs a body attribute
         }
