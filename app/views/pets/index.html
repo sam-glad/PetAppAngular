@@ -2,7 +2,7 @@
 
 <div class="row" ng-repeat="petgroup in pets | groupBy:4 ">
   <div class="col-md-3 well" ng-repeat="pet in petgroup" >
-    <strong ng-bind="pet.name"></strong>
+    <strong><a ng-href="#/pets/{{pet.id}}" ng-bind="pet.name"></a></strong>
     <ul>
       <li ng-bind="Utils.displayBreeds(pet)"></li>
       <li ng-bind="pet.sex"></li>

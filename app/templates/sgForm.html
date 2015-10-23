@@ -1,4 +1,4 @@
-<form class="well" name="testForm" ng-submit="submitTestForm()" ng-show="!showAnswers" novalidate>
+<form class="well" name="testForm" ng-submit="submit(testForm)" ng-show="submittable || !showAnswers" novalidate>
   <h2 ng-bind="applicationForm.name"></h2>
   <div ng-repeat="question in testFormData.questions">
 
@@ -96,7 +96,7 @@
                        name="checkbox"
                        value="{{answer.body}}"
                        ng-checked="question.answersGiven.indexOf(answer) > -1"
-                       ng-click="toggleCheckBoxAnswer($parent.$index, answer, checkboxForm{{$parent.$index}})">{{answer.body}}
+                       ng-click="toggleCheckBoxAnswer(testFormData, $parent.$index, answer, checkboxForm{{$parent.$index}})">{{answer.body}}
                 </input>
             </div>
               <p class="help-block" ng-show="testForm.$submitted && {{subForm}}.$error.required">Please provide an answer for this question.</p>
@@ -114,7 +114,7 @@
 
 
 <!-- Form results -->
-<div class="well" ng-show="showAnswers" id="test-form-answers">
+<div class="well" ng-show="!submittable && showAnswers" id="test-form-answers">
   <ol class="dl-horizontal">
     <div ng-repeat="question in testFormData.questions">
       <li ng-bind="question.body"></li>

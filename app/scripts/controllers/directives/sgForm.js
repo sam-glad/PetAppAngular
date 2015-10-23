@@ -1,15 +1,17 @@
 'use strict';
 
-// FIXME: TEMPORARY: Exact copy of controllers/applicationforms/show.js for proof of concept for WIP
 angular.module('petApp')
-  .controller('SgFormCtrl', function ($scope, $routeParams,
-    ApplicationForm, FORM_QUESTION_TYPES) {
+  .controller('SgFormCtrl', function ($scope, $routeParams, ApplicationForm,
+    FORM_QUESTION_TYPES) {
 
     // Setup
 
     $scope.showAnswers = false;
+    $scope.applicationFormId = (typeof applicationId == 'undefined')
+                                ? $routeParams.id // Application form show page
+                                : applicationId;
 
-    $scope.applicationForm = ApplicationForm.get({id: $routeParams.id}, function(formData) {
+    $scope.applicationForm = ApplicationForm.get({ id: $scope.applicationFormId }, function(formData) {
       $scope.testFormData = {
         questions: formData.questions
       };
@@ -27,6 +29,7 @@ angular.module('petApp')
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
 
     // Called from form
+
     $scope.validateCheckbox = function(question, currentForm) {
       if (question.is_required && question.answersGiven.length === 0) {
         currentForm.$setValidity('required', false);
@@ -36,8 +39,9 @@ angular.module('petApp')
       }
     };
 
-    $scope.toggleCheckBoxAnswer = function toggleCheckBoxAnswer(questionIndex, newAnswer, currentForm) {
-      var question = $scope.testFormData.questions[questionIndex];
+    $scope.toggleCheckBoxAnswer = function toggleCheckBoxAnswer(formData,
+      questionIndex, newAnswer, currentForm) {
+      var question = formData.questions[questionIndex];
 
       var index = question.answersGiven.map(function(answer) {
         return answer.body; }
@@ -61,19 +65,8 @@ angular.module('petApp')
       }
     };
 
-    $scope.isBoxChecked = function (checkboxQuestion) {
-      if (checkboxQuestion.answersGiven.length === 0) {
-        $scope.testForm.checkboxForm.$setValidity('required', false)
-        return false;
-      }
-      $scope.testForm.checkboxForm.$setValidity('required', true)
-      return true;
-    };
-
-    // Submit
-
-    $scope.submitTestForm = function() {
-      if ($scope.testForm.$valid) {
+    $scope.submit = function(mainForm) {
+      if (mainForm.$valid) {
         $scope.showAnswers = true;
       }
     };

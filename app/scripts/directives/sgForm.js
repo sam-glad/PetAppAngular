@@ -3,13 +3,13 @@
 angular.module('petApp')
   .directive('sgForm', function () {
     return {
-        restrict: 'EA', //E = element, A = attribute, C = class, M = comment
+        restrict: 'EA',
         scope: {
-            //@ reads the attribute value, = provides two-way binding, & works with functions
-            title: '@'
+            submittable: '=',
+            applicationFormId: '='
         },
         templateUrl: '/../templates/sgForm.html',
         controller: 'SgFormCtrl',
-        link: function ($scope, element, attrs) { } //DOM manipulation
+        link: function ($scope, element, attrs) { }
     }
 });
