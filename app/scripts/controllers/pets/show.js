@@ -8,10 +8,9 @@ angular.module('petApp')
 
     Pet.get({id: $routeParams.id}, function(pet) {
       $scope.pet = pet;
-    });
-
-    Organization.get({id: $scope.pet.organization_id}, function(organization) {
-      $scope.pet.organization = organization;
+      Organization.get({id: $scope.pet.organization_id}, function(organization) {
+        $scope.pet.organization = organization;
+      });
     });
 
     $scope.Utils = UtilsService;
