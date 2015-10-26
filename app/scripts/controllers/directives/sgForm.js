@@ -65,9 +65,25 @@ angular.module('petApp')
       }
     };
 
-    $scope.submit = function(mainForm) {
+    $scope.submit = function(mainForm, formData, pet) {
       if (mainForm.$valid) {
         $scope.showAnswers = true;
+
+        if ($scope.submittable && $scope.$parent.pet) {
+          $scope.transformBeforeSave(formData);
+          // TODO: Implement submit with $resource and new factory
+        }
       }
+    };
+
+    $scope.transformBeforeSave = function(formData) {
+      $scope.application = {};
+      $scope.application.questions_attributes = formData.questions;
+      for (var i = 0; i < formData.questions.length; i++) {
+        $scope.application.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven;
+      }
+
+      $scope.application.pet_id = $scope.$parent.pet.id;
+      $scope.application.user_id = $scope.$parent.user.id;
     };
   });
