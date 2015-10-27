@@ -6,7 +6,8 @@ angular.module('petApp')
         restrict: 'EA',
         scope: {
             submittable: '=',
-            applicationFormId: '='
+            applicationFormId: '=',
+            type: '='
         },
         templateUrl: '/../templates/sgForm.html',
         controller: 'SgFormCtrl',

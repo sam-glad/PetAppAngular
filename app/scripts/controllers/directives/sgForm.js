@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('SgFormCtrl', function ($scope, $routeParams, ApplicationForm,
-    FORM_QUESTION_TYPES) {
+    FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
 

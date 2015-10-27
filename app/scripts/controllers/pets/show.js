@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('PetsShowCtrl', function ($scope, $routeParams, Pet, Organization,
-    ApplicationForm, UtilsService, FORM_QUESTION_TYPES) {
+    UtilsService, APPLICATION_TYPES) {
 
     // Setup
 
@@ -14,11 +14,21 @@ angular.module('petApp')
     });
 
     $scope.Utils = UtilsService;
-    $scope.isFormVisible = false;
+    $scope.isAdoptionFormVisible = false;
+    $scope.isFosterFormVisible = false;
+    $scope.applicationTypes = APPLICATION_TYPES;
 
     // Called from page
 
-    $scope.showForm = function () {
-      $scope.isFormVisible = true;
+    $scope.showForm = function (applicationType) {
+      switch (applicationType) {
+        case APPLICATION_TYPES.adoption.id:
+          $scope.isAdoptionFormVisible = true;
+        break;
+
+        case APPLICATION_TYPES.foster.id:
+          $scope.isFosterFormVisible = true;
+        break;
+      }
     };
   });

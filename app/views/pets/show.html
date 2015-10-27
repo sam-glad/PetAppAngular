@@ -16,10 +16,26 @@
 
   <button class="btn btn-primary col-md-offset-4"
           type="button"
-          ng-click="showForm()"
+          ng-click="showForm(applicationTypes.foster.id)"
           ng-show="!isFormVisible">
-          Apply for this animal
+          <!-- TODO: ng-show="pet.isFosterable" -->
+          Apply to foster
+  </button>
+  <br />
+  <button class="btn btn-primary col-md-offset-4"
+          type="button"
+          ng-click="showForm(applicationTypes.adoption.id)"
+          ng-show="!isFormVisible">
+          <!-- TODO: ng-show="pet.isAdoptable" -->
+          Apply to adopt
   </button>
 </div>
 
-<sg-form submittable="true" applicationFormId="pet.application_form_id" ng-show="isFormVisible">
+
+<!-- Foster application form -->
+<!-- TODO: ng-show="pet.isFosterable && isFosterFormVisible" -->
+<sg-form submittable="true" applicationFormId="pet.foster_application_id" ng-show="isFosterFormVisible"></sg-form>
+
+<!-- Adoption application form -->
+<!-- TODO: ng-show="pet.isAdoptable && isAdoptionFormVisible" -->
+<sg-form submittable="true" applicationFormId="pet.adoption_application_id" ng-show="isAdoptionFormVisible"></sg-form>

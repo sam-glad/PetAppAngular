@@ -18,4 +18,10 @@ angular.module('petApp')
         radio: { name:'Radio button', id: 3 },
         checkbox: { name:'Checkbox', id: 4 }
       }
-  );
+    )
+    .constant('APPLICATION_TYPES',
+      {
+        adoption: { id: 0 },
+        foster: { id: 1 },
+      }
+    );
