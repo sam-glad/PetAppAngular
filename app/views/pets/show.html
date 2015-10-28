@@ -14,21 +14,26 @@
     <p ng-bind="pet.description"></p>
   </div>
 
-  <button class="btn btn-primary col-md-offset-4"
-          type="button"
-          ng-click="showForm(applicationTypes.foster.id)"
-          ng-show="!isFormVisible">
-          <!-- TODO: ng-show="pet.isFosterable" -->
-          Apply to foster
-  </button>
-  <br />
-  <button class="btn btn-primary col-md-offset-4"
-          type="button"
-          ng-click="showForm(applicationTypes.adoption.id)"
-          ng-show="!isFormVisible">
-          <!-- TODO: ng-show="pet.isAdoptable" -->
-          Apply to adopt
-  </button>
+  <div class="row col-md-offset-3">
+    <div class="col-md-3">
+      <button class="btn btn-primary col-md-offset-4"
+              type="button"
+              ng-click="showForm(applicationTypes.foster.id)"
+              ng-show="!isFormVisible">
+              <!-- TODO: ng-show="pet.isFosterable" -->
+              Apply to foster
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary col-md-offset-4"
+              type="button"
+              ng-click="showForm(applicationTypes.adoption.id)"
+              ng-show="!isFormVisible">
+              <!-- TODO: ng-show="pet.isAdoptable" -->
+              Apply to adopt
+      </button>
+    </div>
+  </div>
 </div>
 
 

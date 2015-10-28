@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('SgFormCtrl', function ($scope, $routeParams, ApplicationForm,
-    FORM_QUESTION_TYPES, APPLICATION_TYPES) {
+    PetApplication, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
 
@@ -73,17 +73,29 @@ angular.module('petApp')
           $scope.transformBeforeSave(formData);
           // TODO: Implement submit with $resource and new factory
         }
+
+        var petApplication = new PetApplication({
+          pet_application: $scope.pet_application
+        });
+
+        petApplication.$save().then(function(data) {
+          $window.location.href = '#/'; // TODO: Redirect to pet application show page
+        },
+        function(error) {
+          console.log(error) // TODO: Proper error handling
+        });
       }
     };
 
     $scope.transformBeforeSave = function(formData) {
-      $scope.application = {};
-      $scope.application.questions_attributes = formData.questions;
+      $scope.pet_application = {};
+      $scope.pet_application.questions_attributes = formData.questions;
       for (var i = 0; i < formData.questions.length; i++) {
-        $scope.application.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven;
+        $scope.pet_application.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven;
       }
 
-      $scope.application.pet_id = $scope.$parent.pet.id;
-      $scope.application.user_id = $scope.$parent.user.id;
+      $scope.pet_application.pet_id = $scope.$parent.pet.id;
+      $scope.pet_application.user_id = $scope.$parent.user.id;
+      $scope.pet_application.application_type = 0; // TODO: Temporary! Gotta include this in directive
     };
   });
