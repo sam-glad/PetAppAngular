@@ -1,5 +1,5 @@
-<form class="well" name="mainForm" ng-submit="submit(mainForm, formData, $parent.pet, applicationType)" ng-show="submittable || !showAnswers" novalidate>
-  <h2 ng-bind="applicationForm.name"></h2>
+<form class="well" name="mainForm" ng-submit="submit(mainForm, formData, pet, applicationType)" ng-show="submittable || !showAnswers" novalidate>
+  <h2 ng-bind="formTitle"></h2>
   <div ng-repeat="question in formData.questions">
 
     <!-- Note the use of ng-if rather than ng-switch due to use of expression -->

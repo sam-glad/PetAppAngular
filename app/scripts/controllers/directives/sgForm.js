@@ -17,6 +17,8 @@ angular.module('petApp')
         questions: formData.questions
       };
 
+      $scope.setFormTitle($scope.submittable, $scope.applicationType, formData);
+
       $scope.formData.questions.forEach(function (question) {
         if (question.input_type !== FORM_QUESTION_TYPES.checkbox.id) {
           question.answersGiven = [{}]; // Only one answer which needs a body attribute
@@ -29,6 +31,23 @@ angular.module('petApp')
 
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
     $scope.applicationTypes = APPLICATION_TYPES;
+
+    $scope.setFormTitle = function(submittable, applicationType, applicationForm) {
+      if ($scope.submittable) {
+        switch (applicationType) {
+          case APPLICATION_TYPES.adoption.id:
+            $scope.formTitle = 'Adoption Application';
+          break;
+
+          case APPLICATION_TYPES.foster.id:
+            $scope.formTitle = 'Foster Application';
+          break;
+        }
+      }
+      else {
+        $scope.formTitle = applicationForm.name;
+      }
+    };
 
     // Called from form
 

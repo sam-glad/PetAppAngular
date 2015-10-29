@@ -6,6 +6,7 @@ angular.module('petApp')
         restrict: 'EA',
         scope: {
             submittable: '=',
+            pet: '=',
             applicationFormId: '=',
             applicationType: '='
         },
