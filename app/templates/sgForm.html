@@ -108,7 +108,9 @@
   </div> <!-- ng-repeat="question in formData.questions -->
 
   <div class="row">
-    <button class="btn btn-success col-md-offset-5" type="submit">Test submit</button>
+    <button class="btn btn-success col-md-offset-5"
+            ng-bind="submitButtonText"
+            type="submit"></button>
   </div>
 </form>
 
