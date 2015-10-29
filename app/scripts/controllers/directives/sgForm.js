@@ -71,9 +71,8 @@ angular.module('petApp')
       if (mainForm.$valid) {
         $scope.showAnswers = true;
 
-        if ($scope.submittable && $scope.$parent.pet) {
-          $scope.transformBeforeSave(formData, applicationType);
-          // TODO: Implement submit with $resource and new factory
+        if ($scope.submittable && pet) {
+          $scope.transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
         }
 
         var petApplication = new PetApplication({
@@ -89,15 +88,15 @@ angular.module('petApp')
       }
     };
 
-    $scope.transformBeforeSave = function(formData, applicationType) {
+    $scope.transformBeforeSave = function(formData, applicationType, pet, user) {
       $scope.pet_application = {};
       $scope.pet_application.questions_attributes = formData.questions;
       for (var i = 0; i < formData.questions.length; i++) {
         $scope.pet_application.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven;
       }
 
-      $scope.pet_application.pet_id = $scope.$parent.pet.id;
-      $scope.pet_application.user_id = $scope.$parent.user.id;
+      $scope.pet_application.pet_id = pet.id;
+      $scope.pet_application.user_id = user.id;
       $scope.pet_application.application_type = applicationType;
     };
   });
