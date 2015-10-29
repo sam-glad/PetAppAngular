@@ -39,8 +39,16 @@
 
 <!-- Foster application form -->
 <!-- TODO: ng-show="pet.isFosterable && isFosterFormVisible" -->
-<sg-form submittable="true" applicationFormId="pet.foster_application_id" ng-show="isFosterFormVisible"></sg-form>
+<sg-form submittable="true"
+         applicationFormId="pet.foster_application_id"
+         application-type="applicationTypes.foster.id"
+         ng-show="isFosterFormVisible">
+</sg-form>
 
 <!-- Adoption application form -->
 <!-- TODO: ng-show="pet.isAdoptable && isAdoptionFormVisible" -->
-<sg-form submittable="true" applicationFormId="pet.adoption_application_id" ng-show="isAdoptionFormVisible"></sg-form>
+<sg-form submittable="true"
+         applicationFormId="pet.adoption_application_id"
+         application-type="applicationTypes.adoption.id"
+         ng-show="isAdoptionFormVisible">
+</sg-form>

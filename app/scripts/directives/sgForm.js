@@ -7,10 +7,9 @@ angular.module('petApp')
         scope: {
             submittable: '=',
             applicationFormId: '=',
-            type: '='
+            applicationType: '='
         },
         templateUrl: '/../templates/sgForm.html',
-        controller: 'SgFormCtrl',
-        link: function ($scope, element, attrs) { }
+        controller: 'SgFormCtrl'
     }
 });

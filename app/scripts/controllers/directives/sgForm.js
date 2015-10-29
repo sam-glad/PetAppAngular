@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('SgFormCtrl', function ($scope, $routeParams, ApplicationForm,
-    PetApplication, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
+  .controller('SgFormCtrl', function ($scope, $routeParams, $window,
+    ApplicationForm, PetApplication, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
 
@@ -27,6 +27,7 @@ angular.module('petApp')
     });
 
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    $scope.applicationTypes = APPLICATION_TYPES;
 
     // Called from form
 
@@ -65,12 +66,12 @@ angular.module('petApp')
       }
     };
 
-    $scope.submit = function(mainForm, formData, pet) {
+    $scope.submit = function(mainForm, formData, pet, applicationType) {
       if (mainForm.$valid) {
         $scope.showAnswers = true;
 
         if ($scope.submittable && $scope.$parent.pet) {
-          $scope.transformBeforeSave(formData);
+          $scope.transformBeforeSave(formData, applicationType);
           // TODO: Implement submit with $resource and new factory
         }
 
@@ -87,7 +88,7 @@ angular.module('petApp')
       }
     };
 
-    $scope.transformBeforeSave = function(formData) {
+    $scope.transformBeforeSave = function(formData, applicationType) {
       $scope.pet_application = {};
       $scope.pet_application.questions_attributes = formData.questions;
       for (var i = 0; i < formData.questions.length; i++) {
@@ -96,6 +97,6 @@ angular.module('petApp')
 
       $scope.pet_application.pet_id = $scope.$parent.pet.id;
       $scope.pet_application.user_id = $scope.$parent.user.id;
-      $scope.pet_application.application_type = 0; // TODO: Temporary! Gotta include this in directive
+      $scope.pet_application.application_type = applicationType;
     };
   });
