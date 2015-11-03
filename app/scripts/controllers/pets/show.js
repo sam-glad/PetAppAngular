@@ -31,4 +31,12 @@ angular.module('petApp')
         break;
       }
     };
+
+    $scope.isAdoptable = function(pet) {
+      return pet.is_adoptable && pet.adoption_application_id;
+    };
+
+    $scope.isFosterable = function(pet) {
+      return pet.is_fosterable && pet.foster_application_id;
+    };
   });
