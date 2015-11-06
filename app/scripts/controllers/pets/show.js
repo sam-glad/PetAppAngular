@@ -16,6 +16,7 @@ angular.module('petApp')
     $scope.Utils = UtilsService;
     $scope.isAdoptionFormVisible = false;
     $scope.isFosterFormVisible = false;
+    $scope.isEditFormVisible = false;
     $scope.applicationTypes = APPLICATION_TYPES;
 
     // Called from page
@@ -38,5 +39,9 @@ angular.module('petApp')
 
     $scope.isFosterable = function(pet) {
       return pet.is_fosterable && pet.foster_application_id;
+    };
+
+    $scope.showEditForm = function() {
+      $scope.isEditFormVisible = true;
     };
   });

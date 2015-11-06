@@ -34,6 +34,54 @@
   </div>
 </div>
 
+<!-- TODO: only display for user with proper permissions -->
+<div class="row col-md-offset-2">
+  <button class="btn btn-primary col-md-offset-4"
+          type="button"
+          ng-click="showEditForm()">
+          Edit
+  </button>
+</div>
+
+<!-- TODO: only display for user with proper permissions -->
+<!-- Form for editing avilability/applications for pet by organization admin -->
+<form ng-show="isEditFormVisible">
+  <div class="form-group">
+    <label for="radio">Is this pet adoptable?</label>
+    <div class="radio-inline">
+      <input type="radio"
+             ng-model="pet.is_adoptable"
+             ng-value="true">
+             Yes
+      </input>
+    </div>
+    <div class="radio-inline">
+      <input type="radio"
+             ng-model="pet.is_adoptable"
+             ng-value="false">
+             No
+      </input>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="radio">Is this pet fosterable?</label>
+    <div class="radio-inline">
+      <input type="radio"
+             ng-model="pet.is_fosterable"
+             ng-value="true">
+             Yes
+      </input>
+    </div>
+    <div class="radio-inline">
+      <input type="radio"
+             ng-model="pet.is_fosterable"
+             ng-value="false">
+             No
+      </input>
+    </div>
+  </div>
+</form>
 
 <!-- Foster application form -->
 <sg-form submittable="true"
