@@ -1,6 +1,19 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('Organization', function($resource, RESOURCES) {
-    return $resource(RESOURCES.ORGANIZATIONS_API + '/:id');
+  .factory('organizationService', function(Restangular) {
+    var service = {
+      getOrganizations: getOrganizations,
+      getOrganization: getOrganization
+    };
+
+    function getOrganizations(){
+      return Restangular.all('organizations').getList();
+    }
+
+    function getOrganization(organizationId){
+      return Restangular.one('organizations', organizationId).get();
+    }
+
+    return service;
   });

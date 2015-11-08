@@ -1,12 +1,9 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('OrganizationsCtrl', function ($scope, Organization, UtilsService) {
-      Organization.query().$promise.then(function(data) {
-        $scope.organizations = data
-      },
-      function(error) {
-        console.log(error) // TODO: Proper error handling
+  .controller('OrganizationsCtrl', function ($scope, organizationService, Restangular, UtilsService) {
+      organizationService.getOrganizations().then(function (organizations) {
+        $scope.organizations = organizations;
       });
 
       $scope.Utils = UtilsService;

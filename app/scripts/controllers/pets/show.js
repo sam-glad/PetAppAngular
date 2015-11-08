@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('PetsShowCtrl', function ($scope, $routeParams, Pet, Organization,
+  .controller('PetsShowCtrl', function ($scope, $routeParams, Pet, organizationService,
     UtilsService, APPLICATION_TYPES) {
 
     // Setup
 
     Pet.get({id: $routeParams.id}, function(pet) {
       $scope.pet = pet;
-      Organization.get({id: $scope.pet.organization_id}, function(organization) {
+      organizationService.getOrganization($scope.pet.organization_id).then(function (organization) {
         $scope.pet.organization = organization;
       });
     });
