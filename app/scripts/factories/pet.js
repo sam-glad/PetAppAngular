@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('petService', function(Restangular, RESOURCES) {
+  .factory('petService', function(Restangular) {
     var service = {
       getPets: getPets,
       getPet: getPet

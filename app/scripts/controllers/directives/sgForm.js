@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('SgFormCtrl', function ($scope, $routeParams, $window,
-    applicationFormService, PetApplication, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
+    applicationFormService, petApplicationService, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
 
@@ -93,16 +93,7 @@ angular.module('petApp')
         if ($scope.submittable && pet) {
           $scope.transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
 
-          var petApplication = new PetApplication({
-            pet_application: $scope.pet_application
-          });
-
-          petApplication.$save().then(function(data) {
-            $window.location.href = '#/'; // TODO: Redirect to pet application show page
-          },
-          function(error) {
-            console.log(error) // TODO: Proper error handling
-          });
+          petApplicationService.postPetApplication({ pet_application: $scope.pet_application});
         }
       }
     };
