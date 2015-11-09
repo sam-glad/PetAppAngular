@@ -11,9 +11,10 @@ angular
     'ui.validate',
     'ngMessages',
     'ng-token-auth',
-    'angular.filter'
+    'angular.filter',
+    'restangular'
   ])
-  .config(function ($routeProvider, $authProvider, $anchorScrollProvider) {
+  .config(function ($routeProvider, $authProvider, RestangularProvider, $anchorScrollProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/about.html',
@@ -57,6 +58,9 @@ angular
       $authProvider.configure({
           apiUrl: 'http://localhost:9393'
       });
+
+      RestangularProvider
+        .setBaseUrl('http://localhost:9393');
 
       $anchorScrollProvider.disableAutoScrolling();
   });

@@ -1,23 +1,26 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('PetsShowCtrl', function ($scope, $routeParams, Pet, Organization,
-    UtilsService, APPLICATION_TYPES) {
+  .controller('PetsShowCtrl', function ($scope, $routeParams, petService,
+    applicationFormService, organizationService, UtilsService,
+    APPLICATION_TYPES) {
 
     // Setup
 
-    Pet.get({id: $routeParams.id}, function(pet) {
-      $scope.pet = pet;
-      Organization.get({id: $scope.pet.organization_id}, function(organization) {
-        $scope.pet.organization = organization;
-      });
-    });
-
-    $scope.Utils = UtilsService;
     $scope.isAdoptionFormVisible = false;
     $scope.isFosterFormVisible = false;
     $scope.isEditFormVisible = false;
     $scope.applicationTypes = APPLICATION_TYPES;
+
+    petService.getPet($routeParams.id).then(function(pet) {
+      $scope.pet = pet;
+      organizationService.getOrganization($scope.pet.organization_id).then(function(organization) {
+        $scope.pet.organization = organization;
+        // TODO: Get application forms by organization
+      });
+
+      $scope.Utils = UtilsService;
+    });
 
     // Called from page
 
@@ -33,15 +36,15 @@ angular.module('petApp')
       }
     };
 
+    $scope.showEditForm = function() {
+      $scope.isEditFormVisible = true;
+    };
+
     $scope.isAdoptable = function(pet) {
       return pet.is_adoptable && pet.adoption_application_id;
     };
 
     $scope.isFosterable = function(pet) {
       return pet.is_fosterable && pet.foster_application_id;
-    };
-
-    $scope.showEditForm = function() {
-      $scope.isEditFormVisible = true;
     };
   });

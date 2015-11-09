@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('ApplicationFormsNewCtrl', function ($scope, $window, $location,
-    $timeout, $anchorScroll, ApplicationForm, FORM_QUESTION_TYPES) {
+    $timeout, $anchorScroll, applicationFormService, FORM_QUESTION_TYPES) {
     function Answer() {
       this.body = '';
     }
@@ -61,16 +61,7 @@ angular.module('petApp')
       if (isValid) {
         $scope.transformBeforeSave();
 
-        var applicationForm = new ApplicationForm({
-          application_form: $scope.application_form
-        });
-
-        applicationForm.$save().then(function(data) {
-          $window.location.href = '#/applicationforms/' + data.id;
-        },
-        function(error) {
-          console.log(error) // TODO: Proper error handling
-        });
+        applicationFormService.postApplicationForm({ application_form: $scope.application_form});
       }
     };
 
