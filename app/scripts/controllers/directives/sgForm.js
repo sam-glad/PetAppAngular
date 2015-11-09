@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .controller('SgFormCtrl', function ($scope, $routeParams, $window,
-    ApplicationForm, PetApplication, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
+    applicationFormService, PetApplication, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
 
@@ -12,12 +12,12 @@ angular.module('petApp')
                                 : applicationId;
     $scope.submitButtonText = $scope.submittable ? 'Submit' : 'Test Submit';
 
-    $scope.applicationForm = ApplicationForm.get({ id: $scope.applicationFormId }, function(formData) {
+    $scope.applicationForm = applicationFormService.getApplicationForm($scope.applicationFormId).then(function(applicationForm) {
       $scope.formData = {
-        questions: formData.questions
+        questions: applicationForm.questions
       };
 
-      $scope.setFormTitle($scope.submittable, $scope.applicationType, formData);
+      $scope.setFormTitle($scope.submittable, $scope.applicationType, applicationForm);
 
       $scope.formData.questions.forEach(function (question) {
         if (question.input_type !== FORM_QUESTION_TYPES.checkbox.id) {
@@ -92,18 +92,18 @@ angular.module('petApp')
 
         if ($scope.submittable && pet) {
           $scope.transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
+
+          var petApplication = new PetApplication({
+            pet_application: $scope.pet_application
+          });
+
+          petApplication.$save().then(function(data) {
+            $window.location.href = '#/'; // TODO: Redirect to pet application show page
+          },
+          function(error) {
+            console.log(error) // TODO: Proper error handling
+          });
         }
-
-        var petApplication = new PetApplication({
-          pet_application: $scope.pet_application
-        });
-
-        petApplication.$save().then(function(data) {
-          $window.location.href = '#/'; // TODO: Redirect to pet application show page
-        },
-        function(error) {
-          console.log(error) // TODO: Proper error handling
-        });
       }
     };
 
