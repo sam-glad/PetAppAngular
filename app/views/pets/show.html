@@ -38,6 +38,7 @@
 <div class="row col-md-offset-2">
   <button class="btn btn-primary col-md-offset-4"
           type="button"
+          ng-show="!isEditFormVisible"
           ng-click="showEditForm()">
           Edit
   </button>
@@ -45,7 +46,9 @@
 
 <!-- TODO: only display for user with proper permissions -->
 <!-- Form for editing avilability/applications for pet by organization admin -->
-<form ng-show="isEditFormVisible">
+<form ng-show="isEditFormVisible" class="well" ng-submit="submit(pet)">
+  <h3>Availability and Forms</h3>
+  <br />
   <div class="form-group">
     <label for="radio">Is this pet adoptable?</label>
     <div class="radio-inline">
@@ -81,6 +84,23 @@
       </input>
     </div>
   </div>
+
+  <div class="form-group">
+    <select class="form-control"
+            name="fosterApplicationFormSelect"
+            ng-model="pet.foster_application_id"
+            ng-options="applicationForm.id as applicationForm.name for applicationForm in organizationForms"
+            ng-value="pet.foster_application_id">
+    </select>
+    <select class="form-control"
+            name="adoptionApplicationFormSelect"
+            ng-model="pet.adoption_application_id"
+            ng-options="applicationForm.id as applicationForm.name for applicationForm in organizationForms"
+            ng-value="pet.adoption_application_id">
+    </select>
+  </div>
+
+  <button class="btn btn-success col-md-offset-5" type="submit">Update</button>
 </form>
 
 <!-- Foster application form -->

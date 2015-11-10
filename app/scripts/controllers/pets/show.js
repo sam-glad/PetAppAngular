@@ -16,7 +16,10 @@ angular.module('petApp')
       $scope.pet = pet;
       organizationService.getOrganization($scope.pet.organization_id).then(function(organization) {
         $scope.pet.organization = organization;
-        // TODO: Get application forms by organization
+        // TODO: if (user has the right privileges to see edit form)
+        applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organization_id).then(function(applicationForms) {
+          $scope.organizationForms = applicationForms;
+        });
       });
 
       $scope.Utils = UtilsService;
@@ -46,5 +49,11 @@ angular.module('petApp')
 
     $scope.isFosterable = function(pet) {
       return pet.is_fosterable && pet.foster_application_id;
+    };
+
+    // Submit
+
+    $scope.submit = function(pet) {
+      petService.patchPet(pet);
     };
   });
