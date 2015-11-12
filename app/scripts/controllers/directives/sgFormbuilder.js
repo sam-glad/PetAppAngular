@@ -17,14 +17,14 @@ angular.module('petApp')
     // Initialize form
 
     if (typeof $scope.applicationFormId === 'undefined') {
-      $scope.application_form = {};
-      $scope.application_form.questions_attributes = [new Question()];
+      $scope.applicationForm = {};
+      $scope.applicationForm.questions_attributes = [new Question()];
     }
     else {
       applicationFormService.getApplicationForm($scope.applicationFormId).then(function(applicationForm) {
-        $scope.application_form = applicationForm;
-        $scope.application_form.questions_attributes = $scope.application_form.questions;
-        $scope.application_form.questions_attributes.forEach(function(question) {
+        $scope.applicationForm = applicationForm;
+        $scope.applicationForm.questions_attributes = $scope.applicationForm.questions;
+        $scope.applicationForm.questions_attributes.forEach(function(question) {
           question.answers_attributes = question.answers;
         });
       });
@@ -48,19 +48,19 @@ angular.module('petApp')
     }
 
     $scope.addQuestion = function () {
-      $scope.application_form.questions_attributes.push(new Question());
+      $scope.applicationForm.questions_attributes.push(new Question());
       $scope.scrollTo('bottom');
     };
 
     $scope.addAnswer = function (questionIndex) {
-      var answers = $scope.application_form.questions_attributes[questionIndex].answers_attributes;
+      var answers = $scope.applicationForm.questions_attributes[questionIndex].answers_attributes;
       answers.push(new Answer());
       $scope.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
 
     $scope.deleteQuestion = function(questionIndex) {
-      if ($scope.application_form.questions_attributes.length > 1) {
-        $scope.application_form.questions_attributes.splice(questionIndex, 1);
+      if ($scope.applicationForm.questions_attributes.length > 1) {
+        $scope.applicationForm.questions_attributes.splice(questionIndex, 1);
       }
     };
 
@@ -74,14 +74,14 @@ angular.module('petApp')
       if (isValid) {
         $scope.transformBeforeSave();
 
-        applicationFormService.postApplicationForm({ application_form: $scope.application_form});
+        applicationFormService.postApplicationForm({ applicationForm: $scope.applicationForm});
       }
     };
 
     // Helpers
 
     $scope.clearBlanks = function() {
-      $scope.application_form.questions_attributes.forEach(function (question) {
+      $scope.applicationForm.questions_attributes.forEach(function (question) {
         if ($scope.typeRequiresAnswer(question)) {
           question.answers_attributes = [];
         }

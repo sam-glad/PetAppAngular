@@ -9,7 +9,7 @@
                type="text"
                name="formName"
                placeholder="Internal name (e.g., Adoption form №1, Foster application form №2, etc.)"
-               ng-model="application_form.name"
+               ng-model="applicationForm.name"
                required>
       </div>
       <div ng-messages="newApplicationForm.$submitted && innerForm.formName.$error">
@@ -19,11 +19,11 @@
   </div>
 
   <!-- Questions -->
-  <div class="well" ng-repeat="question in application_form.questions_attributes">
+  <div class="well" ng-repeat="question in applicationForm.questions_attributes">
     <ng-form name="innerForm">
         <br />
         <label ng-bind="'Question ' + ($index + 1)" />
-        <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="application_form.questions_attributes.length > 1">X</button>
+        <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="applicationForm.questions_attributes.length > 1">X</button>
         <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionBody.$invalid }">
           <input class="form-control"
                  type="text"
