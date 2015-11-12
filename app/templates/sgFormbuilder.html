@@ -56,7 +56,7 @@
     </ng-form>
 
     <!-- Answers -->
-    <div ng-show="question.typeRequiresAnswer()" class="col-md-10.5 col-md-offset-1">
+    <div ng-show="typeRequiresAnswer(question)" class="col-md-10.5 col-md-offset-1">
       <ng-form name="questionForm" ng-repeat="answer in question.answers_attributes">
         <ng-form name="innerForm" id="bottom-question-index-{{$parent.$index}}-answer-index-{{$index}}">
           <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.answerBody.$invalid }">

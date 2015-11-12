@@ -12,19 +12,32 @@ angular.module('petApp')
       this.input_type = '';
       this.is_required = false;
       this.answers_attributes = [new Answer()];
-      this.typeRequiresAnswer = function () {
-        return !(this.input_type === FORM_QUESTION_TYPES.smallTextbox.id ||
-                 this.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
-      };
     }
 
     // Initialize form
 
-    $scope.application_form = {};
-    $scope.application_form.questions_attributes = [new Question()];
+    if (typeof $scope.applicationFormId === 'undefined') {
+      $scope.application_form = {};
+      $scope.application_form.questions_attributes = [new Question()];
+    }
+    else {
+      applicationFormService.getApplicationForm($scope.applicationFormId).then(function(applicationForm) {
+        $scope.application_form = applicationForm;
+        $scope.application_form.questions_attributes = $scope.application_form.questions;
+        $scope.application_form.questions_attributes.forEach(function(question) {
+          question.answers_attributes = question.answers;
+        });
+      });
+    }
+
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
 
     // Called from form
+
+    $scope.typeRequiresAnswer = function (question) {
+      return !(question.input_type === FORM_QUESTION_TYPES.smallTextbox.id ||
+               question.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
+    };
 
     $scope.scrollTo = function(id) {
       $timeout(function() {
@@ -69,7 +82,7 @@ angular.module('petApp')
 
     $scope.clearBlanks = function() {
       $scope.application_form.questions_attributes.forEach(function (question) {
-        if (!question.typeRequiresAnswer()) {
+        if ($scope.typeRequiresAnswer(question)) {
           question.answers_attributes = [];
         }
       });
