@@ -30,7 +30,7 @@ angular.module('petApp')
                question.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
     };
 
-    $scope.scrollTo = function(id) {
+    var scrollTo = function(id) {
       $timeout(function() {
         $location.hash(id);
         $anchorScroll();
@@ -40,13 +40,13 @@ angular.module('petApp')
 
     $scope.addQuestion = function () {
       $scope.applicationForm.questions.push(new Question());
-      $scope.scrollTo('bottom');
+      scrollTo('bottom');
     };
 
     $scope.addAnswer = function (questionIndex) {
       var answers = $scope.applicationForm.questions[questionIndex].answers_attributes;
       answers.push(new Answer());
-      $scope.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
+      scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
 
     $scope.deleteQuestion = function(questionIndex) {
@@ -63,7 +63,7 @@ angular.module('petApp')
 
     $scope.createApplicationForm = function(isValid) {
       if (isValid) {
-        $scope.transformBeforeSave();
+        $scope.transformBeforeSave($scope.applicationForm);
 
         applicationFormService.postApplicationForm({ application_form: $scope.applicationForm});
       }
@@ -71,16 +71,16 @@ angular.module('petApp')
 
     // Helpers
 
-    $scope.clearBlanks = function() {
-      $scope.applicationForm.questions_attributes.forEach(function (question) {
+    var clearBlanks = function(applicationForm) {
+      applicationForm.questions_attributes.forEach(function (question) {
         if (!$scope.typeRequiresAnswer(question)) {
           question.answers_attributes = [];
         }
       });
     };
 
-    $scope.transformBeforeSave = function() {
-      $scope.applicationForm.questions_attributes = $scope.applicationForm.questions;
-      $scope.clearBlanks();
+    $scope.transformBeforeSave = function(applicationForm) {
+      applicationForm.questions_attributes = applicationForm.questions;
+      clearBlanks(applicationForm);
     };
   });

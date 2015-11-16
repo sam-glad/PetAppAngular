@@ -11,9 +11,9 @@
                placeholder="Internal name (e.g., Adoption form №1, Foster application form №2, etc.)"
                ng-model="applicationForm.name"
                required>
-      </div>
-      <div ng-messages="newApplicationForm.$submitted && innerForm.formName.$error">
-        <p class="help-block" ng-message="required">Please provide a name for this form.</p>
+        <div ng-messages="newApplicationForm.$submitted && innerForm.formName.$error">
+          <p class="help-block" ng-message="required">Please provide a name for this form.</p>
+        </div>
       </div>
     </ng-form>
   </div>
@@ -32,7 +32,7 @@
                  ng-model="question.body"
                  required>
            <div ng-messages="newApplicationForm.$submitted && innerForm.questionBody.$error">
-             <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+             <p class="help-block" ng-message="required">Please provide a question.</p>
            </div>
         </div>
 
@@ -45,7 +45,7 @@
             <option value="" disabled>Select a type of question...</option>
           </select>
           <div ng-messages="newApplicationForm.$submitted && innerForm.questionInputType.$error">
-            <p class="help-block" ng-message="required">Please provide an answer for this question.</p>
+            <p class="help-block" ng-message="required">Please provide a type of question.</p>
           </div>
           <div class="checkbox">
             <label>
@@ -70,7 +70,7 @@
                    name="answerBody"
                    placeholder="Type an answer here..."
                    ng-model="question.answers_attributes[$index].body"
-                   ng-required="question.typeRequiresAnswer()">
+                   ng-required="typeRequiresAnswer(question)">
             <div ng-messages="newApplicationForm.$submitted && innerForm.answerBody.$error">
               <p class="help-block" ng-message="required">Please provide an answer (or remove this blank one) for this question.</p>
             </div>
