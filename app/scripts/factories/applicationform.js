@@ -24,5 +24,12 @@ angular.module('petApp')
       return resource.post(applicationForm);
     }
 
+    function prepareApplicationFormForView(applicationForm) {
+      applicationForm.questions_attributes = applicationForm.questions;
+      applicationForm.questions_attributes.forEach(function(question) {
+        question.answers_attributes = question.answers;
+      });
+    }
+
     return service;
   });

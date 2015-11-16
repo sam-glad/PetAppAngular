@@ -41,7 +41,10 @@ angular
       })
       .when('/applicationforms/:id', {
         templateUrl: 'views/applicationforms/show.html',
-        controller: 'ApplicationFormsShowCtrl'
+        controller: 'ApplicationFormsShowCtrl',
+        resolve: {
+          applicationFormsPrepService: applicationFormsPrepService
+        }
       })
       .when('/pets', {
         templateUrl: 'views/pets/index.html',
@@ -54,6 +57,10 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+
+      function applicationFormsPrepService(applicationFormService, $route) {
+        return applicationFormService.getApplicationForm($route.current.params.id);
+      }
 
       $authProvider.configure({
           apiUrl: 'http://localhost:9393'

@@ -16,18 +16,9 @@ angular.module('petApp')
 
     // Initialize form
 
-    if (typeof $scope.applicationFormId === 'undefined') {
+    if (typeof $scope.applicationForm === 'undefined') {
       $scope.applicationForm = {};
       $scope.applicationForm.questions_attributes = [new Question()];
-    }
-    else {
-      applicationFormService.getApplicationForm($scope.applicationFormId).then(function(applicationForm) {
-        $scope.applicationForm = applicationForm;
-        $scope.applicationForm.questions_attributes = $scope.applicationForm.questions;
-        $scope.applicationForm.questions_attributes.forEach(function(question) {
-          question.answers_attributes = question.answers;
-        });
-      });
     }
 
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;

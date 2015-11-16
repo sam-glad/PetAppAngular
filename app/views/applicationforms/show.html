@@ -1,1 +1,9 @@
-<sg-form submittable="false"></sg-form>
+<sg-form submittable="false"
+         ng-show="!isEditFormVisible">
+</sg-form>
+
+<sg-form-builder application-form="applicationForm"
+                 ng-show="isEditFormVisible">
+</sg-form-builder>
+
+<button ng-click="toggleShowEditForm(isEditFormVisible)" ng-bind="editToggleButtonText"></button>
