@@ -18,7 +18,7 @@ angular.module('petApp')
 
     if (typeof $scope.applicationForm === 'undefined') {
       $scope.applicationForm = {};
-      $scope.applicationForm.questions_attributes = [new Question()];
+      $scope.applicationForm.questions = [new Question()];
     }
 
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
@@ -39,19 +39,19 @@ angular.module('petApp')
     }
 
     $scope.addQuestion = function () {
-      $scope.applicationForm.questions_attributes.push(new Question());
+      $scope.applicationForm.questions.push(new Question());
       $scope.scrollTo('bottom');
     };
 
     $scope.addAnswer = function (questionIndex) {
-      var answers = $scope.applicationForm.questions_attributes[questionIndex].answers_attributes;
+      var answers = $scope.applicationForm.questions[questionIndex].answers_attributes;
       answers.push(new Answer());
       $scope.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
 
     $scope.deleteQuestion = function(questionIndex) {
-      if ($scope.applicationForm.questions_attributes.length > 1) {
-        $scope.applicationForm.questions_attributes.splice(questionIndex, 1);
+      if ($scope.applicationForm.questions.length > 1) {
+        $scope.applicationForm.questions.splice(questionIndex, 1);
       }
     };
 
@@ -65,7 +65,7 @@ angular.module('petApp')
       if (isValid) {
         $scope.transformBeforeSave();
 
-        applicationFormService.postApplicationForm({ applicationForm: $scope.applicationForm});
+        applicationFormService.postApplicationForm({ application_form: $scope.applicationForm});
       }
     };
 
@@ -73,13 +73,14 @@ angular.module('petApp')
 
     $scope.clearBlanks = function() {
       $scope.applicationForm.questions_attributes.forEach(function (question) {
-        if ($scope.typeRequiresAnswer(question)) {
+        if (!$scope.typeRequiresAnswer(question)) {
           question.answers_attributes = [];
         }
       });
     };
 
     $scope.transformBeforeSave = function() {
+      $scope.applicationForm.questions_attributes = $scope.applicationForm.questions;
       $scope.clearBlanks();
     };
   });

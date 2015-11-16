@@ -19,11 +19,11 @@
   </div>
 
   <!-- Questions -->
-  <div class="well" ng-repeat="question in applicationForm.questions_attributes">
+  <div class="well" ng-repeat="question in applicationForm.questions">
     <ng-form name="innerForm">
         <br />
         <label ng-bind="'Question ' + ($index + 1)" />
-        <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="applicationForm.questions_attributes.length > 1">X</button>
+        <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="applicationForm.questions.length > 1">X</button>
         <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionBody.$invalid }">
           <input class="form-control"
                  type="text"
