@@ -5,7 +5,8 @@ angular.module('petApp')
     return {
         restrict: 'EA',
         scope: {
-            applicationForm: '='
+            applicationForm: '=',
+            action: '='
         },
         templateUrl: '/../templates/sgFormBuilder.html',
         controller: 'SgFormBuilderCtrl'

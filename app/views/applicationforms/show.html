@@ -3,7 +3,11 @@
 </sg-form>
 
 <sg-form-builder application-form="applicationForm"
+                 action="crudActions.update"
                  ng-show="isEditFormVisible">
 </sg-form-builder>
 
-<button ng-click="toggleShowEditForm(isEditFormVisible)" ng-bind="editToggleButtonText"></button>
+<button class="btn btn-warning"
+        ng-click="toggleShowEditForm(isEditFormVisible)"
+        ng-bind="editToggleButtonText">
+</button>

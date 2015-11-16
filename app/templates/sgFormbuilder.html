@@ -1,4 +1,4 @@
-<form name="newApplicationForm" novalidate ng-submit="createApplicationForm(newApplicationForm.$valid)" role="form">
+<form name="newApplicationForm" novalidate ng-submit="submit(newApplicationForm.$valid, action, applicationForm)" role="form">
 
   <!-- Internal form name -->
   <div class="well">
@@ -57,19 +57,20 @@
 
     <!-- Answers -->
     <div ng-show="typeRequiresAnswer(question)" class="col-md-10.5 col-md-offset-1">
-      <ng-form name="questionForm" ng-repeat="answer in question.answers_attributes">
+      <ng-form name="questionForm" ng-repeat="answer in question.answers">
         <ng-form name="innerForm" id="bottom-question-index-{{$parent.$index}}-answer-index-{{$index}}">
           <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.answerBody.$invalid }">
             <label for="answerBody" ng-bind="'Answer ' + ($index + 1)" />
             <button class="btn btn-danger btn-xs"
                     type="button"
                     ng-click="deleteAnswer($parent.question, $index)"
-                    ng-show="question.answers_attributes.length > 1">x</button>
+                    ng-show="question.answers.length > 1">x
+            </button>
             <input class="form-control"
                    type="text"
                    name="answerBody"
                    placeholder="Type an answer here..."
-                   ng-model="question.answers_attributes[$index].body"
+                   ng-model="question.answers[$index].body"
                    ng-required="typeRequiresAnswer(question)">
             <div ng-messages="newApplicationForm.$submitted && innerForm.answerBody.$error">
               <p class="help-block" ng-message="required">Please provide an answer (or remove this blank one) for this question.</p>
@@ -83,7 +84,10 @@
   <button class="btn btn-primary" type="button" ng-click="addQuestion()">Add question</button>
 
   <div class="row">
-    <button type="submit" class="btn btn-success btn-lg col-md-offset-5">Create Form</button>
+    <button type="submit"
+            class="btn btn-success btn-lg col-md-offset-5"
+            ng-bind="submitButtonText">
+    </button>
   </div>
 </form>
 

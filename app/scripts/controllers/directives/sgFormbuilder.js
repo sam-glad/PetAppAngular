@@ -2,7 +2,12 @@
 
 angular.module('petApp')
   .controller('SgFormBuilderCtrl', function ($scope, $window, $location,
-    $timeout, $anchorScroll, applicationFormService, FORM_QUESTION_TYPES) {
+    $timeout, $anchorScroll, applicationFormService, FORM_QUESTION_TYPES,
+    CRUD_ACTIONS) {
+
+    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    $scope.crudActions = CRUD_ACTIONS;
+
     function Answer() {
       this.body = '';
     }
@@ -11,7 +16,7 @@ angular.module('petApp')
       this.body = '';
       this.input_type = '';
       this.is_required = false;
-      this.answers_attributes = [new Answer()];
+      this.answers = [new Answer()];
     }
 
     // Initialize form
@@ -21,7 +26,19 @@ angular.module('petApp')
       $scope.applicationForm.questions = [new Question()];
     }
 
-    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    setSubmitButtonText($scope.action);
+
+    function setSubmitButtonText(action) {
+      switch (action) {
+        case CRUD_ACTIONS.create:
+          $scope.submitButtonText = 'Create Form';
+          break;
+
+        case CRUD_ACTIONS.update:
+          $scope.submitButtonText = 'Update Form';
+          break;
+      }
+    }
 
     // Called from form
 
@@ -30,7 +47,7 @@ angular.module('petApp')
                question.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
     };
 
-    var scrollTo = function(id) {
+    function scrollTo(id) {
       $timeout(function() {
         $location.hash(id);
         $anchorScroll();
@@ -44,7 +61,7 @@ angular.module('petApp')
     };
 
     $scope.addAnswer = function (questionIndex) {
-      var answers = $scope.applicationForm.questions[questionIndex].answers_attributes;
+      var answers = $scope.applicationForm.questions[questionIndex].answers;
       answers.push(new Answer());
       scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
@@ -56,31 +73,44 @@ angular.module('petApp')
     };
 
     $scope.deleteAnswer = function(question, answerIndex) {
-      if (question.answers_attributes.length > 1) {
-        question.answers_attributes.splice(answerIndex, 1);
+      if (question.answers.length > 1) {
+        question.answers.splice(answerIndex, 1);
       }
     };
 
-    $scope.createApplicationForm = function(isValid) {
-      if (isValid) {
-        $scope.transformBeforeSave($scope.applicationForm);
+    // Submit
 
-        applicationFormService.postApplicationForm({ application_form: $scope.applicationForm});
+    $scope.submit = function(isValid, action, applicationForm) {
+      if (isValid) {
+        transformBeforeSave(applicationForm);
+
+        switch (action) {
+          case CRUD_ACTIONS.create:
+            applicationFormService.postApplicationForm({ application_form: applicationForm});
+            break;
+
+          case CRUD_ACTIONS.update:
+            applicationFormService.putApplicationForm(applicationForm);
+            break;
+        }
       }
     };
 
     // Helpers
 
-    var clearBlanks = function(applicationForm) {
+    function clearBlanks(applicationForm) {
       applicationForm.questions_attributes.forEach(function (question) {
         if (!$scope.typeRequiresAnswer(question)) {
           question.answers_attributes = [];
         }
       });
-    };
+    }
 
-    $scope.transformBeforeSave = function(applicationForm) {
+    function transformBeforeSave(applicationForm) {
       applicationForm.questions_attributes = applicationForm.questions;
+      applicationForm.questions_attributes.forEach(function (question) {
+        question.answers_attributes = question.answers;
+      });
       clearBlanks(applicationForm);
-    };
+    }
   });

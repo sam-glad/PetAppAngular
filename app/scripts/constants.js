@@ -11,6 +11,12 @@ angular.module('petApp')
         PET_APPLICATIONS_API: resource + '/pet_applications'
       }
     })())
+    .constant('CRUD_ACTIONS',
+      {
+        create: 0,
+        update: 1
+      }
+    )
     .constant('FORM_QUESTION_TYPES',
       {
         smallTextbox: { name:'Small Textbox', id: 0 },

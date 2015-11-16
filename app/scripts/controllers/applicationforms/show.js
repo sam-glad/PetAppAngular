@@ -2,10 +2,11 @@
 
 angular.module('petApp')
   .controller('ApplicationFormsShowCtrl', function ($scope, $routeParams,
-    applicationFormService, applicationFormsPrepService) {
+    applicationFormService, applicationFormsPrepService, CRUD_ACTIONS) {
     $scope.applicationForm = applicationFormsPrepService;
     $scope.isEditFormVisible = false;
     $scope.editToggleButtonText = 'Edit Form';
+    $scope.crudActions = CRUD_ACTIONS;
 
     $scope.toggleShowEditForm = function(isEditFormVisible) {
       $scope.isEditFormVisible = !isEditFormVisible;
