@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('SgFormCtrl', function ($scope, $routeParams, $window,
+  .controller('SgFormCtrl', function ($scope, $routeParams, $window, $route,
     applicationFormService, petApplicationService, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
@@ -93,7 +93,10 @@ angular.module('petApp')
         if ($scope.submittable && pet) {
           $scope.transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
 
-          petApplicationService.postPetApplication({ pet_application: $scope.pet_application});
+          petApplicationService.postPetApplication({ pet_application: $scope.pet_application})
+            .then(function(response) {
+              $route.reload();
+            });
         }
       }
     };

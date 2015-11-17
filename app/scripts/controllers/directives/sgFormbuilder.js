@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('SgFormBuilderCtrl', function ($scope, $window, $location,
-    $timeout, $anchorScroll, applicationFormService, FORM_QUESTION_TYPES,
-    CRUD_ACTIONS) {
+  .controller('SgFormBuilderCtrl', function ($scope, $window, $location, $route,
+    $timeout, $anchorScroll, applicationFormService,
+    FORM_QUESTION_TYPES, CRUD_ACTIONS) {
 
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
     $scope.crudActions = CRUD_ACTIONS;
@@ -86,11 +86,19 @@ angular.module('petApp')
 
         switch (action) {
           case CRUD_ACTIONS.create:
-            applicationFormService.postApplicationForm({ application_form: applicationForm});
+            applicationFormService.postApplicationForm({ application_form: applicationForm})
+              .then(function(response) {
+                $window.location.href = '/#/applicationforms/' + response.id;
+              });
+              // TODO: Handle error (flash notice)
             break;
 
           case CRUD_ACTIONS.update:
-            applicationFormService.putApplicationForm(applicationForm);
+            applicationFormService.putApplicationForm(applicationForm).then(function(response) {
+              $route.reload();
+              // TODO: Flash notice indicating success
+            });
+              // TODO: Handle error (flash notice)
             break;
         }
       }
