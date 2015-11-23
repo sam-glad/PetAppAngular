@@ -1,0 +1,21 @@
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <td>Application ID</td>
+      <th>User Name</th>
+      <th>Pet</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="petApplication in petApplications">
+      <td ng-bind="petApplication.id"></td>
+      <td ng-bind="petApplication.user.name"></td>
+      <!-- TODO: Fix unsafe URL/hardcoded "localhost" -->
+      <td><a ng-href="{{'localhost:9000/#/pets/' + petApplication.pet.id}}"
+             ng-bind="petApplication.pet.name">
+      </a></td>
+      <td ng-bind="statusAsString(petApplication.status)"></td>
+    </tr>
+  </tbody>
+</table>

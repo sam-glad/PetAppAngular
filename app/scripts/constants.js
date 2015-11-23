@@ -31,4 +31,11 @@ angular.module('petApp')
         adoption: { id: 0 },
         foster: { id: 1 },
       }
+    )
+    .constant('PET_APPLICATION_STATUSES',
+      {
+        pending: { id: 0, name: 'Pending' },
+        denied: { id: 1, name: 'Denied' },
+        approved: { id: 2, name: 'Approved' }
+      }
     );

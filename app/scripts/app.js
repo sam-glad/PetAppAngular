@@ -46,6 +46,10 @@ angular
           applicationFormsPrepService: applicationFormsPrepService
         }
       })
+      .when('/organizations/:id/petapplications', {
+        templateUrl: 'views/petapplications/index.html',
+        controller: 'PetApplicationsIndexCtrl'
+      })
       .when('/pets', {
         templateUrl: 'views/pets/index.html',
         controller: 'PetsIndexCtrl'
