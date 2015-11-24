@@ -18,6 +18,10 @@ angular.module('petApp')
 
       displayLocation: function(organization) {
         return organization.city + ', ' + organization.state_province;
+      },
+
+      displayDate: function(date) {
+        return moment(date).toDate().toString();
       }
     };
   });
