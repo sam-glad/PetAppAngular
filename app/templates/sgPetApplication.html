@@ -1,8 +1,10 @@
-<div class="well">
-  <dl ng-repeat="question in petApplication.questions">
-    <dt ng-bind="question.body"></dt>
-    <div ng-repeat="answer in question.answers">
-      <dd ng-bind="answer.body"></dd>
-    </div>
-  </dl>
-</div>
+<ol class="dl-horizontal">
+  <div ng-repeat="question in petApplication.questions">
+    <li ng-bind="question.body"></li>
+    <ul>
+      <div ng-repeat="answer in question.answersGiven">
+        <li ng-bind="answer.body"></li>
+      </div>
+    </ul>
+  </div>
+</ol>
