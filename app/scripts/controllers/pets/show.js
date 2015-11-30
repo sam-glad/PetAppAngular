@@ -2,28 +2,26 @@
 
 angular.module('petApp')
   .controller('PetsShowCtrl', function ($scope, $routeParams, petService,
-    applicationFormService, organizationService, UtilsService,
+    applicationFormService, organizationService, UtilsService, petPrep,
     APPLICATION_TYPES) {
 
     // Setup
 
+    $scope.pet = petPrep;
     $scope.isAdoptionFormVisible = false;
     $scope.isFosterFormVisible = false;
     $scope.isEditFormVisible = false;
     $scope.applicationTypes = APPLICATION_TYPES;
 
-    petService.getPet($routeParams.id).then(function(pet) {
-      $scope.pet = pet;
-      organizationService.getOrganization($scope.pet.organization_id).then(function(organization) {
-        $scope.pet.organization = organization;
-        // TODO: if (user has the right privileges to see edit form)
-        applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organization_id).then(function(applicationForms) {
-          $scope.organizationForms = applicationForms;
-        });
+    organizationService.getOrganization($scope.pet.organization_id).then(function(organization) {
+      $scope.pet.organization = organization;
+      // TODO: if (user has the right privileges to see edit form)
+      applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organization_id).then(function(applicationForms) {
+        $scope.organizationForms = applicationForms;
       });
+    });
 
       $scope.Utils = UtilsService;
-    });
 
     // Called from page
 

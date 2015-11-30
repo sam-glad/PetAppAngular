@@ -56,7 +56,10 @@ angular
       })
       .when('/pets/:id', {
         templateUrl: 'views/pets/show.html',
-        controller: 'PetsShowCtrl'
+        controller: 'PetsShowCtrl',
+        resolve: {
+          petPrep: petPrep,
+        }
       })
       .otherwise({
         redirectTo: '/'
@@ -64,6 +67,10 @@ angular
 
       function applicationFormsPrepService(applicationFormService, $route) {
         return applicationFormService.getApplicationForm($route.current.params.id);
+      }
+
+      function petPrep(petService, $route) {
+        return petService.getPet($route.current.params.id);
       }
 
       $authProvider.configure({

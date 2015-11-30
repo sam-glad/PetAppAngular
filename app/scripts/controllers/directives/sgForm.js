@@ -7,9 +7,9 @@ angular.module('petApp')
     // Setup
 
     $scope.showAnswers = false;
-    $scope.applicationFormId = (typeof applicationId == 'undefined')
+    $scope.applicationFormId = (typeof $scope.applicationFormId == 'undefined')
                                 ? $routeParams.id // Application form show page
-                                : applicationId;
+                                : $scope.applicationFormId;
     $scope.submitButtonText = $scope.submittable ? 'Submit' : 'Test Submit';
 
     $scope.applicationForm = applicationFormService.getApplicationForm($scope.applicationFormId).then(function(applicationForm) {

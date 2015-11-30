@@ -106,7 +106,7 @@
 <!-- Foster application form -->
 <sg-form submittable="true"
          pet="pet"
-         applicationFormId="pet.foster_application_id"
+         application-form-id="pet.foster_application_id"
          application-type="applicationTypes.foster.id"
          ng-show="isFosterable(pet) && isFosterFormVisible">
 </sg-form>
@@ -114,7 +114,7 @@
 <!-- Adoption application form -->
 <sg-form submittable="true"
          pet="pet"
-         applicationFormId="pet.adoption_application_id"
+         application-form-id="pet.adoption_application_id"
          application-type="applicationTypes.adoption.id"
          ng-show="isAdoptable(pet) && isAdoptionFormVisible">
 </sg-form>
