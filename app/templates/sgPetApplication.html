@@ -1,6 +1,8 @@
-<dl>
-  <dt>Coffee</dt>
-  <dd>Black hot drink</dd>
-  <dt>Milk</dt>
-  <dd>White cold drink</dd>
-</dl>
+<div class="well">
+  <dl ng-repeat="question in petApplication.questions">
+    <dt ng-bind="question.body"></dt>
+    <div ng-repeat="answer in question.answers">
+      <dd ng-bind="answer.body"></dd>
+    </div>
+  </dl>
+</div>

@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('sgPetApplicationCtrl', function ($scope) {
+  .controller('SgPetApplicationCtrl', function ($scope) {
     // Nothing yet...
   });

@@ -50,6 +50,13 @@ angular
         templateUrl: 'views/petapplications/index.html',
         controller: 'PetApplicationsIndexCtrl'
       })
+      .when('/petapplications/:id', {
+        templateUrl: 'views/petapplications/show.html',
+        controller: 'PetApplicationShowCtrl',
+        resolve: {
+          petApplicationsPrepService: petApplicationsPrepService
+        }
+      })
       .when('/pets', {
         templateUrl: 'views/pets/index.html',
         controller: 'PetsIndexCtrl'
@@ -71,6 +78,10 @@ angular
 
       function petPrep(petService, $route) {
         return petService.getPet($route.current.params.id);
+      }
+
+      function petApplicationsPrepService(petApplicationService, $route) {
+        return petApplicationService.getPetApplication($route.current.params.id);
       }
 
       $authProvider.configure({
