@@ -11,11 +11,11 @@ angular.module('petApp')
     $scope.applicationTypes = APPLICATION_TYPES;
     $scope.submitButtonText = $scope.submittable ? 'Submit' : 'Test Submit';
 
-    if (typeof $scope.applicationFormId == 'undefined') {
+    if (typeof $scope.applicationFormId === 'undefined') {
       $scope.applicationFormId = $routeParams.id; // Application form show page
     }
 
-    if (typeof $scope.applicationForm == 'undefined') {
+    if (typeof $scope.applicationForm === 'undefined') {
       $scope.applicationForm = applicationFormService.getApplicationForm($scope.applicationFormId)
         .then(function(applicationForm) {
           $scope.formData = formDataInit($scope.submittable, $scope.applicationType, applicationForm);
