@@ -7,19 +7,80 @@ angular.module('petApp')
     // Setup
 
     $scope.showAnswers = false;
-    $scope.applicationFormId = (typeof $scope.applicationFormId == 'undefined')
-                                ? $routeParams.id // Application form show page
-                                : $scope.applicationFormId;
+    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    $scope.applicationTypes = APPLICATION_TYPES;
     $scope.submitButtonText = $scope.submittable ? 'Submit' : 'Test Submit';
 
-    $scope.applicationForm = applicationFormService.getApplicationForm($scope.applicationFormId).then(function(applicationForm) {
-      $scope.formData = {
+    if (typeof $scope.applicationFormId == 'undefined') {
+      $scope.applicationFormId = $routeParams.id; // Application form show page
+    }
+
+    if (typeof $scope.applicationForm == 'undefined') {
+      $scope.applicationForm = applicationFormService.getApplicationForm($scope.applicationFormId)
+        .then(function(applicationForm) {
+          $scope.formData = formDataInit($scope.submittable, $scope.applicationType, applicationForm);
+        });
+    }
+    else {
+      $scope.formData = formDataInit($scope.submittable, $scope.applicationType, $scope.applicationForm);
+    }
+
+    // Called from form
+
+    $scope.toggleCheckBoxAnswer = function(formData, questionIndex, newAnswer, currentForm) {
+      var question = formData.questions[questionIndex];
+
+      var index = question.answersGiven.map(function(answer) {
+        return answer.body; }
+      ).indexOf(newAnswer.body);
+
+      if (index !== -1) {
+        question.answersGiven.splice(index, 1);
+      }
+      else {
+        question.answersGiven.push( { body: newAnswer.body } );
+      }
+
+      validateCheckbox(question, currentForm);
+    };
+
+    // Initialize required checkbox subforms as invalid,
+    // since they require an answer but none is checked upon loading the page.
+    $scope.checkboxFormValidityInit = function (checkboxForm, question) {
+      if (question.is_required) {
+        checkboxForm.$setValidity('required', false);
+      }
+    };
+
+    $scope.submit = function(mainForm, formData, pet, applicationType) {
+      if (mainForm.$valid) {
+        $scope.showAnswers = true;
+
+        if ($scope.submittable && pet) {
+          $scope.petApplication = transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
+
+          petApplicationService.postPetApplication({ pet_application: $scope.petApplication})
+            .then(function(response) {
+              $route.reload();
+            });
+        }
+      }
+    };
+
+    // Helpers
+
+    function formDataInit(submittable, applicationType, applicationForm) {
+      var formData = {
         questions: applicationForm.questions
       };
 
-      $scope.setFormTitle($scope.submittable, $scope.applicationType, applicationForm);
+      setFormTitle(submittable, applicationType, applicationForm);
+      formDataQuestionsInit(formData);
+      return formData;
+    }
 
-      $scope.formData.questions.forEach(function (question) {
+    function formDataQuestionsInit(formData) {
+      formData.questions.forEach(function (question) {
         if (question.input_type !== FORM_QUESTION_TYPES.checkbox.id) {
           question.answersGiven = [{}]; // Only one answer which needs a body attribute
         }
@@ -27,12 +88,9 @@ angular.module('petApp')
           question.answersGiven = []; // Any number of answers for checkboxes
         }
       });
-    });
+    }
 
-    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
-    $scope.applicationTypes = APPLICATION_TYPES;
-
-    $scope.setFormTitle = function(submittable, applicationType, applicationForm) {
+    function setFormTitle(submittable, applicationType, applicationForm) {
       if ($scope.submittable) {
         switch (applicationType) {
           case APPLICATION_TYPES.adoption.id:
@@ -49,9 +107,7 @@ angular.module('petApp')
       }
     };
 
-    // Called from form
-
-    $scope.validateCheckbox = function(question, currentForm) {
+    function validateCheckbox(question, currentForm) {
       if (question.is_required && question.answersGiven.length === 0) {
         currentForm.$setValidity('required', false);
       }
@@ -60,56 +116,17 @@ angular.module('petApp')
       }
     };
 
-    $scope.toggleCheckBoxAnswer = function toggleCheckBoxAnswer(formData,
-      questionIndex, newAnswer, currentForm) {
-      var question = formData.questions[questionIndex];
+    function transformBeforeSave(formData, applicationType, pet, user) {
+      petApplication = {};
+      petApplication.questions_attributes = formData.questions; // Rename for Rails controller
 
-      var index = question.answersGiven.map(function(answer) {
-        return answer.body; }
-      ).indexOf(newAnswer.body);
-
-      if (index !== -1) {
-        question.answersGiven.splice(index, 1);
-      }
-      else {
-        question.answersGiven.push( { body: newAnswer.body } );
-      }
-
-      $scope.validateCheckbox(question, currentForm);
-    };
-
-    // Initialize required checkbox subforms as invalid,
-    // since they require an answer but none is checked upon loading the page.
-    $scope.checkboxFormValidityInit = function (checkboxForm, question) {
-      if (question.is_required) {
-        checkboxForm.$setValidity('required', false);
-      }
-    };
-
-    $scope.submit = function(mainForm, formData, pet, applicationType) {
-      if (mainForm.$valid) {
-        $scope.showAnswers = true;
-
-        if ($scope.submittable && pet) {
-          $scope.transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
-
-          petApplicationService.postPetApplication({ pet_application: $scope.pet_application})
-            .then(function(response) {
-              $route.reload();
-            });
-        }
-      }
-    };
-
-    $scope.transformBeforeSave = function(formData, applicationType, pet, user) {
-      $scope.pet_application = {};
-      $scope.pet_application.questions_attributes = formData.questions;
       for (var i = 0; i < formData.questions.length; i++) {
-        $scope.pet_application.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven;
+        petApplication.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven; // Rename for Rails controller
       }
 
-      $scope.pet_application.pet_id = pet.id;
-      $scope.pet_application.user_id = user.id;
-      $scope.pet_application.application_type = applicationType;
-    };
+      petApplication.pet_id = pet.id;
+      petApplication.user_id = user.id;
+      petApplication.application_type = applicationType;
+      return petApplication;
+    }
   });

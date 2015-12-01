@@ -7,6 +7,7 @@ angular.module('petApp')
         scope: {
             submittable: '=',
             pet: '=',
+            applicationForm: '=',
             applicationFormId: '=',
             applicationType: '='
         },
