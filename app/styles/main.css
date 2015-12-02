@@ -1,3 +1,17 @@
+.form-horizontal .form-group .horizontal-label {
+	padding-right: 0;
+	width: auto;
+}
+
+.form-horizontal .form-group .col-xs-2 .horizontal-input {
+	width: 75%;
+}
+
+.form-horizontal .form-group .horizontal-button {
+	float: right;
+	margin-right: 2.5%
+}
+
 .form-group .required:after
 {
 	content: " *";

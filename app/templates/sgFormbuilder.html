@@ -22,8 +22,25 @@
   <div class="well" ng-repeat="question in applicationForm.questions">
     <ng-form name="innerForm">
         <br />
-        <label ng-bind="'Question ' + ($index + 1)" />
-        <button class="btn btn-danger btn-xs" type="button" ng-click="deleteQuestion($index)" ng-show="applicationForm.questions.length > 1">X</button>
+        <div class="form-horizontal">
+            <div class="form-group">
+              <label class="col-md-2 control-label horizontal-label">Question</label>
+              <div class="col-xs-2">
+                  <input class="form-control horizontal-input"
+                         type="number"
+                         name="questionPosition"
+                         ng-model="question.position"
+                         required>
+              </div>
+              <button class="horizontal-button btn btn-danger btn-xs"
+                      type="button"
+                      ng-click="deleteQuestion(applicationForm, $index)"
+                      ng-show="applicationForm.questions.length > 1">
+                      X
+              </button>
+            </div>
+        </div>
+
         <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionBody.$invalid }">
           <input class="form-control"
                  type="text"
@@ -31,9 +48,9 @@
                  placeholder="Type a question here..."
                  ng-model="question.body"
                  required>
-           <div ng-messages="newApplicationForm.$submitted && innerForm.questionBody.$error">
-             <p class="help-block" ng-message="required">Please provide a question.</p>
-           </div>
+          <div ng-messages="newApplicationForm.$submitted && innerForm.questionBody.$error">
+            <p class="help-block" ng-message="required">Please provide a question.</p>
+          </div>
         </div>
 
         <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionInputType.$invalid }">
@@ -78,10 +95,10 @@
           </div>
         </ng-form>
       </ng-form>
-      <button class="btn btn-primary" type="button" ng-click="addAnswer($index)">Add answer</button>
+      <button class="btn btn-primary" type="button" ng-click="addAnswer(applicationForm, $index)">Add answer</button>
     </div>
   </div>
-  <button class="btn btn-primary" type="button" ng-click="addQuestion()">Add question</button>
+  <button class="btn btn-primary" type="button" ng-click="addQuestion(applicationForm.questions)">Add question</button>
 
   <div class="row">
     <button type="submit"

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('UtilsService', function() {
+  .factory('UtilsService', function($location, $timeout, $anchorScroll) {
     return {
       displayBreeds: function(pet) {
         if (!pet.breeds.length > 1) {
@@ -22,6 +22,21 @@ angular.module('petApp')
 
       displayDate: function(date) {
         return moment(date).toDate().toString();
+      },
+
+      sortByKey: function(array, key) {
+        return array.sort(function(a, b) {
+          var x = a[key]; var y = b[key];
+          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        })
+      },
+
+      scrollTo: function(id) {
+        $timeout(function() {
+          $location.hash(id);
+          $anchorScroll();
+          $location.hash('');
+        });
       }
     };
   });

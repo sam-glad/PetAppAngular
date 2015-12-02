@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('SgFormBuilderCtrl', function ($scope, $window, $location, $route,
-    $timeout, $anchorScroll, applicationFormService,
-    FORM_QUESTION_TYPES, CRUD_ACTIONS) {
+  .controller('SgFormBuilderCtrl', function ($scope, $window, $route,
+    applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS) {
 
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
     $scope.crudActions = CRUD_ACTIONS;
@@ -12,32 +11,12 @@ angular.module('petApp')
       this.body = '';
     }
 
-    function Question() {
+    function Question(questions) {
       this.body = '';
       this.input_type = '';
       this.is_required = false;
+      this.position = nextPosition(questions);
       this.answers = [new Answer()];
-    }
-
-    // Initialize form
-
-    if (typeof $scope.applicationForm === 'undefined') {
-      $scope.applicationForm = {};
-      $scope.applicationForm.questions = [new Question()];
-    }
-
-    setSubmitButtonText($scope.action);
-
-    function setSubmitButtonText(action) {
-      switch (action) {
-        case CRUD_ACTIONS.create:
-          $scope.submitButtonText = 'Create Form';
-          break;
-
-        case CRUD_ACTIONS.update:
-          $scope.submitButtonText = 'Update Form';
-          break;
-      }
     }
 
     // Called from form
@@ -47,28 +26,20 @@ angular.module('petApp')
                question.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
     };
 
-    function scrollTo(id) {
-      $timeout(function() {
-        $location.hash(id);
-        $anchorScroll();
-        $location.hash('');
-      });
-    }
-
-    $scope.addQuestion = function () {
-      $scope.applicationForm.questions.push(new Question());
-      scrollTo('bottom');
+    $scope.addQuestion = function (questions) {
+      questions.push(new Question(questions));
+      UtilsService.scrollTo('bottom');
     };
 
-    $scope.addAnswer = function (questionIndex) {
-      var answers = $scope.applicationForm.questions[questionIndex].answers;
+    $scope.addAnswer = function (applicationForm, questionIndex) {
+      var answers = applicationForm.questions[questionIndex].answers;
       answers.push(new Answer());
-      scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
+      UtilsService.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
 
-    $scope.deleteQuestion = function(questionIndex) {
-      if ($scope.applicationForm.questions.length > 1) {
-        $scope.applicationForm.questions.splice(questionIndex, 1);
+    $scope.deleteQuestion = function(applicationForm, questionIndex) {
+      if (applicationForm.questions.length > 1) {
+        applicationForm.questions.splice(questionIndex, 1);
       }
     };
 
@@ -77,6 +48,17 @@ angular.module('petApp')
         question.answers.splice(answerIndex, 1);
       }
     };
+
+    // Initialize form
+
+    if (typeof $scope.applicationForm === 'undefined') {
+      var applicationForm = {};
+      applicationForm.questions = [];
+      $scope.addQuestion(applicationForm.questions);
+      $scope.applicationForm = applicationForm;
+    }
+
+    setSubmitButtonText($scope.action);
 
     // Submit
 
@@ -115,10 +97,41 @@ angular.module('petApp')
     }
 
     function transformBeforeSave(applicationForm) {
+      cleanUpPositions(applicationForm.questions);
       applicationForm.questions_attributes = applicationForm.questions;
       applicationForm.questions_attributes.forEach(function (question) {
         question.answers_attributes = question.answers;
       });
       clearBlanks(applicationForm);
+    }
+
+    function setSubmitButtonText(action) {
+      switch (action) {
+        case CRUD_ACTIONS.create:
+          $scope.submitButtonText = 'Create Form';
+          break;
+
+        case CRUD_ACTIONS.update:
+          $scope.submitButtonText = 'Update Form';
+          break;
+      }
+    }
+
+    function cleanUpPositions(questions) {
+      questions = UtilsService.sortByKey(questions, 'position');
+      for (var i = 0; i < questions.length; i++) {
+        questions[i].position = i + 1;
+      }
+    }
+
+    function getMaxPosition(questions) {
+      return Math.max.apply(Math, questions.map(function(question) {
+        return question.position;
+      }))
+    }
+
+    function nextPosition(questions) {
+      var maxPosition = getMaxPosition(questions);
+      return maxPosition > questions.length ? maxPosition + 1 : questions.length + 1;
     }
   });
