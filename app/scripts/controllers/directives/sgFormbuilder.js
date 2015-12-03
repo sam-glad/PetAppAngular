@@ -2,10 +2,7 @@
 
 angular.module('petApp')
   .controller('SgFormBuilderCtrl', function ($scope, $window, $route,
-    applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS) {
-
-    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
-    $scope.crudActions = CRUD_ACTIONS;
+    applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS, REGEX) {
 
     function Answer() {
       this.body = '';
@@ -50,6 +47,10 @@ angular.module('petApp')
     };
 
     // Initialize form
+
+    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    $scope.crudActions = CRUD_ACTIONS;
+    $scope.integers = REGEX.integers;
 
     if (typeof $scope.applicationForm === 'undefined') {
       var applicationForm = {};

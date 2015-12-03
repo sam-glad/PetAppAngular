@@ -23,14 +23,18 @@
     <ng-form name="innerForm">
         <br />
         <div class="form-horizontal">
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionPosition.$invalid }">
               <label class="col-md-2 control-label horizontal-label">Question</label>
               <div class="col-xs-2">
                   <input class="form-control horizontal-input"
-                         type="number"
+                         ng-pattern="integers"
                          name="questionPosition"
                          ng-model="question.position"
                          required>
+              </div>
+              <div ng-messages="newApplicationForm.$submitted && innerForm.questionPosition.$error">
+                <p class="help-block" ng-message="pattern">Please enter a whole number greater than zero.</p>
+                <p class="help-block" ng-message="required">Please enter a whole number greater than zero.</p>
               </div>
               <button class="horizontal-button btn btn-danger btn-xs"
                       type="button"

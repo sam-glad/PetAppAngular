@@ -38,4 +38,9 @@ angular.module('petApp')
         denied: { id: 1, name: 'Denied' },
         approved: { id: 2, name: 'Approved' }
       }
+    )
+    .constant('REGEX',
+      {
+        integers: /^[1-9]+$/
+      }
     );
