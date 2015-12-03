@@ -4,6 +4,9 @@ angular.module('petApp')
   .controller('SgFormBuilderCtrl', function ($scope, $window, $route,
     applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS, REGEX) {
 
+    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
+    $scope.crudActions = CRUD_ACTIONS;
+
     function Answer() {
       this.body = '';
     }
@@ -14,6 +17,7 @@ angular.module('petApp')
       this.is_required = false;
       this.position = nextPosition(questions);
       this.answers = [new Answer()];
+      this.deletedAnswers = [];
     }
 
     // Called from form
@@ -34,20 +38,31 @@ angular.module('petApp')
       UtilsService.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
     };
 
-    $scope.deleteQuestion = function(applicationForm, questionIndex) {
+    $scope.deleteQuestion = function(applicationForm, questionIndex, deletedQuestions) {
       if (applicationForm.questions.length > 1) {
+        var deletedQuestionId = applicationForm.questions[questionIndex].id
+        // Delete questions currently belonging to the application form
+        // (deletedQuestions is merged into applicationForm.questions before request is sent)
+        if (deletedQuestionId) {
+          deletedQuestions.push({'id': deletedQuestionId, '_destroy': 1});
+        }
         applicationForm.questions.splice(questionIndex, 1);
       }
     };
 
     $scope.deleteAnswer = function(question, answerIndex) {
       if (question.answers.length > 1) {
+        var deletedAnswerId = question.answers[answerIndex].id
+        if (deletedAnswerId) {
+          question.deletedAnswers.push({'id': deletedAnswerId, '_destroy': 1});
+        }
         question.answers.splice(answerIndex, 1);
       }
     };
 
     // Initialize form
 
+    $scope.deletedQuestions = [];
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
     $scope.crudActions = CRUD_ACTIONS;
     $scope.integers = REGEX.integers;
@@ -59,13 +74,14 @@ angular.module('petApp')
       $scope.applicationForm = applicationForm;
     }
 
+    addDeletedAnswersArray($scope.applicationForm.questions)
     setSubmitButtonText($scope.action);
 
     // Submit
 
-    $scope.submit = function(isValid, action, applicationForm) {
+    $scope.submit = function(isValid, action, applicationForm, deletedQuestions) {
       if (isValid) {
-        transformBeforeSave(applicationForm);
+        applicationForm = transformBeforeSave(applicationForm, deletedQuestions);
 
         switch (action) {
           case CRUD_ACTIONS.create:
@@ -89,21 +105,24 @@ angular.module('petApp')
 
     // Helpers
 
-    function clearBlanks(applicationForm) {
-      applicationForm.questions_attributes.forEach(function (question) {
+    function clearBlanks(questions) {
+      questions.forEach(function (question) {
         if (!$scope.typeRequiresAnswer(question)) {
-          question.answers_attributes = [];
+          question.answers = [];
         }
       });
     }
 
-    function transformBeforeSave(applicationForm) {
+    function transformBeforeSave(applicationForm, deletedQuestions) {
       cleanUpPositions(applicationForm.questions);
+      clearBlanks(applicationForm.questions);
       applicationForm.questions_attributes = applicationForm.questions;
       applicationForm.questions_attributes.forEach(function (question) {
         question.answers_attributes = question.answers;
+        question.answers_attributes = question.answers_attributes.concat(question.deletedAnswers);
       });
-      clearBlanks(applicationForm);
+      applicationForm.questions_attributes = applicationForm.questions_attributes.concat(deletedQuestions); // Ensure pre-existing questions are deleted
+      return applicationForm;
     }
 
     function setSubmitButtonText(action) {
@@ -134,5 +153,11 @@ angular.module('petApp')
     function nextPosition(questions) {
       var maxPosition = getMaxPosition(questions);
       return maxPosition > questions.length ? maxPosition + 1 : questions.length + 1;
+    }
+
+    function addDeletedAnswersArray(questions) {
+      questions.forEach(function (question) {
+        question.deletedAnswers = [];
+      });
     }
   });

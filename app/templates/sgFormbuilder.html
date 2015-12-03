@@ -1,4 +1,4 @@
-<form name="newApplicationForm" novalidate ng-submit="submit(newApplicationForm.$valid, action, applicationForm)" role="form">
+<form name="newApplicationForm" novalidate ng-submit="submit(newApplicationForm.$valid, action, applicationForm, deletedQuestions)" role="form">
 
   <!-- Internal form name -->
   <div class="well">
@@ -38,7 +38,7 @@
               </div>
               <button class="horizontal-button btn btn-danger btn-xs"
                       type="button"
-                      ng-click="deleteQuestion(applicationForm, $index)"
+                      ng-click="deleteQuestion(applicationForm, $index, deletedQuestions)"
                       ng-show="applicationForm.questions.length > 1">
                       X
               </button>
