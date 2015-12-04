@@ -4,8 +4,7 @@ angular.module('petApp')
   .controller('SgFormBuilderCtrl', function ($scope, $window, $route,
     applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS, REGEX) {
 
-    $scope.formQuestionTypes = FORM_QUESTION_TYPES;
-    $scope.crudActions = CRUD_ACTIONS;
+    // TODO: Move these into the ApplicationForm factory for a more OO approach
 
     function Answer() {
       this.body = '';
@@ -105,16 +104,8 @@ angular.module('petApp')
 
     // Helpers
 
-    function clearBlanks(questions) {
-      questions.forEach(function (question) {
-        if (!$scope.typeRequiresAnswer(question)) {
-          question.answers = [];
-        }
-      });
-    }
-
     function transformBeforeSave(applicationForm, deletedQuestions) {
-      cleanUpPositions(applicationForm.questions);
+      UtilsService.orderQuestions(applicationForm.questions);
       clearBlanks(applicationForm.questions);
       applicationForm.questions_attributes = applicationForm.questions;
       applicationForm.questions_attributes.forEach(function (question) {
@@ -137,11 +128,14 @@ angular.module('petApp')
       }
     }
 
-    function cleanUpPositions(questions) {
-      questions = UtilsService.sortByKey(questions, 'position');
-      for (var i = 0; i < questions.length; i++) {
-        questions[i].position = i + 1;
-      }
+    // TODO: Move these into the ApplicationForm factory for a more OO approach
+
+    function clearBlanks(questions) {
+      questions.forEach(function (question) {
+        if (!$scope.typeRequiresAnswer(question)) {
+          question.answers = [];
+        }
+      });
     }
 
     function getMaxPosition(questions) {

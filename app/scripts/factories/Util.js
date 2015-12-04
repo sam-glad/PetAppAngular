@@ -31,6 +31,13 @@ angular.module('petApp')
         })
       },
 
+      orderQuestions: function(questions) {
+        questions = UtilsService.sortByKey(questions, 'position');
+        for (var i = 0; i < questions.length; i++) {
+          questions[i].position = i + 1;
+        }
+      },
+
       scrollTo: function(id) {
         $timeout(function() {
           $location.hash(id);
