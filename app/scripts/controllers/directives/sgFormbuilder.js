@@ -105,7 +105,7 @@ angular.module('petApp')
     // Helpers
 
     function transformBeforeSave(applicationForm, deletedQuestions) {
-      UtilsService.orderQuestions(applicationForm.questions);
+      applicationForm.orderQuestions();
       clearBlanks(applicationForm.questions);
       applicationForm.questions_attributes = applicationForm.questions;
       applicationForm.questions_attributes.forEach(function (question) {
