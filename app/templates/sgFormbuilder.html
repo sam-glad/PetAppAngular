@@ -60,7 +60,7 @@
         <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.questionInputType.$invalid }">
           <select class="form-control"
                   name="questionInputType"
-                  ng-model="question.input_type"
+                  ng-model="question.inputType"
                   ng-options="type.id as type.name for type in formQuestionTypes"
                   required>
             <option value="" disabled>Select a type of question...</option>
@@ -70,14 +70,14 @@
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" ng-model="question.is_required"> Answer required
+              <input type="checkbox" ng-model="question.isRequired"> Answer required
             </label>
           </div>
         </div>
     </ng-form>
 
     <!-- Answers -->
-    <div ng-show="typeRequiresAnswer(question)" class="col-md-10.5 col-md-offset-1">
+    <div ng-show="question.requiresAnswer()" class="col-md-10.5 col-md-offset-1">
       <ng-form name="questionForm" ng-repeat="answer in question.answers">
         <ng-form name="innerForm" id="bottom-question-index-{{$parent.$index}}-answer-index-{{$index}}">
           <div class="form-group" ng-class="{ 'has-error' : newApplicationForm.$submitted && innerForm.answerBody.$invalid }">
@@ -92,7 +92,7 @@
                    name="answerBody"
                    placeholder="Type an answer here..."
                    ng-model="question.answers[$index].body"
-                   ng-required="typeRequiresAnswer(question)">
+                   ng-required="question.requiresAnswer()">
             <div ng-messages="newApplicationForm.$submitted && innerForm.answerBody.$error">
               <p class="help-block" ng-message="required">Please provide an answer (or remove this blank one) for this question.</p>
             </div>

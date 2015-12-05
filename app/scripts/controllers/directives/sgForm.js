@@ -47,7 +47,7 @@ angular.module('petApp')
     // Initialize required checkbox subforms as invalid,
     // since they require an answer but none is checked upon loading the page.
     $scope.checkboxFormValidityInit = function (checkboxForm, question) {
-      if (question.is_required) {
+      if (question.isRequired) {
         checkboxForm.$setValidity('required', false);
       }
     };
@@ -81,7 +81,7 @@ angular.module('petApp')
 
     function formDataQuestionsInit(formData) {
       formData.questions.forEach(function (question) {
-        if (question.input_type !== FORM_QUESTION_TYPES.checkbox.id) {
+        if (question.inputType !== FORM_QUESTION_TYPES.checkbox.id) {
           question.answersGiven = [{}]; // Only one answer which needs a body attribute
         }
         else {
@@ -108,7 +108,7 @@ angular.module('petApp')
     };
 
     function validateCheckbox(question, currentForm) {
-      if (question.is_required && question.answersGiven.length === 0) {
+      if (question.isRequired && question.answersGiven.length === 0) {
         currentForm.$setValidity('required', false);
       }
       else {

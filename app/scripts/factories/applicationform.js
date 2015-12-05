@@ -1,12 +1,20 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('ApplicationForm', function (Restangular, UtilsService) {
+  .factory('ApplicationForm', function (Restangular, Question, UtilsService) {
 
-    function ApplicationForm(name, questions, organizationId) {
+    function ApplicationForm(name, questionsFromJson, organizationId) {
       this.name = name;
-      this.questions = questions;
+      this.questions = buildQuestionsFromJson(questionsFromJson);
       this.organizationId = organizationId;
+    }
+
+    function buildQuestionsFromJson(questionsFromJson) {
+      var builtQuestions = []
+      questionsFromJson.forEach(function (questionsFromJson) {
+        builtQuestions.push(Question.build(questionsFromJson))
+      });
+      return builtQuestions;
     }
 
     ApplicationForm.prototype.orderQuestions = function () {

@@ -12,19 +12,14 @@ angular.module('petApp')
 
     function Question(questions) {
       this.body = '';
-      this.input_type = '';
-      this.is_required = false;
+      this.inputType = '';
+      this.isRequired = false;
       this.position = nextPosition(questions);
       this.answers = [new Answer()];
       this.deletedAnswers = [];
     }
 
     // Called from form
-
-    $scope.typeRequiresAnswer = function (question) {
-      return !(question.input_type === FORM_QUESTION_TYPES.smallTextbox.id ||
-               question.input_type === FORM_QUESTION_TYPES.largeTextbox.id);
-    };
 
     $scope.addQuestion = function (questions) {
       questions.push(new Question(questions));
@@ -132,7 +127,7 @@ angular.module('petApp')
 
     function clearBlanks(questions) {
       questions.forEach(function (question) {
-        if (!$scope.typeRequiresAnswer(question)) {
+        if (question.requiresAnswer()) {
           question.answers = [];
         }
       });
