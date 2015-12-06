@@ -19,7 +19,6 @@ angular.module('petApp')
 
     // Initialize form
 
-    $scope.deletedQuestions = [];
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
     $scope.crudActions = CRUD_ACTIONS;
     $scope.integers = REGEX.integers;
@@ -34,7 +33,8 @@ angular.module('petApp')
 
     $scope.submit = function(isValid, action, applicationForm, deletedQuestions) {
       if (isValid) {
-        applicationForm = transformBeforeSave(applicationForm, deletedQuestions);
+        // applicationForm = transformBeforeSave(applicationForm, deletedQuestions);
+        applicationForm.transformBeforeSave();
 
         switch (action) {
           case CRUD_ACTIONS.create:
@@ -57,18 +57,6 @@ angular.module('petApp')
     };
 
     // Helpers
-
-    function transformBeforeSave(applicationForm, deletedQuestions) {
-      applicationForm.orderQuestions();
-      clearBlanks(applicationForm.questions);
-      applicationForm.questions_attributes = applicationForm.questions;
-      applicationForm.questions_attributes.forEach(function (question) {
-        question.answers_attributes = question.answers;
-        question.answers_attributes = question.answers_attributes.concat(question.deletedAnswers);
-      });
-      applicationForm.questions_attributes = applicationForm.questions_attributes.concat(deletedQuestions); // Ensure pre-existing questions are deleted
-      return applicationForm;
-    }
 
     function setSubmitButtonText(action) {
       switch (action) {

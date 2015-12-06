@@ -3,17 +3,18 @@
 angular.module('petApp')
   .factory('ApplicationForm', function (Restangular, Question, Answer, UtilsService) {
 
-    function ApplicationForm(name, questionsFromJson, organizationId, deletedQuestions) {
+    function ApplicationForm(id, name, questions, organizationId, deletedQuestions) {
+      this.id = id;
       this.name = name;
-      this.questions = buildQuestionsFromJson(questionsFromJson);
+      this.questions = buildQuestionsFromJson(questions);
       this.organizationId = organizationId;
       this.deletedQuestions = deletedQuestions ? deletedQuestions : [];
     }
 
     function buildQuestionsFromJson(questionsFromJson) {
       var builtQuestions = []
-      questionsFromJson.forEach(function (questionsFromJson) {
-        builtQuestions.push(Question.build(questionsFromJson))
+      questionsFromJson.forEach(function (questionFromJson) {
+        builtQuestions.push(Question.build(questionFromJson))
       });
       return builtQuestions;
     }
@@ -53,7 +54,7 @@ angular.module('petApp')
 
     ApplicationForm.prototype.clearBlanks = function () {
       this.questions.forEach(function (question) {
-        if (question.requiresAnswer()) {
+        if (!question.requiresAnswer()) {
           question.answers = [];
         }
       });
@@ -64,6 +65,17 @@ angular.module('petApp')
         question.deletedAnswers = [];
       });
     }
+
+    ApplicationForm.prototype.transformBeforeSave = function () {
+      this.orderQuestions();
+      this.clearBlanks();
+      this.questions_attributes = this.questions;
+      this.questions_attributes.forEach(function (question) {
+        question.answers_attributes = question.answers;
+        question.answers_attributes = question.answers_attributes.concat(question.deletedAnswers);
+      });
+      this.questions_attributes = this.questions_attributes.concat(this.deletedQuestions); // Ensure pre-existing questions are deleted
+    };
 
     ApplicationForm.buildBlank = function () {
       var form = ApplicationForm.build({
@@ -76,6 +88,7 @@ angular.module('petApp')
 
     ApplicationForm.build = function (data) {
       return new ApplicationForm(
+        data.id,
         data.name,
         data.questions,
         data.organizationId,

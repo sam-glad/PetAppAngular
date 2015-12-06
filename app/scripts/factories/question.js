@@ -3,14 +3,23 @@
 angular.module('petApp')
   .factory('Question', function (Restangular, Answer, FORM_QUESTION_TYPES) {
 
-    function Question(applicationFormId, id, body, inputType, isRequired, position, answers) {
+    function Question(applicationFormId, id, body, inputType, isRequired, position, answers, deletedAnswers) {
       this.applicationFormId = applicationFormId;
       this.id = id;
       this.body = body;
       this.inputType = inputType;
       this.isRequired = isRequired;
       this.position = position;
-      this.answers = answers;
+      this.answers = buildAnswersFromJson(answers);
+      this.deletedAnswers = deletedAnswers ? deletedAnswers : [];
+    }
+
+    function buildAnswersFromJson(answersFromJson) {
+      var builtAnswers = []
+      answersFromJson.forEach(function (answerFromJson) {
+        builtAnswers.push(Answer.build(answerFromJson))
+      });
+      return builtAnswers;
     }
 
     Question.prototype.requiresAnswer = function () {
