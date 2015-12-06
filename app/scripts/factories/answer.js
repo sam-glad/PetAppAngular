@@ -9,8 +9,11 @@ angular.module('petApp')
       this.body = body;
     }
 
-    Answer.buildBlank = function () {
-      return Answer.build({body: ''});
+    Answer.buildBlank = function (questionId) {
+      return Answer.build({
+        questionId: questionId,
+        body: ''
+      });
     };
 
     Answer.build = function (answerFromJson) {

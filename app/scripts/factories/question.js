@@ -18,6 +18,10 @@ angular.module('petApp')
                this.inputType === FORM_QUESTION_TYPES.largeTextbox.id);
     };
 
+    Question.prototype.addBlankAnswer = function () {
+      this.answers.push(Answer.buildBlank(this.id));
+    };
+
     Question.buildBlank = function (nextPosition) {
       return Question.build({
         isRequired: false,

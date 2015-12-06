@@ -6,15 +6,15 @@ angular.module('petApp')
 
     // Called from form
 
-    // $scope.addQuestion = function (questions) {
-    //   questions.push(new Question(questions));
-    //   UtilsService.scrollTo('bottom');
-    // };
+    $scope.addQuestion = function (applicationForm) {
+      applicationForm.addBlankQuestion();
+      UtilsService.scrollTo('bottom');
+    };
 
     $scope.addAnswer = function (applicationForm, questionIndex) {
-      var answers = applicationForm.questions[questionIndex].answers;
-      answers.push(new Answer());
-      UtilsService.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (answers.length - 1));
+      var question = applicationForm.questions[questionIndex];
+      question.addBlankAnswer();
+      UtilsService.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (question.answers.length - 1));
     };
 
     $scope.deleteQuestion = function(applicationForm, questionIndex, deletedQuestions) {
