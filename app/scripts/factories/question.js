@@ -16,7 +16,7 @@ angular.module('petApp')
     Question.prototype.requiresAnswer = function () {
       return !(this.inputType === FORM_QUESTION_TYPES.smallTextbox.id ||
                this.inputType === FORM_QUESTION_TYPES.largeTextbox.id);
-    }
+    };
 
     Question.build = function (questionFromJson) {
       return new Question(

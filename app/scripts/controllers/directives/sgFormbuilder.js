@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('SgFormBuilderCtrl', function ($scope, $window, $route,
+  .controller('SgFormBuilderCtrl', function ($scope, $window, $route, ApplicationForm,
     applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS, REGEX) {
 
     // TODO: Move these into the ApplicationForm factory for a more OO approach
@@ -10,21 +10,12 @@ angular.module('petApp')
       this.body = '';
     }
 
-    function Question(questions) {
-      this.body = '';
-      this.inputType = '';
-      this.isRequired = false;
-      this.position = nextPosition(questions);
-      this.answers = [new Answer()];
-      this.deletedAnswers = [];
-    }
-
     // Called from form
 
-    $scope.addQuestion = function (questions) {
-      questions.push(new Question(questions));
-      UtilsService.scrollTo('bottom');
-    };
+    // $scope.addQuestion = function (questions) {
+    //   questions.push(new Question(questions));
+    //   UtilsService.scrollTo('bottom');
+    // };
 
     $scope.addAnswer = function (applicationForm, questionIndex) {
       var answers = applicationForm.questions[questionIndex].answers;
@@ -62,13 +53,9 @@ angular.module('petApp')
     $scope.integers = REGEX.integers;
 
     if (typeof $scope.applicationForm === 'undefined') {
-      var applicationForm = {};
-      applicationForm.questions = [];
-      $scope.addQuestion(applicationForm.questions);
-      $scope.applicationForm = applicationForm;
+      $scope.applicationForm = ApplicationForm.buildBlank();
     }
 
-    addDeletedAnswersArray($scope.applicationForm.questions)
     setSubmitButtonText($scope.action);
 
     // Submit
@@ -121,32 +108,5 @@ angular.module('petApp')
           $scope.submitButtonText = 'Update Form';
           break;
       }
-    }
-
-    // TODO: Move these into the ApplicationForm factory for a more OO approach
-
-    function clearBlanks(questions) {
-      questions.forEach(function (question) {
-        if (question.requiresAnswer()) {
-          question.answers = [];
-        }
-      });
-    }
-
-    function getMaxPosition(questions) {
-      return Math.max.apply(Math, questions.map(function(question) {
-        return question.position;
-      }))
-    }
-
-    function nextPosition(questions) {
-      var maxPosition = getMaxPosition(questions);
-      return maxPosition > questions.length ? maxPosition + 1 : questions.length + 1;
-    }
-
-    function addDeletedAnswersArray(questions) {
-      questions.forEach(function (question) {
-        question.deletedAnswers = [];
-      });
     }
   });
