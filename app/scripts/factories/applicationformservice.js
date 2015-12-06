@@ -36,15 +36,3 @@ angular.module('petApp')
 
     return service;
   });
-
-
-// .factory('OrganisationService', function (API, Organisation) {
-//   return {
-//     get: function () {
-//       return API
-//         .get('/organisations')
-//         .then(Organisation.apiResponseTransformer);
-//       });
-//     }
-//   };
-// });

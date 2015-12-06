@@ -31,9 +31,8 @@ angular.module('petApp')
 
     // Submit
 
-    $scope.submit = function(isValid, action, applicationForm, deletedQuestions) {
+    $scope.submit = function(isValid, action, applicationForm) {
       if (isValid) {
-        // applicationForm = transformBeforeSave(applicationForm, deletedQuestions);
         applicationForm.transformBeforeSave();
 
         switch (action) {

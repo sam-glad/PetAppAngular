@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .controller('ApplicationFormsShowCtrl', function ($scope, $routeParams,
+  .controller('ApplicationFormsShowCtrl', function ($scope,
     applicationFormService, applicationFormsPrepService, CRUD_ACTIONS) {
     $scope.applicationForm = applicationFormsPrepService;
     $scope.isEditFormVisible = false;
