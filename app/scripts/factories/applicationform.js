@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('ApplicationForm', function (Restangular, Question, UtilsService) {
+  .factory('ApplicationForm', function (Restangular, Question, Answer, UtilsService) {
 
-    function ApplicationForm(name, questionsFromJson, organizationId) {
+    function ApplicationForm(name, questionsFromJson, organizationId, deletedQuestions) {
       this.name = name;
       this.questions = buildQuestionsFromJson(questionsFromJson);
       this.organizationId = organizationId;
+      this.deletedQuestions = deletedQuestions ? deletedQuestions : [];
     }
 
     function buildQuestionsFromJson(questionsFromJson) {
@@ -18,9 +19,8 @@ angular.module('petApp')
     }
 
     ApplicationForm.prototype.addBlankQuestion = function () {
-      var nextPosition = this.getNextPosition();
-      var newQuestion = new Question('', '', '', '', false, nextPosition, [{body: ''}]); // TODO: Flesh out Answer class
-      this.questions.push(newQuestion);
+      var blankQuestion = Question.buildBlank(this.getNextPosition());
+      this.questions.push(blankQuestion);
     }
 
     ApplicationForm.prototype.getMaxPosition = function () {
@@ -30,7 +30,7 @@ angular.module('petApp')
     }
 
     ApplicationForm.prototype.getNextPosition = function() {
-      var maxPosition = this.getMaxPosition(); // TODO: Move this in here
+      var maxPosition = this.getMaxPosition();
       return maxPosition > this.questions.length ? maxPosition + 1 : this.questions.length + 1;
     }
 
@@ -56,7 +56,9 @@ angular.module('petApp')
     }
 
     ApplicationForm.buildBlank = function () {
-      var form = ApplicationForm.build({name: '', questions: [], organizationId: ''}); // FIXME: I think orgId should be nil? maybe make it optional
+      var form = ApplicationForm.build({
+        questions: [], deletedQuestions: []
+      });
       form.addBlankQuestion();
       form.addDeletedAnswersArray;
       return form;
@@ -66,7 +68,8 @@ angular.module('petApp')
       return new ApplicationForm(
         data.name,
         data.questions,
-        data.organizationId
+        data.organizationId,
+        data.deletedQuestions
       );
     };
 

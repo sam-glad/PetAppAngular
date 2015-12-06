@@ -4,12 +4,6 @@ angular.module('petApp')
   .controller('SgFormBuilderCtrl', function ($scope, $window, $route, ApplicationForm,
     applicationFormService, UtilsService, FORM_QUESTION_TYPES, CRUD_ACTIONS, REGEX) {
 
-    // TODO: Move these into the ApplicationForm factory for a more OO approach
-
-    function Answer() {
-      this.body = '';
-    }
-
     // Called from form
 
     // $scope.addQuestion = function (questions) {
