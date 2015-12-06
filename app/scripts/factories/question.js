@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('Question', function (Restangular, Answer, FORM_QUESTION_TYPES) {
+  .factory('Question', function (Restangular, Answer, FORM_QUESTION_TYPES, DeletedObject) {
 
     function Question(applicationFormId, id, body, inputType, isRequired, position, answers, deletedAnswers) {
       this.applicationFormId = applicationFormId;
@@ -43,7 +43,7 @@ angular.module('petApp')
       if (this.answers.length > 1) {
         var deletedAnswerId = this.answers[index].id;
         if (deletedAnswerId) {
-          this.deletedAnswers.push({'id': deletedAnswerId, '_destroy': 1}); // TODO: DeletedAnswer model
+          this.deletedAnswers.push(DeletedObject.build(deletedAnswerId));
         }
         this.answers.splice(index, 1);
       }
