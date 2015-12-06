@@ -66,17 +66,19 @@ angular.module('petApp')
       });
     }
 
+    ApplicationForm.prototype.transformQuestionsBeforeSave = function () {
+      this.questions_attributes = this.questions;
+      this.questions_attributes.forEach(function (question) {
+        question.transformBeforeSave();
+      });
+      this.questions_attributes = this.questions_attributes.concat(this.deletedQuestions); // Ensure pre-existing questions are deleted
+    };
+
     ApplicationForm.prototype.transformBeforeSave = function () {
       this.organization_id = this.organizationId;
       this.orderQuestions();
       this.clearBlanks();
-      this.questions_attributes = this.questions;
-      this.questions_attributes.forEach(function (question) {
-        question.transformBeforeSave();
-        question.answers_attributes = question.answers;
-        question.answers_attributes = question.answers_attributes.concat(question.deletedAnswers);
-      });
-      this.questions_attributes = this.questions_attributes.concat(this.deletedQuestions); // Ensure pre-existing questions are deleted
+      this.transformQuestionsBeforeSave();
     };
 
     ApplicationForm.buildBlank = function () {

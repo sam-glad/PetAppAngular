@@ -34,6 +34,9 @@ angular.module('petApp')
     Question.prototype.transformBeforeSave = function () {
       this.input_type = this.inputType;
       this.is_required = this.isRequired;
+
+      this.answers_attributes = this.answers;
+      this.answers_attributes = this.answers_attributes.concat(this.deletedAnswers);
     };
 
     Question.prototype.deleteAnswerAtIndex = function (index) {
