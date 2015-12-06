@@ -22,7 +22,7 @@ angular.module('petApp')
     ApplicationForm.prototype.addBlankQuestion = function () {
       var blankQuestion = Question.buildBlank(this.getNextPosition());
       this.questions.push(blankQuestion);
-    }
+    };
 
     ApplicationForm.prototype.deleteQuestionAtIndex = function (questionIndex) {
       if (this.questions.length > 1) {
@@ -32,25 +32,25 @@ angular.module('petApp')
         }
         this.questions.splice(questionIndex, 1);
       }
-    }
+    };
 
     ApplicationForm.prototype.getMaxPosition = function () {
       return Math.max.apply(Math, this.questions.map(function(question) {
         return question.position;
       }))
-    }
+    };
 
     ApplicationForm.prototype.getNextPosition = function() {
       var maxPosition = this.getMaxPosition();
       return maxPosition > this.questions.length ? maxPosition + 1 : this.questions.length + 1;
-    }
+    };
 
     ApplicationForm.prototype.orderQuestions = function () {
       UtilsService.sortByKey(this.questions, 'position');
       for (var i = 0; i < this.questions.length; i++) {
         this.questions[i].position = i + 1;
       }
-    }
+    };
 
     ApplicationForm.prototype.clearBlanks = function () {
       this.questions.forEach(function (question) {
@@ -58,13 +58,13 @@ angular.module('petApp')
           question.answers = [];
         }
       });
-    }
+    };
 
     ApplicationForm.prototype.addDeletedAnswersArray = function () {
       this.questions.forEach(function (question) {
         question.deletedAnswers = [];
       });
-    }
+    };
 
     ApplicationForm.prototype.transformQuestionsBeforeSave = function () {
       this.questions_attributes = this.questions;

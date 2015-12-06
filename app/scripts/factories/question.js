@@ -20,7 +20,7 @@ angular.module('petApp')
         builtAnswers.push(Answer.build(answerFromJson))
       });
       return builtAnswers;
-    }
+    };
 
     Question.prototype.requiresAnswer = function () {
       return !(this.inputType === FORM_QUESTION_TYPES.smallTextbox.id ||
@@ -55,7 +55,7 @@ angular.module('petApp')
         position: nextPosition,
         answers:[Answer.buildBlank()]
       });
-    }
+    };
 
     Question.build = function (questionFromJson) {
       return new Question(
