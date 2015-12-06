@@ -67,10 +67,12 @@ angular.module('petApp')
     }
 
     ApplicationForm.prototype.transformBeforeSave = function () {
+      this.organization_id = this.organizationId;
       this.orderQuestions();
       this.clearBlanks();
       this.questions_attributes = this.questions;
       this.questions_attributes.forEach(function (question) {
+        question.transformBeforeSave();
         question.answers_attributes = question.answers;
         question.answers_attributes = question.answers_attributes.concat(question.deletedAnswers);
       });

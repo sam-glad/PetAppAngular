@@ -31,6 +31,11 @@ angular.module('petApp')
       this.answers.push(Answer.buildBlank(this.id));
     };
 
+    Question.prototype.transformBeforeSave = function () {
+      this.input_type = this.inputType;
+      this.is_required = this.isRequired;
+    };
+
     Question.prototype.deleteAnswerAtIndex = function (index) {
       if (this.answers.length > 1) {
         var deletedAnswerId = this.answers[index].id;
