@@ -23,6 +23,16 @@ angular.module('petApp')
       this.questions.push(blankQuestion);
     }
 
+    ApplicationForm.prototype.deleteQuestionAtIndex = function (questionIndex) {
+      if (this.questions.length > 1) {
+        var deletedQuestionId = this.questions[questionIndex].id;
+        if (deletedQuestionId) {
+          this.deletedQuestions.push({'id': deletedQuestionId, '_destroy': 1}); // TODO: DeletedQuestion model
+        }
+        this.questions.splice(questionIndex, 1);
+      }
+    }
+
     ApplicationForm.prototype.getMaxPosition = function () {
       return Math.max.apply(Math, this.questions.map(function(question) {
         return question.position;

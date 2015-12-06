@@ -22,6 +22,16 @@ angular.module('petApp')
       this.answers.push(Answer.buildBlank(this.id));
     };
 
+    Question.prototype.deleteAnswerAtIndex = function (index) {
+      if (this.answers.length > 1) {
+        var deletedAnswerId = this.answers[index].id;
+        if (deletedAnswerId) {
+          this.deletedAnswers.push({'id': deletedAnswerId, '_destroy': 1}); // TODO: DeletedAnswer model
+        }
+        this.answers.splice(index, 1);
+      }
+    };
+
     Question.buildBlank = function (nextPosition) {
       return Question.build({
         isRequired: false,

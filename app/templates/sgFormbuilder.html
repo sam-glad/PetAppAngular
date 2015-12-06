@@ -38,7 +38,7 @@
               </div>
               <button class="horizontal-button btn btn-danger btn-xs"
                       type="button"
-                      ng-click="deleteQuestion(applicationForm, $index, deletedQuestions)"
+                      ng-click="applicationForm.deleteQuestionAtIndex($index)"
                       ng-show="applicationForm.questions.length > 1">
                       X
               </button>
@@ -84,7 +84,7 @@
             <label for="answerBody" ng-bind="'Answer ' + ($index + 1)" />
             <button class="btn btn-danger btn-xs"
                     type="button"
-                    ng-click="deleteAnswer($parent.question, $index)"
+                    ng-click="applicationForm.questions[$parent.$index].deleteAnswerAtIndex($index)"
                     ng-show="question.answers.length > 1">x
             </button>
             <input class="form-control"

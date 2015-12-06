@@ -17,28 +17,6 @@ angular.module('petApp')
       UtilsService.scrollTo('bottom-question-index-' + questionIndex + '-answer-index-' + (question.answers.length - 1));
     };
 
-    $scope.deleteQuestion = function(applicationForm, questionIndex, deletedQuestions) {
-      if (applicationForm.questions.length > 1) {
-        var deletedQuestionId = applicationForm.questions[questionIndex].id
-        // Delete questions currently belonging to the application form
-        // (deletedQuestions is merged into applicationForm.questions before request is sent)
-        if (deletedQuestionId) {
-          deletedQuestions.push({'id': deletedQuestionId, '_destroy': 1});
-        }
-        applicationForm.questions.splice(questionIndex, 1);
-      }
-    };
-
-    $scope.deleteAnswer = function(question, answerIndex) {
-      if (question.answers.length > 1) {
-        var deletedAnswerId = question.answers[answerIndex].id
-        if (deletedAnswerId) {
-          question.deletedAnswers.push({'id': deletedAnswerId, '_destroy': 1});
-        }
-        question.answers.splice(answerIndex, 1);
-      }
-    };
-
     // Initialize form
 
     $scope.deletedQuestions = [];
