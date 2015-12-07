@@ -3,6 +3,15 @@
 angular.module('petApp')
   .factory('UtilsService', function($location, $timeout, $anchorScroll) {
     return {
+      buildModelsFromResponse: function (responseData, modelType) {
+        if (angular.isArray(responseData)) {
+          return responseData
+            .map(modelType.build)
+            .filter(Boolean);
+        }
+        return modelType.build(responseData);
+      },
+
       displayBreeds: function(pet) {
         if (!pet.breeds.length > 1) {
           return pet.breeds[0].name;
@@ -14,10 +23,6 @@ angular.module('petApp')
         });
 
         return output += ' mix';
-      },
-
-      displayLocation: function(organization) {
-        return organization.city + ', ' + organization.state_province;
       },
 
       displayDate: function(date) {

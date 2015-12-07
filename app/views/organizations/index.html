@@ -11,9 +11,9 @@
   <tbody>
     <tr ng-repeat="organization in organizations">
       <td ng-bind="organization.name"></td>
-      <td ng-bind="Utils.displayLocation(organization)"></td>
+      <td ng-bind="organization.displayLocation()"></td>
       <td><a ng-href="{{organization.website}}" ng-bind="organization.website"></a></td>
-      <td ng-bind="getContactInfo(organization)"></td>
+      <td ng-bind="organization.displayContactInfo()"></td>
       <td ng-bind="organization.users.length"></td>
     </tr>
   </tbody>

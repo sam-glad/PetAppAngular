@@ -13,15 +13,12 @@ angular.module('petApp')
     $scope.isEditFormVisible = false;
     $scope.applicationTypes = APPLICATION_TYPES;
 
-    organizationService.getOrganization($scope.pet.organization_id).then(function(organization) {
-      $scope.pet.organization = organization;
-      // TODO: if (user has the right privileges to see edit form)
-      applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organization_id).then(function(applicationForms) {
-        $scope.organizationForms = applicationForms;
-      });
+    // TODO: if (user has the right privileges to see edit form)
+    applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organization_id).then(function(applicationForms) {
+      $scope.organizationForms = applicationForms;
     });
 
-      $scope.Utils = UtilsService;
+    $scope.Utils = UtilsService;
 
     // Called from page
 

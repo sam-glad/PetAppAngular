@@ -8,7 +8,7 @@
     <span ng-bind="pet.sex + ' •'"></span>
     <span ng-bind="pet.size"></span>
     <p ng-bind="pet.organization.name"></p>
-    <p ng-bind="Utils.displayLocation(pet.organization)"></p>
+    <p ng-bind="pet.organization.displayLocation()"></p>
   </div>
   <div class="row">
     <p ng-bind="pet.description"></p>
