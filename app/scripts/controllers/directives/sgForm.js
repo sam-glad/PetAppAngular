@@ -6,23 +6,27 @@ angular.module('petApp')
 
     // Setup
 
+    var vm = this;
+
     $scope.showAnswers = false;
     $scope.formQuestionTypes = FORM_QUESTION_TYPES;
     $scope.applicationTypes = APPLICATION_TYPES;
-    $scope.submitButtonText = $scope.submittable ? 'Submit' : 'Test Submit';
+    $scope.submitButtonText = vm.submittable ? 'Submit' : 'Test Submit';
 
-    if (typeof $scope.applicationFormId === 'undefined') {
+    if (typeof vm.applicationFormId === 'undefined') {
       $scope.applicationFormId = $routeParams.id; // Application form show page
     }
 
-    if (typeof $scope.applicationForm === 'undefined') {
-      $scope.applicationForm = applicationFormService.getApplicationForm($scope.applicationFormId)
+    if (typeof vm.applicationForm === 'undefined') {
+       applicationFormService.getApplicationForm(vm.applicationFormId)
         .then(function(applicationForm) {
-          $scope.formData = formDataInit($scope.submittable, $scope.applicationType, applicationForm);
+          $scope.applicationForm = applicationForm;
+          $scope.formData = formDataInit($scope.submittable, vm.applicationType, $scope.applicationForm);
         });
     }
     else {
-      $scope.formData = formDataInit($scope.submittable, $scope.applicationType, $scope.applicationForm);
+      $scope.applicationForm = vm.applicationForm;
+      $scope.formData = formDataInit($scope.submittable, vm.applicationType, $scope.applicationForm);
     }
 
     // Called from form
@@ -91,7 +95,7 @@ angular.module('petApp')
     }
 
     function setFormTitle(submittable, applicationType, applicationForm) {
-      if ($scope.submittable) {
+      if (vm.submittable) {
         switch (applicationType) {
           case APPLICATION_TYPES.adoption.id:
             $scope.formTitle = 'Adoption Application';

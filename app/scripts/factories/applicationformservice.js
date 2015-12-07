@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('applicationFormService', function(Restangular, ApplicationForm) {
+  .factory('applicationFormService', function(Restangular, ApplicationForm,
+    Organization, UtilsService) {
+
     var service = {
       getApplicationForm: getApplicationForm,
       postApplicationForm: postApplicationForm,
@@ -12,15 +14,17 @@ angular.module('petApp')
     var resource = Restangular.all('application_forms');
 
     function getApplicationForm(applicationFormId) {
-      return Restangular.one('application_forms', applicationFormId).get().then(function(data) {
-        return ApplicationForm.build(data);
+      var applicationForm = Restangular.one('application_forms', applicationFormId).get();
+      return applicationForm.then(function(responseData) {
+        return UtilsService.buildModelsFromResponse(responseData, ApplicationForm);
       });
     }
 
     function getApplicationFormsByOrganizationId(organizationId) {
-      return Restangular
-        .service('application_forms', Restangular.one('organizations', organizationId))
-          .getList();
+      var applicationForms = Restangular.service('application_forms', Restangular.one('organizations', organizationId));
+      return applicationForms.getList().then(function(responseData) {
+        return UtilsService.buildModelsFromResponse(responseData, ApplicationForm);
+      });
     }
 
     function postApplicationForm(applicationForm) {

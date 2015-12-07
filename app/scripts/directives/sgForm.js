@@ -3,6 +3,9 @@
 angular.module('petApp')
   .directive('sgForm', function () {
     return {
+        bindToController: true,
+        controllerAs: 'vm',
+        controller: 'SgFormCtrl',
         restrict: 'EA',
         scope: {
             submittable: '=',
@@ -11,7 +14,6 @@ angular.module('petApp')
             applicationFormId: '=',
             applicationType: '='
         },
-        templateUrl: '/../templates/sgForm.html',
-        controller: 'SgFormCtrl'
+        templateUrl: '/../templates/sgForm.html'
     }
 });

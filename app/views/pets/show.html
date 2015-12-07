@@ -86,12 +86,16 @@
   </div>
 
   <div class="form-group">
+    <label for="fosterApplicationFormSelect">Foster Application</label>
     <select class="form-control"
             name="fosterApplicationFormSelect"
             ng-model="pet.foster_application_id"
             ng-options="applicationForm.id as applicationForm.name for applicationForm in organizationForms"
             ng-value="pet.foster_application_id">
+  </div>
+  <div class="form-group">
     </select>
+    <label for="adoptionApplicationFormSelect">Adoption Application</label>
     <select class="form-control"
             name="adoptionApplicationFormSelect"
             ng-model="pet.adoption_application_id"
