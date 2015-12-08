@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('UtilsService', function($location, $timeout, $anchorScroll) {
+  .factory('UtilsService', function(Question, $location, $timeout, $anchorScroll) {
     return {
       buildModelsFromResponse: function (responseData, modelType) {
         if (angular.isArray(responseData)) {
@@ -10,6 +10,14 @@ angular.module('petApp')
             .filter(Boolean);
         }
         return modelType.build(responseData);
+      },
+
+       buildQuestionsFromJson: function(questionsFromJson) { // TODO: Get this redundant code out of here
+        var builtQuestions = []
+        questionsFromJson.forEach(function (questionFromJson) {
+          builtQuestions.push(Question.build(questionFromJson))
+        });
+        return builtQuestions;
       },
 
       displayDate: function(date) {

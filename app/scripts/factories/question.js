@@ -53,7 +53,8 @@ angular.module('petApp')
       return Question.build({
         isRequired: false,
         position: nextPosition,
-        answers:[Answer.buildBlank()]
+        answers: [Answer.buildBlank()],
+        answersGiven: []
       });
     };
 

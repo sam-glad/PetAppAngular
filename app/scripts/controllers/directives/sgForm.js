@@ -2,7 +2,8 @@
 
 angular.module('petApp')
   .controller('SgFormCtrl', function ($scope, $routeParams, $window, $route,
-    applicationFormService, petApplicationService, FORM_QUESTION_TYPES, APPLICATION_TYPES) {
+    applicationFormService, PetApplication, petApplicationService,
+    FORM_QUESTION_TYPES, APPLICATION_TYPES) {
 
     // Setup
 
@@ -21,12 +22,14 @@ angular.module('petApp')
        applicationFormService.getApplicationForm(vm.applicationFormId)
         .then(function(applicationForm) {
           $scope.applicationForm = applicationForm;
-          $scope.formData = formDataInit($scope.submittable, vm.applicationType, $scope.applicationForm);
+          $scope.formData = formDataInit(vm.submittable, vm.applicationType,
+            $scope.applicationForm, vm.pet);
         });
     }
     else {
       $scope.applicationForm = vm.applicationForm;
-      $scope.formData = formDataInit($scope.submittable, vm.applicationType, $scope.applicationForm);
+      $scope.formData = formDataInit($scope.submittable, vm.applicationType,
+        $scope.applicationForm, vm.pet);
     }
 
     // Called from form
@@ -56,14 +59,14 @@ angular.module('petApp')
       }
     };
 
-    $scope.submit = function(mainForm, formData, pet, applicationType) {
+    $scope.submit = function(mainForm, formData, submittable, pet, applicationType) {
       if (mainForm.$valid) {
         $scope.showAnswers = true;
 
-        if ($scope.submittable && pet) {
-          $scope.petApplication = transformBeforeSave(formData, applicationType, pet, $scope.$parent.user);
+        if (submittable && pet) {
+          var petApplication = formData.transformBeforeSave();
 
-          petApplicationService.postPetApplication({ pet_application: $scope.petApplication})
+          petApplicationService.postPetApplication(petApplication)
             .then(function(response) {
               $route.reload();
             });
@@ -73,25 +76,10 @@ angular.module('petApp')
 
     // Helpers
 
-    function formDataInit(submittable, applicationType, applicationForm) {
-      var formData = {
-        questions: applicationForm.questions
-      };
-
+    function formDataInit(submittable, applicationType, applicationForm, pet) {
+      var blankPetApplication = PetApplication.buildBlankFromApplicationForm(applicationForm, pet, applicationType);
       setFormTitle(submittable, applicationType, applicationForm);
-      formDataQuestionsInit(formData);
-      return formData;
-    }
-
-    function formDataQuestionsInit(formData) {
-      formData.questions.forEach(function (question) {
-        if (question.inputType !== FORM_QUESTION_TYPES.checkbox.id) {
-          question.answersGiven = [{}]; // Only one answer which needs a body attribute
-        }
-        else {
-          question.answersGiven = []; // Any number of answers for checkboxes
-        }
-      });
+      return blankPetApplication;
     }
 
     function setFormTitle(submittable, applicationType, applicationForm) {
@@ -119,18 +107,4 @@ angular.module('petApp')
         currentForm.$setValidity('required', true);
       }
     };
-
-    function transformBeforeSave(formData, applicationType, pet, user) {
-      petApplication = {};
-      petApplication.questions_attributes = formData.questions; // Rename for Rails controller
-
-      for (var i = 0; i < formData.questions.length; i++) {
-        petApplication.questions_attributes[i].answers_attributes = formData.questions[i].answersGiven; // Rename for Rails controller
-      }
-
-      petApplication.pet_id = pet.id;
-      petApplication.user_id = user.id;
-      petApplication.application_type = applicationType;
-      return petApplication;
-    }
   });

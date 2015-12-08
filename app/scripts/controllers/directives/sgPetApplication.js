@@ -2,5 +2,7 @@
 
 angular.module('petApp')
   .controller('SgPetApplicationCtrl', function ($scope) {
-    // Nothing yet...
+    if (typeof $scope.petApplication !== 'undefined') {
+      $scope.petApplication.transformForDirective();  
+    }
   });

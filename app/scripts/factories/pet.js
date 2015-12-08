@@ -25,7 +25,9 @@ angular.module('petApp')
         this.isAdoptable = isAdoptable;
         this.isFosterable = isFosterable;
         this.breeds = breeds; // TODO: Make a breeds model?
-        this.organization = Organization.build(organization);
+        if (organization) {
+          this.organization = Organization.build(organization);
+        }
     }
 
     Pet.prototype.displayBreeds = function() {

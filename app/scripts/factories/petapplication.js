@@ -1,29 +1,74 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('petApplicationService', function(Restangular) {
-    var service = {
-      getPetApplication: getPetApplication,
-      postPetApplication: postPetApplication,
-      getPetApplicationsByOrganizationId: getPetApplicationsByOrganizationId
+  .factory('PetApplication', function (Restangular, ApplicationForm, Question,
+    Answer, Organization, Pet, UtilsService) {
+
+    function PetApplication(id, status, createdAt, questions, organization,
+      organizationId, user, userId, pet, petId, applicationType) {
+      this.id = id;
+      this.petId = petId;
+      this.organizationId = organizationId;
+      this.status = status;
+      this.createdAt = createdAt;
+      this.questions = UtilsService.buildQuestionsFromJson(questions);
+      if (organization) {
+        this.organization = Organization.build(organization);
+        this.organizationId = organization.id;
+      }
+      if (pet) {
+        this.pet = Pet.build(pet);
+        this.organizationId = pet.organizationId;
+        this.petId = pet.id;
+      }
+      this.user = user; // TODO: Make a User factory
+      this.userId = userId;
+      this.applicationType = applicationType;
+    }
+
+    PetApplication.prototype.transformForDirective = function () {
+      this.questions.forEach(function (question) {
+        if (!question.answersGiven) {
+          question.answersGiven = question.answers;
+        }
+      });
     };
 
-    var resource = Restangular.all('pet_applications');
+    PetApplication.prototype.transformBeforeSave = function () {
+      // Rename for Rails controller
+      this.pet_id = this.petId;
+      this.organization_id = this.organizationId;
+      this.application_type = this.applicationType;
+      this.questions_attributes = this.questions;
+      for (var i = 0; i < this.questions.length; i++) {
+        this.questions_attributes[i].answers_attributes = this.questions[i].answersGiven;
+      }
+      return { pet_application: this };
+    };
 
-    function getPetApplicationsByOrganizationId(organizationId) {
-      return Restangular
-        .service('pet_applications', Restangular.one('organizations', organizationId))
-          .getList();
-    }
+    PetApplication.buildBlankFromApplicationForm = function (applicationForm, pet, applicationType) {
+      return PetApplication.build({
+        pet: pet,
+        applicationType: applicationType,
+        questions: applicationForm.questions
+      });
+    };
 
-    function getPetApplication(petApplicationId) {
-      return Restangular.one('pet_applications', petApplicationId).get();
-    }
+    PetApplication.build = function (data) {
+      return new PetApplication(
+        data.id,
+        data.status,
+        data.createdAt,
+        data.questions,
+        data.organization,
+        data.organizationId,
+        data.user,
+        data.userId,
+        data.pet,
+        data.petId,
+        data.applicationType
+      );
+    };
 
-    function postPetApplication(petApplication) {
-      return resource.post(petApplication);
-    }
-
-    return service;
-
-  });
+    return PetApplication;
+  })

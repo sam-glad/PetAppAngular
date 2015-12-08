@@ -6,17 +6,9 @@ angular.module('petApp')
     function ApplicationForm(id, name, questions, organizationId, deletedQuestions) {
       this.id = id;
       this.name = name;
-      this.questions = buildQuestionsFromJson(questions);
+      this.questions = UtilsService.buildQuestionsFromJson(questions);
       this.organizationId = organizationId;
       this.deletedQuestions = deletedQuestions ? deletedQuestions : [];
-    }
-
-    function buildQuestionsFromJson(questionsFromJson) {
-      var builtQuestions = []
-      questionsFromJson.forEach(function (questionFromJson) {
-        builtQuestions.push(Question.build(questionFromJson))
-      });
-      return builtQuestions;
     }
 
     ApplicationForm.prototype.addBlankQuestion = function () {
