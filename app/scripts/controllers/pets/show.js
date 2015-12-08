@@ -14,7 +14,7 @@ angular.module('petApp')
     $scope.applicationTypes = APPLICATION_TYPES;
 
     // TODO: if (user has the right privileges to see edit form)
-    applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organization_id).then(function(applicationForms) {
+    applicationFormService.getApplicationFormsByOrganizationId($scope.pet.organizationId).then(function(applicationForms) {
       $scope.organizationForms = applicationForms;
     });
 
@@ -38,17 +38,10 @@ angular.module('petApp')
       $scope.isEditFormVisible = true;
     };
 
-    $scope.isAdoptable = function(pet) {
-      return pet.is_adoptable && pet.adoption_application_id;
-    };
-
-    $scope.isFosterable = function(pet) {
-      return pet.is_fosterable && pet.foster_application_id;
-    };
-
     // Submit
 
     $scope.submit = function(pet) {
-      petService.patchPet(pet);
+      pet.transformBeforeSave();
+      petService.putPet(pet);
     };
   });

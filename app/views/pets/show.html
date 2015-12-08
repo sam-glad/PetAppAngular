@@ -3,7 +3,7 @@
 <div class="well">
   <div class="row">
     <span ng-bind="pet.animal + ' •'"></span>
-    <span ng-bind="Utils.displayBreeds(pet) + ' •'"></span>
+    <span ng-bind="pet.displayBreeds() + ' •'"></span>
     <span ng-bind="pet.age + ' •'"></span>
     <span ng-bind="pet.sex + ' •'"></span>
     <span ng-bind="pet.size"></span>
@@ -19,7 +19,7 @@
       <button class="btn btn-primary col-md-offset-4"
               type="button"
               ng-click="showForm(applicationTypes.foster.id)"
-              ng-show="isFosterable(pet) && !isFosterFormVisible">
+              ng-show="pet.isAvailableForFoster() && !isFosterFormVisible">
               Apply to foster
       </button>
     </div>
@@ -27,7 +27,7 @@
       <button class="btn btn-primary col-md-offset-4"
               type="button"
               ng-click="showForm(applicationTypes.adoption.id)"
-              ng-show="isAdoptable(pet) && !isAdoptionFormVisible">
+              ng-show="pet.isAvailableForAdoption() && !isAdoptionFormVisible">
               Apply to adopt
       </button>
     </div>
@@ -53,14 +53,14 @@
     <label for="radio">Is this pet adoptable?</label>
     <div class="radio-inline">
       <input type="radio"
-             ng-model="pet.is_adoptable"
+             ng-model="pet.isAdoptable"
              ng-value="true">
              Yes
       </input>
     </div>
     <div class="radio-inline">
       <input type="radio"
-             ng-model="pet.is_adoptable"
+             ng-model="pet.isAdoptable"
              ng-value="false">
              No
       </input>
@@ -71,14 +71,14 @@
     <label for="radio">Is this pet fosterable?</label>
     <div class="radio-inline">
       <input type="radio"
-             ng-model="pet.is_fosterable"
+             ng-model="pet.isFosterable"
              ng-value="true">
              Yes
       </input>
     </div>
     <div class="radio-inline">
       <input type="radio"
-             ng-model="pet.is_fosterable"
+             ng-model="pet.isFosterable"
              ng-value="false">
              No
       </input>
@@ -89,18 +89,18 @@
     <label for="fosterApplicationFormSelect">Foster Application</label>
     <select class="form-control"
             name="fosterApplicationFormSelect"
-            ng-model="pet.foster_application_id"
+            ng-model="pet.fosterApplicationId"
             ng-options="applicationForm.id as applicationForm.name for applicationForm in organizationForms"
-            ng-value="pet.foster_application_id">
+            ng-value="pet.fosterApplicationId">
   </div>
   <div class="form-group">
     </select>
     <label for="adoptionApplicationFormSelect">Adoption Application</label>
     <select class="form-control"
             name="adoptionApplicationFormSelect"
-            ng-model="pet.adoption_application_id"
+            ng-model="pet.adoptionApplicationId"
             ng-options="applicationForm.id as applicationForm.name for applicationForm in organizationForms"
-            ng-value="pet.adoption_application_id">
+            ng-value="pet.adoptionApplicationId">
     </select>
   </div>
 
@@ -110,15 +110,15 @@
 <!-- Foster application form -->
 <sg-form submittable="true"
          pet="pet"
-         application-form-id="pet.foster_application_id"
+         application-form-id="pet.fosterApplicationId"
          application-type="applicationTypes.foster.id"
-         ng-show="isFosterable(pet) && isFosterFormVisible">
+         ng-show="pet.isAvailableForFoster() && isFosterFormVisible">
 </sg-form>
 
 <!-- Adoption application form -->
 <sg-form submittable="true"
          pet="pet"
-         application-form-id="pet.adoption_application_id"
+         application-form-id="pet.adoptionApplicationId"
          application-type="applicationTypes.adoption.id"
-         ng-show="isAdoptable(pet) && isAdoptionFormVisible">
+         ng-show="pet.isAvailableForAdoption() && isAdoptionFormVisible">
 </sg-form>

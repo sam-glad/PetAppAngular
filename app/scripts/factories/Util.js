@@ -12,19 +12,6 @@ angular.module('petApp')
         return modelType.build(responseData);
       },
 
-      displayBreeds: function(pet) {
-        if (!pet.breeds.length > 1) {
-          return pet.breeds[0].name;
-        }
-
-        var output = '';
-        pet.breeds.forEach(function(breed) {
-          output += ' ' + breed.name;
-        });
-
-        return output += ' mix';
-      },
-
       displayDate: function(date) {
         return moment(date).toDate().toString();
       },
