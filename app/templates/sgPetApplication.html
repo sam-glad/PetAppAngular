@@ -1,10 +1,26 @@
 <ol class="dl-horizontal">
-  <div ng-repeat="question in petApplication.questions">
+  <div ng-repeat="question in vm.petApplication.questions">
     <li ng-bind="question.body"></li>
     <ul>
-      <div ng-repeat="answer in question.answersGiven">
+      <div ng-repeat="answer in question.answers">
         <li ng-bind="answer.body"></li>
       </div>
     </ul>
   </div>
 </ol>
+
+<br />
+
+<div class="row"> <!-- TODO: ng-show for organization admins only -->
+  <button class="btn btn-success btn-lg col-md-offset-2"
+          ng-click="approve(vm.petApplication)"
+          type="submit">
+          Approve
+  </button>
+
+  <button class="btn btn-danger btn-lg col-md-offset-4"
+          ng-click="deny(vm.petApplication)"
+          type="submit">
+          &nbsp;&nbsp;Deny&nbsp;&nbsp;
+  </button>
+</div>

@@ -3,11 +3,13 @@
 angular.module('petApp')
   .directive('sgPetApplication', function () {
     return {
-        restrict: 'EA',
-        scope: {
-            petApplication: '='
-        },
-        templateUrl: '/../templates/sgPetApplication.html',
-        controller: 'SgPetApplicationCtrl'
+      bindToController: true,
+      controllerAs: 'vm',
+      controller: 'SgPetApplicationCtrl',
+      restrict: 'E',
+      scope: {
+          petApplication: '='
+      },
+      templateUrl: '/../templates/sgPetApplication.html'
     }
 });

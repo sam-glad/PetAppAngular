@@ -5,7 +5,8 @@ angular.module('petApp')
     var service = {
       getPetApplication: getPetApplication,
       postPetApplication: postPetApplication,
-      getPetApplicationsByOrganizationId: getPetApplicationsByOrganizationId
+      getPetApplicationsByOrganizationId: getPetApplicationsByOrganizationId,
+      putPetApplication: putPetApplication
     };
 
     var resource = Restangular.all('pet_applications');
@@ -28,6 +29,13 @@ angular.module('petApp')
     function postPetApplication(petApplication) {
       return resource.post(petApplication);
     }
+
+    function putPetApplication(petApplication) {
+      var putResource = Restangular.one('pet_applications', petApplication.id);
+      petApplication.transformBeforeSave();
+      putResource.pet_application = petApplication;
+      putResource.put();
+    };
 
     return service;
 

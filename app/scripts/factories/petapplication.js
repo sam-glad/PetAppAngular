@@ -2,7 +2,7 @@
 
 angular.module('petApp')
   .factory('PetApplication', function (Restangular, ApplicationForm, Question,
-    Answer, Organization, Pet, UtilsService) {
+    Answer, Organization, Pet, UtilsService, PET_APPLICATION_STATUSES) {
 
     function PetApplication(id, status, createdAt, questions, organization,
       organizationId, user, userId, pet, petId, applicationType) {
@@ -24,6 +24,14 @@ angular.module('petApp')
       this.user = user; // TODO: Make a User factory
       this.userId = userId;
       this.applicationType = applicationType;
+    }
+
+    PetApplication.prototype.approve = function () {
+      this.status = PET_APPLICATION_STATUSES.approved.id;
+    }
+
+    PetApplication.prototype.deny = function () {
+      this.status = PET_APPLICATION_STATUSES.denied.id;
     }
 
     PetApplication.prototype.transformForDirective = function () {
