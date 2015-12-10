@@ -61,8 +61,6 @@ angular.module('petApp')
 
     $scope.submit = function(mainForm, formData, submittable, pet, applicationType) {
       if (mainForm.$valid) {
-        $scope.showAnswers = true;
-
         if (submittable && pet) {
           var petApplication = formData.transformBeforeSave();
 
@@ -70,6 +68,9 @@ angular.module('petApp')
             .then(function(response) {
               $route.reload();
             });
+        }
+        else {
+          $scope.showAnswers = true;
         }
       }
     };
