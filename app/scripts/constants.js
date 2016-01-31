@@ -1,16 +1,6 @@
 'use strict';
 
 angular.module('petApp')
-  .constant('RESOURCES', (function() {
-    var resource = 'http://localhost:9393';
-      return {
-        ROOT_URL: resource,
-        ORGANIZATIONS_API: resource + '/organizations',
-        APPLICATION_FORMS_API: resource + '/application_forms',
-        PETS_API: resource + '/pets',
-        PET_APPLICATIONS_API: resource + '/pet_applications'
-      }
-    })())
     .constant('CRUD_ACTIONS',
       {
         create: 0,

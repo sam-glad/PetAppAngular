@@ -89,7 +89,7 @@ angular
       });
 
       RestangularProvider
-        .setBaseUrl('http://localhost:9393');
+        .setBaseUrl('http://localhost:9393/api');
 
       $anchorScrollProvider.disableAutoScrolling();
   });
