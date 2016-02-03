@@ -4,7 +4,7 @@ angular.module('petApp')
   .factory('Organization', function (Restangular, Question, Answer, UtilsService, DeletedObject) {
 
     function Organization(id, name, city, stateProvince, country, phoneNumber,
-      phoneExtension, emailAddress, website, phonePreferred, users) {
+      phoneExtension, emailAddress, website, phonePreferred) {
         this.id = id;
         this.name = name;
         this.city = city;
@@ -15,7 +15,6 @@ angular.module('petApp')
         this.emailAddress = emailAddress;
         this.website = website;
         this.phonePreferred = phonePreferred;
-        this.users = users; // TODO: Make a users factory
     }
 
     Organization.prototype.displayLocation = function () {
@@ -39,8 +38,7 @@ angular.module('petApp')
         organizationFromJson.phoneExtension,
         organizationFromJson.emailAddress,
         organizationFromJson.website,
-        organizationFromJson.phonePreferred,
-        organizationFromJson.users // TODO: Make a users factory
+        organizationFromJson.phonePreferred
       );
     };
 
