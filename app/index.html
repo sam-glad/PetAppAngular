@@ -20,7 +20,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="header">
+    <div class="header" controller="IndexCtrl">
       <div class="navbar navbar-default" role="navigation">
         <div class="container">
           <div class="navbar-header">
@@ -41,8 +41,8 @@
               <li class="active"><a href="#/">Home</a></li>
               <li><a ng-href="#/organizations">Rescues and Shelters</a></li>
               <li><a ng-href="#/userregistration">Register</a></li>
-              <li ng-show="!user.id"><a ng-href="/#/login">Sign in</a></li>
-              <li ng-show="user.id"><a href="" ng-click='signOut()'>Sign out</a></li>
+              <li ng-show="!$root.user.id"><a ng-href="/#/login">Sign in</a></li>
+              <li ng-show="$root.user.id"><a href="" ng-click='signOut()'>Sign out</a></li>
               <li><a ng-href="#/about">About</a></li>
               <li><a ng-href="#/">Contact</a></li>
             </ul>
@@ -97,6 +97,7 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/constants.js"></script>
         <script src="scripts/controllers/index.js"></script>
+        <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/organizations/index.js"></script>
         <script src="scripts/controllers/userregistration.js"></script>
         <script src="scripts/controllers/login.js"></script>

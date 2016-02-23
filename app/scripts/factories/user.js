@@ -8,6 +8,7 @@ angular.module('petApp')
         this.name = name;
         this.organizations = UtilsService.buildModelsFromResponse(organizations, Organization);
         this.organizationMemberships = organizationMemberships;
+        this.adminOrganizations = this.getAdminOrganizations();
     }
 
     User.prototype.getAdminOrganizations = function () {

@@ -14,11 +14,11 @@ angular
     'angular.filter',
     'restangular'
   ])
-  .config(function ($routeProvider, $authProvider, RestangularProvider, $anchorScrollProvider) {
+  .config(function ($routeProvider, $authProvider, RestangularProvider, $anchorScrollProvider, UserProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/about.html',
-        controller: 'IndexCtrl'
+        templateUrl: 'views/main.html',
+        controller: 'MainCtrl'
       })
       .when('/about', {
         templateUrl: 'views/about.html'
@@ -85,7 +85,18 @@ angular
       }
 
       $authProvider.configure({
-          apiUrl: 'http://localhost:9393'
+        apiUrl: 'http://localhost:9393',
+
+        handleLoginResponse: function(response, $rootScope) {
+          var user = response.data;
+          user.foo = 'bar';
+          return user;
+          // FIXME/TODO: This seems wrong... come back to this
+          // var User = UserProvider.$get('User');
+          // var user = User.build(response.data)
+          // $rootScope.currentUser = user;
+          // return user;
+        }
       });
 
       RestangularProvider
