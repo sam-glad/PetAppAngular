@@ -87,13 +87,10 @@ angular
       $authProvider.configure({
         apiUrl: 'http://localhost:9393',
 
-        handleLoginResponse: function(response) {
-          return response.data;
-          // FIXME/TODO: This seems wrong... come back to this
-          // var User = UserProvider.$get('User');
-          // var user = User.build(response.data)
-          // $rootScope.currentUser = user;
-          // return user;
+        handleLoginResponse: function($rootScope, response) {
+          var User = UserProvider.$get('User');
+          var user = User.build(response.user)
+          return user;
         }
       });
 
