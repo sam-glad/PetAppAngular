@@ -18,7 +18,11 @@ angular
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          // FIXME: Is this redundant? It seems like it should be...
+          prepareUser
+        }
       })
       .when('/about', {
         templateUrl: 'views/about.html'
@@ -72,6 +76,14 @@ angular
         redirectTo: '/'
       });
 
+      function prepareUser($auth, $rootScope) {
+        $auth.validateUser().then(function(response) {
+          var User = UserProvider.$get();
+          var user = User.build(response);
+          $rootScope.user = user;
+        })
+      }
+
       function applicationFormsPrepService(applicationFormService, $route) {
         return applicationFormService.getApplicationForm($route.current.params.id);
       }
@@ -87,9 +99,15 @@ angular
       $authProvider.configure({
         apiUrl: 'http://localhost:9393',
 
-        handleLoginResponse: function($rootScope, response) {
-          var User = UserProvider.$get('User');
-          var user = User.build(response.user)
+        handleLoginResponse: function(response, $rootScope) {
+          var User = UserProvider.$get();
+          var user = User.build(response.data);
+          return user;
+        },
+
+        handleTokenValidationResponse: function(response) {
+          var User = UserProvider.$get();
+          var user = User.build(response.data);
           return user;
         }
       });
