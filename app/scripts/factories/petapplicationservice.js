@@ -6,6 +6,7 @@ angular.module('petApp')
       getPetApplication: getPetApplication,
       postPetApplication: postPetApplication,
       getPetApplicationsByOrganizationId: getPetApplicationsByOrganizationId,
+      getAdminPetApplications: getAdminPetApplications,
       putPetApplication: putPetApplication
     };
 
@@ -14,6 +15,14 @@ angular.module('petApp')
     function getPetApplicationsByOrganizationId(organizationId) {
       return Restangular
         .service('pet_applications', Restangular.one('organizations', organizationId))
+          .getList().then(function(responseData) {
+            return UtilsService.buildModelsFromResponse(responseData, PetApplication);
+          });
+    }
+
+    function getAdminPetApplications(userId) {
+      return Restangular
+        .service('admin_pet_applications', Restangular.one('users', userId))
           .getList().then(function(responseData) {
             return UtilsService.buildModelsFromResponse(responseData, PetApplication);
           });
