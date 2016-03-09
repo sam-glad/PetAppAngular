@@ -1,5 +1,22 @@
 <div class="jumbotron">
-  <div ng-show="showMyOrganizations($root.user)">
-    <h1>Placeholder for applications</h1>
+  <div ng-show="showMyOrganizations($root.user) && petApplications.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Applicant</th>
+          <th>Rescue/Shelter</th>
+          <th>Pet</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="petApplication in petApplications">
+          <td ng-bind="petApplication.user.email"></td>
+          <td ng-bind="petApplication.organization.name"></td>
+          <td ng-bind="petApplication.pet"></td>
+          <td ng-bind="petApplication.organization.status"></td>
+        </tr>
+      </tbody
+    </table>
   </div>
 </div>
