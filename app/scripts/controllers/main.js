@@ -5,6 +5,7 @@ angular.module('petApp')
     if ($rootScope.user.id && $rootScope.user.adminOrganizations.length > 0) {
       petApplicationService.getAdminPetApplications($rootScope.user.id)
         .then(function (petApplications) {
+          $scope.Utils = UtilsService;
           $scope.petApplications = petApplications;
         });
     }

@@ -3,18 +3,23 @@
     <table>
       <table class="table table-striped table-bordered">
         <tr>
-          <th>Applicant</th>
+          <th>Applicant Email</th>
           <th>Rescue/Shelter</th>
           <th>Pet</th>
           <th>Status</th>
+          <th>Date/Time Submitted</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="petApplication in petApplications">
           <td ng-bind="petApplication.user.email"></td>
           <td ng-bind="petApplication.organization.name"></td>
-          <td ng-bind="petApplication.pet.name"></td>
+          <!-- TODO: Fix unsafe URL/hardcoded "localhost" -->
+          <td><a ng-href="{{'localhost:9000/#/pets/' + petApplication.pet.id}}"
+                 ng-bind="petApplication.pet.name">
+          </a></td>
           <td ng-bind="Utils.statusAsString(petApplication.status)"></td>
+          <td ng-bind="Utils.displayDate(petApplication.created_at)"></td>
         </tr>
       </tbody
     </table>
