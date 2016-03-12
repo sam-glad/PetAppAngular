@@ -16,7 +16,7 @@
       <td><a ng-href="{{'localhost:9000/#/pets/' + petApplication.pet.id}}"
              ng-bind="petApplication.pet.name">
       </a></td>
-      <td ng-bind="statusAsString(petApplication.status)"></td>
+      <td ng-bind="Utils.statusAsString(petApplication.status)"></td>
       <td ng-bind="Utils.displayDate(petApplication.created_at)"></td>
     </tr>
   </tbody>

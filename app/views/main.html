@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <div ng-show="showMyOrganizations($root.user) && petApplications.length > 0">
     <table>
-      <thead>
+      <table class="table table-striped table-bordered">
         <tr>
           <th>Applicant</th>
           <th>Rescue/Shelter</th>
@@ -13,8 +13,8 @@
         <tr ng-repeat="petApplication in petApplications">
           <td ng-bind="petApplication.user.email"></td>
           <td ng-bind="petApplication.organization.name"></td>
-          <td ng-bind="petApplication.pet"></td>
-          <td ng-bind="petApplication.organization.status"></td>
+          <td ng-bind="petApplication.pet.name"></td>
+          <td ng-bind="Utils.statusAsString(petApplication.status)"></td>
         </tr>
       </tbody
     </table>

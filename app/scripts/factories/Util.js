@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('petApp')
-  .factory('UtilsService', function(Question, $location, $timeout, $anchorScroll) {
+  .factory('UtilsService', function(Question, PET_APPLICATION_STATUSES, $location, $timeout, $anchorScroll) {
     return {
       buildModelsFromResponse: function (responseData, modelType) {
         if (angular.isArray(responseData)) {
@@ -22,6 +22,14 @@ angular.module('petApp')
 
       displayDate: function(date) {
         return moment(date).toDate().toString();
+      },
+
+      statusAsString: function(statusAsInteger) {
+        for (var statusType in PET_APPLICATION_STATUSES) {
+          if (PET_APPLICATION_STATUSES[statusType].id === statusAsInteger) {
+            return PET_APPLICATION_STATUSES[statusType].name;
+          }
+        }
       },
 
       sortByKey: function(array, key) {

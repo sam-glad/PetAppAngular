@@ -9,12 +9,4 @@ angular.module('petApp')
         .then(function(petApplications) {
           $scope.petApplications = petApplications;
         });
-
-      $scope.statusAsString = function(statusAsInteger) {
-        for (var statusType in PET_APPLICATION_STATUSES) {
-          if (PET_APPLICATION_STATUSES[statusType].id === statusAsInteger) {
-            return PET_APPLICATION_STATUSES[statusType].name;
-          }
-        }
-      }
   });
