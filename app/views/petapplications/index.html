@@ -1,8 +1,8 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Application ID</th>
-      <th>User Name</th>
+      <th>Application</th>
+      <th>Applicant Email</th>
       <th>Pet</th>
       <th>Status</th>
       <th>Submitted</th>
@@ -10,10 +10,10 @@
   </thead>
   <tbody>
     <tr ng-repeat="petApplication in petApplications">
-      <td ng-bind="petApplication.id"></td>
-      <td ng-bind="petApplication.user.name"></td>
-      <!-- TODO: Fix unsafe URL/hardcoded "localhost" -->
-      <td><a ng-href="{{'localhost:9000/#/pets/' + petApplication.pet.id}}"
+      <td><a ng-href="#/petapplications/{{petApplication.id}}"
+             ng-bind="petApplication.id">
+      <td ng-bind="petApplication.user.email"></td>
+      <td><a ng-href="#/pets/{{petApplication.pet.id}}"
              ng-bind="petApplication.pet.name">
       </a></td>
       <td ng-bind="Utils.statusAsString(petApplication.status)"></td>
