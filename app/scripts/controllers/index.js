@@ -1,12 +1,17 @@
 angular.module('petApp')
-  .controller('IndexCtrl', function($scope, $auth, $window) {
-    $scope.signOut = function() {
+  .controller('IndexCtrl', function($scope, $location, $auth, $window) {
+    $scope.isActive = function (path) {
+      return $location.path() === path;
+    }
+
+    $scope.signOutUser = function() {
       $auth.signOut()
         .then(function(resp) {
-          $window.location.href = '/';
+          $scope.user = null;
         })
         .catch(function(resp) {
-          console.log(resp); // TODO: Flash an error message instead
+          // TODO: Proper error handling
+          console.log(resp);
         });
     };
   });
