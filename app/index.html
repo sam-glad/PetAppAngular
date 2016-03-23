@@ -41,8 +41,8 @@
               <li ng-class="{active: isActive('/')}"><a ng-href="#/">Home</a></li>
               <li ng-class="{active: isActive('/organizations')}"><a ng-href="#/organizations">Rescues and Shelters</a></li>
               <li ng-class="{active: isActive('/userregistration')}"><a ng-href="#/userregistration">Register</a></li>
-              <li ng-class="{active: isActive('/login')}" ng-show="!user.id"><a ng-href="/#/login">Sign in</a></li>
-              <li ng-show="user.id"><a href="" ng-click='signOutUser()'>Sign out</a></li>
+              <li ng-class="{active: isActive('/login')}" ng-if="!user.id"><a ng-href="/#/login">Sign in</a></li>
+              <li ng-if="user.id"><a href="" ng-click='signOutUser()'>Sign out</a></li>
               <li ng-class="{active: isActive('/about')}"><a ng-href="#/about">About</a></li>
             </ul>
           </div>
@@ -109,6 +109,7 @@
         <script src="scripts/controllers/directives/sgForm.js"></script>
         <script src="scripts/controllers/directives/sgFormBuilder.js"></script>
         <script src="scripts/controllers/directives/sgPetApplication.js"></script>
+        <script src="scripts/controllers/directives/sgPetApplicationTable.js"></script>
         <script src="scripts/factories/organization.js"></script>
         <script src="scripts/factories/organizationservice.js"></script>
         <script src="scripts/factories/applicationform.js"></script>
@@ -125,6 +126,7 @@
         <script src="scripts/directives/sgForm.js"></script>
         <script src="scripts/directives/sgFormBuilder.js"></script>
         <script src="scripts/directives/sgPetApplication.js"></script>
+        <script src="scripts/directives/sgPetApplicationTable.js"></script>
         <!-- endbuild -->
 </body>
 </html>

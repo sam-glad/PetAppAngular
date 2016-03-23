@@ -1,0 +1,24 @@
+<h2 ng-if="vm.showAdminApplications && vm.user.id">Applications Awaiting Approval</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>Application</th>
+      <th>Applicant Email</th>
+      <th>Pet</th>
+      <th>Status</th>
+      <th>Submitted</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="petApplication in petApplications">
+      <td><a ng-href="#/petapplications/{{petApplication.id}}"
+             ng-bind="petApplication.id">
+      <td ng-bind="petApplication.user.email"></td>
+      <td><a ng-href="#/pets/{{petApplication.pet.id}}"
+             ng-bind="petApplication.pet.name">
+      </a></td>
+      <td ng-bind="Utils.statusAsString(petApplication.status)"></td>
+      <td ng-bind="Utils.displayDate(petApplication.created_at)"></td>
+    </tr>
+  </tbody>
+</table>
