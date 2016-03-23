@@ -16,8 +16,8 @@ angular.module('petApp')
     }
     // Showing all pet applications for an organization's pets
     else {
-      if (vm.organization) {
-        petApplicationService.getPetApplicationsByOrganizationId(vm.organization.id)
+      if (vm.organizationId) {
+        petApplicationService.getPetApplicationsByOrganizationId(vm.organizationId)
           .then(function(petApplications) {
             $scope.petApplications = petApplications;
           });

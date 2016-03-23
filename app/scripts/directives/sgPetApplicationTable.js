@@ -10,7 +10,7 @@ angular.module('petApp')
       scope: {
         showAdminApplications: '=',
         user: '=',
-        organization: '='
+        organizationId: '='
       },
       templateUrl: '/../templates/sgPetApplicationTable.html'
     }
